@@ -1,0 +1,4700 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XMON4U — Official Profile</title>
+  <meta name="description"
+    content="Official personal profile, portfolio, and dynamic atmospheric music station of XMON4U.">
+  <meta name="theme-color" content="#020407">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2300d2ff' d='M13 2L3 14h9l-1 8 10-12h-9l1-8z'/%3E%3C/svg%3E">
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <style>
+  *, *::before, *::after {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-touch-callout: none !important;
+  }
+  input, textarea {
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
+  }
+
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    
+    :root {
+      --primary: #00d2ff;
+      --secondary: #7c3aed;
+      --glow: rgba(0, 210, 255, 0.42);
+      --theme-bg-1: rgba(20, 35, 75, 0.45);
+      --theme-bg-2: rgba(80, 20, 150, 0.3);
+      --theme-bg-3: rgba(0, 150, 255, 0.25);
+      --theme-base-1: #070b16;
+      --theme-base-2: #0e1424;
+      --theme-base-3: #020408;
+      --theme-ring: conic-gradient(from 0deg, #00d2ff, #7c3aed, #38bdf8, #00d2ff);
+      --card-bg: rgba(9, 10, 14, 0.78);
+      --card-border: rgba(255, 255, 255, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      height: 100%
+    }
+
+    body {
+      width: 100%;
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: #020407;
+      color: #fff;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: background 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -4;
+      background:
+        radial-gradient(circle at 50% 25%, var(--theme-bg-1), transparent 50%),
+        radial-gradient(circle at 15% 85%, var(--theme-bg-2), transparent 45%),
+        radial-gradient(circle at 90% 80%, var(--theme-bg-3), transparent 45%),
+        linear-gradient(180deg, var(--theme-base-1) 0%, var(--theme-base-2) 30%, var(--theme-base-3) 70%, #010204 100%);
+      transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(125deg, transparent 45%, var(--glow) 46%, transparent 48%),
+        linear-gradient(55deg, transparent 54%, var(--glow) 55%, transparent 57%);
+      filter: blur(28px);
+      opacity: .7;
+      transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      opacity: .06;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+    }
+
+    
+    #effectsCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    #flashOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: rgba(255, 255, 255, 0);
+      transition: background .08s ease;
+    }
+
+    
+    #themeTransitionOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, var(--glow) 0%, rgba(2, 4, 7, 0.45) 80%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      transition: opacity 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    #themeTransitionOverlay.morphing {
+      opacity: 0.42;
+    }
+
+    
+    @keyframes ring-spin {
+      from {
+        transform: rotate(0deg)
+      }
+
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    @keyframes ambient-pulse {
+
+      0%,
+      100% {
+        opacity: .65;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.05)
+      }
+    }
+
+    @keyframes eq-bar {
+      0% {
+        height: 3px
+      }
+
+      100% {
+        height: 14px
+      }
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+        transform: translateY(8px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    
+    @keyframes glitch-idle {
+
+      0%,
+      88%,
+      100% {
+        transform: none
+      }
+
+      89% {
+        transform: skewX(-1.5deg) translateX(-2px)
+      }
+
+      90% {
+        transform: skewX(1deg) translateX(2px)
+      }
+
+      91% {
+        transform: none
+      }
+
+      92% {
+        transform: skewX(-0.5deg)
+      }
+
+      93% {
+        transform: none
+      }
+    }
+
+    @keyframes glitch-top {
+
+      0%,
+      88%,
+      100% {
+        opacity: 0
+      }
+
+      89% {
+        opacity: .85;
+        transform: translateX(-4px)
+      }
+
+      90% {
+        opacity: .6;
+        transform: translateX(3px)
+      }
+
+      91% {
+        opacity: 0
+      }
+    }
+
+    @keyframes glitch-bottom {
+
+      0%,
+      88%,
+      100% {
+        opacity: 0
+      }
+
+      89% {
+        opacity: .85;
+        transform: translateX(4px)
+      }
+
+      90% {
+        opacity: .6;
+        transform: translateX(-3px)
+      }
+
+      91% {
+        opacity: 0
+      }
+    }
+
+    
+    .enter {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(2, 4, 7, .92);
+      backdrop-filter: blur(28px);
+      transition: .7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .enter.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none
+    }
+
+    .enter-box {
+      text-align: center;
+      padding: 24px
+    }
+
+    .enter-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 46px;
+      font-weight: 900;
+      letter-spacing: 10px;
+      margin-bottom: 12px;
+      text-shadow: 0 0 25px rgba(255, 255, 255, .4), 0 0 60px var(--glow);
+      animation: ambient-pulse 3s ease-in-out infinite;
+    }
+
+    .enter-box p {
+      color: #aaa;
+      margin-bottom: 28px;
+      letter-spacing: 1px;
+      font-size: 14px
+    }
+
+    .enter-btn {
+      border: 1px solid #fff;
+      background: #fff;
+      color: #050505;
+      padding: 15px 36px;
+      border-radius: 35px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all .25s ease;
+    }
+
+    .enter-btn:hover {
+      background: transparent;
+      color: #fff;
+      box-shadow: 0 0 40px var(--glow);
+      transform: scale(1.05)
+    }
+
+    
+    .wrap {
+      width: min(700px, 92%);
+      margin: auto;
+      padding: 60px 0 80px;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+
+    .profile {
+      text-align: center
+    }
+
+    
+    .avatar-wrap {
+      position: relative;
+      display: inline-block;
+      width: 142px;
+      height: 142px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      padding: 0;
+      
+      box-shadow: none !important;
+      border: none !important;
+      outline: none !important;
+      background: transparent !important;
+    }
+
+    
+    .avatar-visualizer-wave {
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      border: 1.8px solid var(--primary);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+      transform-origin: center center;
+      transition: border-color 0.4s ease;
+      will-change: transform, opacity;
+    }
+
+    
+    .avatar-ring {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      background: var(--theme-ring);
+      mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 3px));
+      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 3px));
+      box-shadow: 0 0 24px var(--glow);
+      transition: background 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 1;
+      transform-origin: center center;
+      will-change: transform, box-shadow;
+      pointer-events: none;
+    }
+
+    
+    .avatar {
+      width: 142px;
+      height: 142px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: 64% 42%;
+      border: 2.5px solid rgba(255, 255, 255, 0.35);
+      display: block;
+      position: relative;
+      z-index: 2;
+      
+      box-shadow: none !important;
+      transform: none !important;
+      user-select: none;
+      pointer-events: auto;
+    }
+
+    
+    .name-wrap {
+      position: relative;
+      display: inline-block;
+      margin-top: 18px;
+    }
+
+    .name {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 32px;
+      letter-spacing: 5px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+      transition: transform 0.06s cubic-bezier(0.2, 0.9, 0.3, 1);
+      will-change: transform;
+    }
+
+    .cyber-char {
+      position: relative;
+      display: inline-block;
+      color: #ffffff;
+      transform: translate3d(var(--jitter-x, 0px), var(--jitter-y, 0px), 0);
+      text-shadow: 0 0 var(--glow-size, 16px) rgba(255, 255, 255, 0.5), 0 0 var(--outer-glow, 32px) var(--glow);
+      filter: var(--char-filter, none);
+      transition: color 0.3s ease;
+      will-change: transform, text-shadow, filter;
+    }
+
+    
+    .cyber-char::before,
+    .cyber-char::after {
+      content: attr(data-char);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: var(--split-opacity, 0);
+      will-change: transform, opacity;
+      transition: opacity 0.06s ease;
+    }
+
+    
+    .cyber-char::before {
+      color: var(--primary);
+      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+      transform: translate3d(var(--split-x1, -1.8px), 0px, 0);
+      text-shadow: -1.5px 0 4px var(--primary);
+      z-index: -1;
+    }
+
+    
+    .cyber-char::after {
+      color: var(--secondary);
+      clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+      transform: translate3d(var(--split-x2, 1.8px), 0px, 0);
+      text-shadow: 1.5px 0 4px var(--secondary);
+      z-index: -1;
+    }
+
+    .bio {
+      margin: 10px auto 0;
+      color: #c7c7c7;
+      font-size: 14px;
+      max-width: 520px;
+      line-height: 1.6
+    }
+
+    
+    .links {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 11px;
+      margin: 28px 0 24px;
+    }
+
+    .social {
+      height: 54px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      text-decoration: none;
+      background: rgba(10, 11, 15, .75);
+      border: 1px solid rgba(255, 255, 255, .08);
+      font-size: 20px;
+      transition: all .25s ease;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .25)
+    }
+
+    .social:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+      box-shadow: 0 12px 35px var(--glow);
+      color: var(--primary);
+    }
+
+    
+    .audio-card {
+      margin-top: 10px;
+      border-radius: 24px;
+      background: var(--card-bg);
+      border: 1.5px solid var(--primary);
+      backdrop-filter: blur(22px);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .4), 0 0 35px var(--glow);
+      transition: border-color .8s ease, box-shadow .8s ease, transform .15s ease;
+      overflow: hidden;
+      will-change: transform;
+    }
+
+    .audio-main {
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      position: relative;
+    }
+
+    
+    .cover-wrap {
+      position: relative;
+      width: 76px;
+      height: 76px;
+      border-radius: 18px;
+      overflow: hidden;
+      flex-shrink: 0;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .45);
+      border: 1.5px solid rgba(255, 255, 255, .14);
+      background: #0c0f17;
+      transition: border-color .3s ease, box-shadow .3s ease, transform .12s cubic-bezier(0.2, 0.9, 0.3, 1);
+      will-change: transform;
+    }
+
+    .cover-wrap:hover {
+      transform: scale(1.05);
+      border-color: var(--primary)
+    }
+
+    .cover {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s ease;
+    }
+
+    .cover-wrap.playing {
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .6), 0 0 24px var(--glow);
+    }
+
+    .cover-wrap.playing .cover {
+      
+      animation: none;
+    }
+
+    .cover-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, .35);
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      transition: opacity .25s ease;
+      font-size: 22px;
+      color: #fff;
+    }
+
+    .cover-wrap:hover .cover-overlay {
+      opacity: 1
+    }
+
+    
+    .eq-bars {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 14px;
+      padding: 2px 4px;
+      background: rgba(0, 0, 0, .65);
+      border-radius: 6px;
+      backdrop-filter: blur(4px);
+    }
+
+    .eq-bars span {
+      width: 3px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: height .08s ease, background .5s ease;
+      will-change: height, opacity;
+    }
+
+    
+    .track-details {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .track-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px
+    }
+
+    .track-info {
+      flex: 1;
+      min-width: 0;
+      text-align: left
+    }
+
+    .track-info b {
+      font-size: 15px;
+      font-weight: 700;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: .3px;
+      color: #fff;
+    }
+
+    .track-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .track-artist {
+      color: #94a3b8;
+      font-size: 11.5px;
+      letter-spacing: .2px
+    }
+
+    .theme-badge {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 15px var(--glow);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all .5s ease;
+    }
+
+    .track-badge-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #64748b;
+      flex-shrink: 0;
+      padding: 2px 6px;
+    }
+
+    
+    .timeline-row {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .time-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: #718096;
+      min-width: 38px;
+      text-align: center;
+      user-select: none;
+    }
+
+    .progress-bar-wrap {
+      flex: 1;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress-bar-track {
+      width: 100%;
+      height: 5px;
+      background: #1e2430;
+      border-radius: 10px;
+      position: relative;
+      overflow: visible;
+      transition: height .2s;
+    }
+
+    .progress-bar-wrap:hover .progress-bar-track {
+      height: 7px
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 10px;
+      position: relative;
+      transition: width .08s linear, background .8s ease;
+    }
+
+    .progress-bar-thumb {
+      position: absolute;
+      top: 50%;
+      left: 0%;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 10px var(--primary);
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform .2s ease, left .08s linear;
+      pointer-events: none;
+    }
+
+    .progress-bar-wrap:hover .progress-bar-thumb,
+    .progress-bar-wrap.scrubbing .progress-bar-thumb {
+      transform: translate(-50%, -50%) scale(1.2)
+    }
+
+    .progress-bar-wrap.scrubbing .progress-bar-track {
+      height: 7px
+    }
+
+    
+    .controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .ctrl-left {
+      display: flex;
+      align-items: center;
+      gap: 7px
+    }
+
+    .ctrl-right {
+      display: flex;
+      align-items: center;
+      gap: 9px
+    }
+
+    .ctrl-btn {
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      transition: all .2s ease;
+    }
+
+    .ctrl-btn:hover {
+      color: #fff;
+      transform: scale(1.1)
+    }
+
+    .ctrl-btn.active {
+      color: var(--primary);
+      text-shadow: 0 0 10px var(--glow)
+    }
+
+    .ctrl-btn.sub {
+      width: 32px;
+      height: 32px;
+      font-size: 14px
+    }
+
+    .ctrl-btn.main-play {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #fff;
+      color: #000;
+      font-size: 16px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, .3);
+    }
+
+    .ctrl-btn.main-play:hover {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 30px var(--glow);
+      transform: scale(1.08);
+    }
+
+    
+    .volume-box {
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .vol-btn {
+      font-size: 14px
+    }
+
+    .vol-slider-wrap {
+      width: 70px;
+      display: flex;
+      align-items: center
+    }
+
+    .vol-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 4px;
+      background: #262c3a;
+      outline: none;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .vol-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 0 6px var(--primary);
+      transition: transform .15s ease;
+    }
+
+    .vol-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.25)
+    }
+
+    
+    .playlist-toggle-btn {
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 12px;
+      width: auto;
+      height: 32px;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    .playlist-toggle-btn:hover {
+      border-color: var(--primary);
+      color: #fff;
+      background: rgba(255, 255, 255, .12);
+    }
+
+    .playlist-toggle-btn.open {
+      border-color: var(--primary);
+      color: var(--primary)
+    }
+
+    .pl-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      background: var(--primary);
+      color: #000;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    
+    .playlist-drawer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .45s cubic-bezier(0.16, 1, 0.3, 1);
+      border-top: 1px solid transparent;
+      background: rgba(6, 8, 11, 0.7);
+    }
+
+    .playlist-drawer.open {
+      max-height: 420px;
+      border-color: rgba(255, 255, 255, .08);
+    }
+
+    .playlist-header {
+      padding: 14px 20px 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .pl-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .playlist-list {
+      padding: 6px 14px 16px;
+      max-height: 320px;
+      overflow-y: auto;
+      display: grid;
+      gap: 6px;
+    }
+
+    .playlist-list::-webkit-scrollbar {
+      width: 4px
+    }
+
+    .playlist-list::-webkit-scrollbar-thumb {
+      background: #2a3040;
+      border-radius: 4px
+    }
+
+    .pl-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid rgba(255, 255, 255, .05);
+      cursor: pointer;
+      transition: all .2s ease;
+      text-align: left;
+    }
+
+    .pl-item:hover {
+      background: rgba(255, 255, 255, .08);
+      border-color: rgba(255, 255, 255, .18);
+      transform: translateX(4px);
+    }
+
+    .pl-item.active {
+      background: rgba(255, 255, 255, .09);
+      border-color: var(--primary);
+      box-shadow: 0 0 20px var(--glow);
+    }
+
+    .pl-item-idx {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #64748b;
+      width: 18px;
+      text-align: center;
+    }
+
+    .pl-item.active .pl-item-idx {
+      color: var(--primary);
+      font-weight: 700
+    }
+
+    .pl-mini-eq {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+    }
+
+    .pl-mini-eq span {
+      width: 2.5px;
+      background: var(--primary);
+      border-radius: 1px;
+      animation: eq-bar .6s ease-in-out infinite alternate;
+    }
+
+    .pl-mini-eq span:nth-child(1) {
+      height: 5px;
+      animation-duration: 0.45s
+    }
+
+    .pl-mini-eq span:nth-child(2) {
+      height: 11px;
+      animation-duration: 0.6s
+    }
+
+    .pl-mini-eq span:nth-child(3) {
+      height: 7px;
+      animation-duration: 0.5s
+    }
+
+    .pl-item-img {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #111;
+    }
+
+    .pl-item-info {
+      flex: 1;
+      min-width: 0
+    }
+
+    .pl-item-title {
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #fff;
+    }
+
+    .pl-item.active .pl-item-title {
+      color: var(--primary)
+    }
+
+    .pl-item-sub {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10.5px;
+      color: #8892b0;
+      margin-top: 2px;
+    }
+
+    .pl-item-artist {
+      color: #94a3b8
+    }
+
+    .pl-item-theme {
+      font-size: 9.5px;
+      font-family: 'Orbitron', sans-serif;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .pl-item-play-icon {
+      color: var(--primary);
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity .2s ease;
+    }
+
+    .pl-item.active .pl-item-play-icon {
+      opacity: 1
+    }
+
+    .pl-item.active.playing .pl-item-play-icon {
+      color: #38bdf8
+    }
+
+    
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #777;
+      margin: 32px 4px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, .08), transparent)
+    }
+
+    
+    .big-links {
+      display: grid;
+      gap: 11px
+    }
+
+    .big-link {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      text-decoration: none;
+      color: #fff;
+      background: rgba(9, 11, 15, .72);
+      border: 1px solid rgba(255, 255, 255, .07);
+      transition: all .25s ease;
+    }
+
+    .big-link:hover {
+      transform: translateX(6px);
+      border-color: var(--primary);
+      background: rgba(18, 22, 30, .85);
+      box-shadow: 0 10px 30px var(--glow);
+    }
+
+    .big-link i.brand-icon {
+      width: 28px;
+      text-align: center;
+      font-size: 20px;
+      color: #cbd5e1;
+      transition: .2s
+    }
+
+    .big-link:hover i.brand-icon {
+      color: var(--primary);
+      transform: scale(1.15)
+    }
+
+    .big-link div {
+      flex: 1
+    }
+
+    .big-link strong {
+      font-size: 13px;
+      display: block;
+      font-weight: 600;
+      letter-spacing: .3px
+    }
+
+    .big-link small {
+      color: #8892b0;
+      font-size: 11px;
+      display: block;
+      margin-top: 2px;
+      letter-spacing: .2px
+    }
+
+    .arrow {
+      color: #555;
+      transition: .2s;
+      font-size: 13px
+    }
+
+    .big-link:hover .arrow {
+      color: #fff;
+      transform: translate(2px, -2px)
+    }
+
+    
+    .crypto-list {
+      display: grid;
+      gap: 11px
+    }
+
+    .crypto-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(10, 12, 17, .75);
+      border: 1px solid rgba(255, 255, 255, .07);
+      transition: .25s;
+    }
+
+    .crypto-card:hover {
+      background: rgba(18, 20, 26, .88);
+    }
+
+    .crypto-card.btc {
+      border-color: rgba(247, 147, 26, .2)
+    }
+
+    .crypto-card.btc:hover {
+      border-color: rgba(247, 147, 26, .5);
+      box-shadow: 0 10px 30px rgba(247, 147, 26, .14)
+    }
+
+    .crypto-card.eth {
+      border-color: rgba(98, 126, 234, .22)
+    }
+
+    .crypto-card.eth:hover {
+      border-color: rgba(98, 126, 234, .5);
+      box-shadow: 0 10px 30px rgba(98, 126, 234, .16)
+    }
+
+    .crypto-card.usdt {
+      border-color: rgba(38, 161, 123, .22)
+    }
+
+    .crypto-card.usdt:hover {
+      border-color: rgba(38, 161, 123, .5);
+      box-shadow: 0 10px 30px rgba(38, 161, 123, .16)
+    }
+
+    .crypto-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .btc .crypto-icon {
+      background: rgba(247, 147, 26, .12);
+      border: 1px solid rgba(247, 147, 26, .3);
+      color: #f7931a
+    }
+
+    .eth .crypto-icon {
+      background: rgba(98, 126, 234, .12);
+      border: 1px solid rgba(98, 126, 234, .3);
+      color: #8299fb
+    }
+
+    .usdt .crypto-icon {
+      background: rgba(38, 161, 123, .12);
+      border: 1px solid rgba(38, 161, 123, .3);
+      color: #26a17b
+    }
+
+    .crypto-info {
+      flex: 1;
+      min-width: 0
+    }
+
+    .crypto-title {
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 7px
+    }
+
+    .crypto-badge {
+      font-size: 9px;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+    }
+
+    .btc .crypto-badge {
+      background: rgba(247, 147, 26, .18);
+      color: #f7931a;
+      border: 1px solid rgba(247, 147, 26, .35)
+    }
+
+    .eth .crypto-badge {
+      background: rgba(98, 126, 234, .18);
+      color: #8299fb;
+      border: 1px solid rgba(98, 126, 234, .35)
+    }
+
+    .usdt .crypto-badge {
+      background: rgba(38, 161, 123, .18);
+      color: #26a17b;
+      border: 1px solid rgba(38, 161, 123, .35)
+    }
+
+    .crypto-addr {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #94a3b8;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-top: 4px;
+      filter: blur(4.5px);
+      user-select: all;
+      cursor: pointer;
+      transition: filter .3s ease, color .3s ease;
+    }
+
+    .crypto-card:hover .crypto-addr,
+    .crypto-addr:hover,
+    .crypto-addr.unblur {
+      filter: blur(0);
+      color: #e2e8f0;
+    }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .15);
+      color: #fff;
+      padding: 8px 15px;
+      border-radius: 11px;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: .2s;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .copy-btn:hover {
+      background: #fff;
+      color: #000
+    }
+
+    .btc .copy-btn:hover {
+      background: #f7931a;
+      border-color: #f7931a;
+      color: #000
+    }
+
+    .eth .copy-btn:hover {
+      background: #627eea;
+      border-color: #627eea;
+      color: #fff
+    }
+
+    .usdt .copy-btn:hover {
+      background: #26a17b;
+      border-color: #26a17b;
+      color: #fff
+    }
+
+    .copy-btn.copied {
+      background: #00d26a !important;
+      border-color: #00d26a !important;
+      color: #000 !important
+    }
+
+    
+    .contact-card {
+      padding: 24px;
+      border-radius: 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 20px 70px rgba(0, 0, 0, .35);
+      transition: border-color .5s ease;
+    }
+
+    .contact-desc {
+      color: #8892b0;
+      font-size: 12px;
+      margin-bottom: 18px;
+      line-height: 1.6;
+      letter-spacing: .2px
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .form-group.full {
+      grid-column: 1/-1
+    }
+
+    .form-label {
+      font-size: 11px;
+      color: #8892b0;
+      letter-spacing: .5px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 600
+    }
+
+    .form-input,
+    .form-textarea {
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      width: 100%;
+      resize: none;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: #555
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--glow);
+    }
+
+    .form-textarea {
+      height: 95px;
+      line-height: 1.5
+    }
+
+    .form-send {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #005db3, var(--primary), var(--secondary));
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-send:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px var(--glow)
+    }
+
+    .form-send span {
+      position: relative;
+      z-index: 1
+    }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      color: #00d26a;
+      font-size: 13px;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      animation: fadein .4s ease;
+    }
+
+    .form-success.show {
+      display: flex
+    }
+
+    .form-success i {
+      font-size: 20px
+    }
+
+    
+    .bottom-glow {
+      flex-shrink: 0;
+      height: clamp(80px, 18vh, 240px);
+      position: relative;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .bottom-glow::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 100%;
+      background: radial-gradient(ellipse at 50% 100%, var(--glow) 0%, rgba(80, 0, 180, .10) 40%, transparent 70%);
+      opacity: 0.40;
+      transition: background 1.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.15s ease, transform 0.15s ease;
+      will-change: opacity, transform;
+    }
+
+    .bottom-glow::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg,
+          transparent, transparent 3px,
+          rgba(255, 255, 255, .012) 3px, rgba(255, 255, 255, .012) 4px);
+    }
+
+    
+    .footer {
+      text-align: center;
+      color: #555;
+      font-size: 11px;
+      margin-top: 40px;
+      letter-spacing: 1.5px;
+      font-family: 'Orbitron', sans-serif
+    }
+
+    
+    @media(max-width:580px) {
+      .wrap {
+        padding-top: 35px
+      }
+
+      .links {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 9px
+      }
+
+      .social {
+        height: 48px;
+        border-radius: 14px;
+        font-size: 18px
+      }
+
+      .name {
+        font-size: 24px
+      }
+
+      .name::before,
+      .name::after {
+        font-size: 24px
+      }
+
+      .audio-main {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px
+      }
+
+      .cover-wrap {
+        align-self: center;
+        width: 84px;
+        height: 84px
+      }
+
+      .track-info {
+        text-align: center
+      }
+
+      .track-meta {
+        justify-content: center
+      }
+
+      .controls-row {
+        flex-direction: column;
+        gap: 12px
+      }
+
+      .ctrl-left {
+        justify-content: center
+      }
+
+      .ctrl-right {
+        justify-content: space-between;
+        width: 100%
+      }
+
+      .crypto-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px
+      }
+
+      .copy-btn {
+        justify-content: center;
+        width: 100%
+      }
+
+      .form-row {
+        grid-template-columns: 1fr
+      }
+    }
+  
+  
+  @media (pointer: fine) {
+    *, *::before, *::after {
+      cursor: none !important;
+    }
+  }
+
+  #cursorTrailCanvas {
+    position: fixed;
+    inset: 0;
+    z-index: 999980;
+    pointer-events: none;
+    width: 100vw;
+    height: 100vh;
+  }
+
+    @media (pointer: coarse), (hover: none) {
+    #cursorDot, #cursorPointer, #cursorRing, #cursorTrailCanvas {
+      display: none !important;
+    }
+  }
+
+  
+  #cursorDot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(-100px, -100px, 0);
+    will-change: transform;
+    transition: opacity 0.08s ease;
+  }
+
+  #cursorPointer {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 8px var(--primary), 0 0 16px var(--glow);
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform;
+  }
+
+  
+  #cursorRing {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999998;
+    pointer-events: none;
+    opacity: 0;
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    margin-left: -15px;
+    border-radius: 50%;
+    border: 1.5px solid var(--primary);
+    box-shadow: 0 0 12px var(--glow);
+    transform: translate3d(-100px, -100px, 0) scale(1);
+    transform-origin: center center;
+    will-change: transform;
+    transition: opacity 0.12s ease, border-color 0.25s ease, background 0.2s ease;
+  }
+
+  #cursorRing.hovered {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.09);
+    box-shadow: 0 0 20px var(--glow), inset 0 0 8px var(--primary);
+  }
+
+  #cursorRing.text-mode {
+    opacity: 0.4;
+    border-radius: 4px;
+  }
+
+  
+  
+  body[data-theme="storm"] #cursorPointer {
+    transform: rotate(45deg);
+    border-radius: 2px;
+    background: #e0f2fe;
+    box-shadow: 0 0 10px #00d2ff, 0 0 20px #38bdf8;
+    width: 8px; height: 8px; top: -4px; left: -4px;
+  }
+  body[data-theme="storm"] #cursorRing {
+    border-color: #00d2ff;
+    border-style: solid;
+  }
+
+  
+  body[data-theme="rain"] #cursorPointer {
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    background: #38bdf8;
+    box-shadow: 0 0 8px #0284c7;
+    width: 8px; height: 8px; top: -4px; left: -4px;
+  }
+
+  
+  body[data-theme="cyber"] #cursorPointer {
+    border-radius: 1px;
+    background: #00ffcc;
+    box-shadow: 0 0 10px #00ffcc, 0 0 18px #ff007f;
+    width: 8px; height: 8px; top: -4px; left: -4px;
+  }
+  body[data-theme="cyber"] #cursorRing {
+    border-radius: 4px;
+    border: 1.5px dashed #00ffcc;
+  }
+
+  
+  body[data-theme="ambient"] #cursorPointer {
+    background: #fbbf24;
+    box-shadow: 0 0 10px #fbbf24, 0 0 20px #c084fc;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    width: 12px; height: 12px; top: -6px; left: -6px;
+  }
+
+  
+  body[data-theme="night"] #cursorPointer {
+    background: #10b981;
+    box-shadow: 0 0 10px #10b981, 0 0 18px #8b5cf6;
+    width: 8px; height: 8px; top: -4px; left: -4px;
+  }
+
+  
+  body[data-theme="bass"] #cursorPointer {
+    background: #00f0ff;
+    box-shadow: 0 0 12px #00f0ff, 0 0 20px #ff0055;
+    width: 8px; height: 8px; top: -4px; left: -4px;
+  }
+  body[data-theme="bass"] #cursorRing {
+    border: 2px solid #00f0ff;
+    box-shadow: 0 0 16px rgba(0, 240, 255, 0.6), inset 0 0 6px rgba(255, 0, 85, 0.4);
+  }
+
+  
+  body[data-theme="ocean"] #cursorPointer {
+    background: #00f2fe;
+    box-shadow: 0 0 12px #00f2fe, 0 0 22px #4facfe;
+    width: 8px; height: 8px; top: -4px; left: -4px;
+  }
+
+  
+  body[data-theme="fire"] #cursorPointer {
+    background: #ffd700;
+    box-shadow: 0 0 10px #ff4500, 0 0 18px #ff8c00;
+    clip-path: polygon(50% 0%, 100% 100%, 50% 75%, 0% 100%);
+    width: 10px; height: 12px; top: -6px; left: -5px;
+  }
+  body[data-theme="fire"] #cursorRing {
+    border-color: #ff4500;
+  }
+
+  
+  body[data-theme="sakura"] #cursorPointer {
+    background: #ff758c;
+    box-shadow: 0 0 10px #ff758c, 0 0 18px #ff7eb3;
+    border-radius: 70% 15% 70% 15%;
+    transform: rotate(25deg);
+    width: 8px; height: 8px; top: -4px; left: -4px;
+  }
+
+  
+  body[data-theme="frost"] #cursorPointer {
+    background: #e0f2fe;
+    box-shadow: 0 0 10px #38bdf8, 0 0 18px #bae6fd;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    width: 10px; height: 10px; top: -5px; left: -5px;
+  }
+  body[data-theme="frost"] #cursorRing {
+    border-color: #7dd3fc;
+  }
+
+  
+  body[data-theme="rainbow"] #cursorPointer {
+    background: #ffffff;
+    box-shadow: 0 0 8px #ff007f, 0 0 16px #00f0ff, 0 0 22px #fbbf24;
+    border-radius: 2px;
+    width: 8px; height: 8px; top: -4px; left: -4px;
+  }
+  body[data-theme="rainbow"] #cursorRing {
+    border-color: #38bdf8;
+    animation: rainbowBorder 3s linear infinite;
+  }
+  @keyframes rainbowBorder {
+    0% { border-color: #ff007f; box-shadow: 0 0 12px #ff007f; }
+    33% { border-color: #00f0ff; box-shadow: 0 0 12px #00f0ff; }
+    66% { border-color: #fbbf24; box-shadow: 0 0 12px #fbbf24; }
+    100% { border-color: #ff007f; box-shadow: 0 0 12px #ff007f; }
+  }
+
+  
+  body[data-theme="fireflies"] #cursorPointer {
+    background: #fbbf24;
+    box-shadow: 0 0 12px #fbbf24, 0 0 22px #34d399;
+    width: 8px; height: 8px; top: -4px; left: -4px;
+  }
+  body[data-theme="fireflies"] #cursorRing {
+    border-color: #fbbf24;
+  }
+
+  
+  .cyber-name[data-theme="storm"] .cyber-char {
+    text-shadow: 0 0 16px rgba(224, 242, 254, 0.8), 0 0 35px #00d2ff, 0 0 60px rgba(0, 210, 255, 0.5);
+  }
+  .cyber-name[data-theme="rain"] .cyber-char {
+    text-shadow: 0 0 15px rgba(186, 230, 253, 0.7), 0 0 32px #38bdf8;
+  }
+  .cyber-name[data-theme="cyber"] .cyber-char {
+    text-shadow: 0 0 14px rgba(0, 255, 204, 0.8), 0 0 35px #00ffcc, 0 0 50px rgba(255, 0, 127, 0.5);
+  }
+  .cyber-name[data-theme="ambient"] .cyber-char {
+    text-shadow: 0 0 15px rgba(254, 243, 199, 0.8), 0 0 35px #fbbf24, 0 0 55px #c084fc;
+  }
+  .cyber-name[data-theme="night"] .cyber-char {
+    text-shadow: 0 0 16px rgba(209, 250, 229, 0.8), 0 0 35px #10b981, 0 0 55px #8b5cf6;
+  }
+  .cyber-name[data-theme="bass"] .cyber-char {
+    text-shadow: 0 0 16px rgba(0, 240, 255, 0.9), 0 0 38px #00f0ff, 0 0 65px #ff0055;
+  }
+  .cyber-name[data-theme="ocean"] .cyber-char {
+    text-shadow: 0 0 15px rgba(207, 250, 254, 0.8), 0 0 34px #00f2fe, 0 0 55px #0284c7;
+  }
+  .cyber-name[data-theme="fire"] .cyber-char {
+    text-shadow: 0 0 16px rgba(254, 240, 138, 0.9), 0 0 36px #ff4500, 0 0 60px #ff8c00;
+  }
+  .cyber-name[data-theme="sakura"] .cyber-char {
+    text-shadow: 0 0 15px rgba(255, 228, 230, 0.85), 0 0 32px #ff758c, 0 0 50px #e9d5ff;
+  }
+  .cyber-name[data-theme="frost"] .cyber-char {
+    text-shadow: 0 0 15px rgba(224, 242, 254, 0.9), 0 0 32px #38bdf8, 0 0 55px #bae6fd;
+  }
+  .cyber-name[data-theme="rainbow"] .cyber-char {
+    text-shadow: 0 0 16px rgba(255, 255, 255, 0.9), 0 0 32px #00f0ff, 0 0 50px #ff007f;
+  }
+  .cyber-name[data-theme="fireflies"] .cyber-char {
+    text-shadow: 0 0 15px rgba(254, 243, 199, 0.85), 0 0 32px #fbbf24, 0 0 55px #34d399;
+  }
+
+</style>
+<script>
+(function(){
+  'use strict';
+  // 1. Keyboard Shortcut Interceptor (F12, Ctrl+Shift+I/J/C, Ctrl+U, Ctrl+S, Ctrl+P)
+  window.addEventListener('keydown', function(e){
+    if (e.keyCode === 123) { e.preventDefault(); e.stopPropagation(); return false; }
+    if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+      e.preventDefault(); e.stopPropagation(); return false;
+    }
+    if (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83 || e.keyCode === 80)) {
+      e.preventDefault(); e.stopPropagation(); return false;
+    }
+    if (e.metaKey && e.altKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+      e.preventDefault(); e.stopPropagation(); return false;
+    }
+    if (e.metaKey && (e.keyCode === 85 || e.keyCode === 83 || e.keyCode === 80)) {
+      e.preventDefault(); e.stopPropagation(); return false;
+    }
+  }, true);
+
+  // 2. Context Menu (Right Click) Suppression
+  document.addEventListener('contextmenu', function(e){
+    e.preventDefault(); e.stopPropagation(); return false;
+  }, true);
+
+  // 3. Selection & Drag Suppression
+  document.addEventListener('selectstart', function(e){
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return true;
+    e.preventDefault(); return false;
+  }, true);
+  document.addEventListener('dragstart', function(e){
+    e.preventDefault(); return false;
+  }, true);
+
+  // 4. Production Console Neutralization (Zero performance overhead)
+  try {
+    var _n = function(){};
+    var _m = ['log','debug','info','warn','error','dir','table','trace'];
+    for (var i = 0; i < _m.length; i++) {
+      if (window.console && window.console[_m[i]]) window.console[_m[i]] = _n;
+    }
+  } catch(err) {}
+})();
+</script></head>
+
+<body>
+  
+  <canvas id="cursorTrailCanvas"></canvas>
+  
+  <div id="cursorDot">
+    <div id="cursorPointer"></div>
+  </div>
+  <div id="cursorRing"></div>
+
+  <div class="bg" id="dynamicBg"></div>
+  <div class="noise"></div>
+
+  
+  <canvas id="effectsCanvas"></canvas>
+  <div id="flashOverlay"></div>
+
+  
+  <div id="themeTransitionOverlay"></div>
+
+  
+  <div class="enter" id="enter">
+    <div class="enter-box">
+      <div class="enter-logo">XMON4U</div>
+      <p>Welcome to my official profile</p>
+      <button class="enter-btn" onclick="enterSite()">ENTER PROFILE</button>
+    </div>
+  </div>
+
+  <main class="wrap">
+    
+    <section class="profile">
+      <div class="avatar-wrap">
+        
+        <div class="avatar-visualizer-wave" id="avatarVisualizerWave"></div>
+        <div class="avatar-ring" id="avatarRing"></div>
+        
+        <img class="avatar" id="userAvatar" src="avatar.jpg" alt="XMON4U" onerror="this.onerror=null;this.src='covers/cover_storm.jpg'">
+      </div>
+      <div class="name-wrap">
+        <h1 class="name cyber-name" id="cyberName" aria-label="XMON4U">
+          <span class="cyber-char" data-char="X">X</span>
+          <span class="cyber-char" data-char="M">M</span>
+          <span class="cyber-char" data-char="O">O</span>
+          <span class="cyber-char" data-char="N">N</span>
+          <span class="cyber-char" data-char="4">4</span>
+          <span class="cyber-char" data-char="U">U</span>
+        </h1>
+      </div>
+      <p class="bio">Developer • Creator • Gamer<br>Welcome to my personal space.</p>
+    </section>
+
+    
+    <div class="links">
+      <a class="social" href="https://github.com/Xmon4u" target="_blank" rel="noopener noreferrer" title="GitHub">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <a class="social" href="https://x.com/xmon4u" target="_blank" rel="noopener noreferrer" title="X (Twitter)">
+        <i class="fa-brands fa-x-twitter"></i>
+      </a>
+      <a class="social" href="https://www.instagram.com/xmon.4u" target="_blank" rel="noopener noreferrer"
+        title="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a class="social" href="https://www.facebook.com/profile.php?id=61592495187832" target="_blank" rel="noopener noreferrer"
+        title="Facebook">
+        <i class="fa-brands fa-facebook-f"></i>
+      </a>
+      <a class="social" href="https://t.me/xmon4u" target="_blank" rel="noopener noreferrer" title="Telegram">
+        <i class="fa-brands fa-telegram"></i>
+      </a>
+      <a class="social" href="https://steamcommunity.com/profiles/76561198759562750" target="_blank"
+        rel="noopener noreferrer" title="Steam">
+        <i class="fa-brands fa-steam"></i>
+      </a>
+      <a class="social" href="https://buymeacoffee.com/xmon4u" target="_blank" rel="noopener noreferrer"
+        title="Buy Me a Coffee">
+        <i class="fa-solid fa-mug-hot"></i>
+      </a>
+    </div>
+
+    
+    <div class="card audio-card" id="audioPlayerCard">
+      <div class="audio-main">
+        <div class="cover-wrap" id="coverWrap" onclick="togglePlay()" title="Click to Play/Pause">
+          <img class="cover" id="musicCover" src="covers/cover_storm.jpg" alt="Track Artwork"
+            onerror="this.onerror=null;this.src='covers/cover_storm.jpg'">
+          <div class="cover-overlay">
+            <i class="fa-solid fa-play" id="coverPlayIcon"></i>
+          </div>
+          <div class="eq-bars" id="eqBars">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="track-details">
+          <div class="track-header">
+            <div class="track-info">
+              <b id="trackTitle">Electric Tempest</b>
+              <div class="track-meta">
+                <span class="track-artist" id="trackArtist">Thunder &amp; Lightning</span>
+                <span class="theme-badge" id="themeBadge"><i class="fa-solid fa-bolt"></i> Storm Theme</span>
+              </div>
+            </div>
+            <div class="track-badge-count" id="trackCounter">1 / 12</div>
+          </div>
+
+          
+          <div class="timeline-row">
+            <span class="time-label" id="currentTime">0:00</span>
+            <div class="progress-bar-wrap" id="progressBarWrap" onclick="seekAudio(event)">
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+                <div class="progress-bar-thumb" id="progressBarThumb"></div>
+              </div>
+            </div>
+            <span class="time-label" id="totalTime">0:00</span>
+          </div>
+
+          
+          <div class="controls-row">
+            <div class="ctrl-left">
+              <button class="ctrl-btn sub" id="shuffleBtn" onclick="toggleShuffle()" title="Shuffle"><i
+                  class="fa-solid fa-shuffle"></i></button>
+              <button class="ctrl-btn sub" id="prevBtn" onclick="prevTrack()" title="Previous Track"><i
+                  class="fa-solid fa-backward-step"></i></button>
+              <button class="ctrl-btn main-play" id="playBtn" onclick="togglePlay()" title="Play/Pause"><i
+                  class="fa-solid fa-play"></i></button>
+              <button class="ctrl-btn sub" id="nextBtn" onclick="nextTrack()" title="Next Track"><i
+                  class="fa-solid fa-forward-step"></i></button>
+              <button class="ctrl-btn sub" id="repeatBtn" onclick="toggleRepeat()" title="Repeat"><i
+                  class="fa-solid fa-repeat"></i></button>
+            </div>
+
+            <div class="ctrl-right">
+              
+              <div class="volume-box">
+                <button class="ctrl-btn sub vol-btn" id="volBtn" onclick="toggleMute()" title="Mute/Unmute"><i
+                    class="fa-solid fa-volume-high" id="volIcon"></i></button>
+                <div class="vol-slider-wrap">
+                  <input type="range" class="vol-slider" id="volSlider" min="0" max="1" step="0.01" value="0.8"
+                    oninput="setVolume(this.value)">
+                </div>
+              </div>
+
+              
+              <button class="ctrl-btn sub playlist-toggle-btn" id="playlistToggleBtn" onclick="togglePlaylistDrawer()"
+                title="View Playlist & Themes">
+                <i class="fa-solid fa-list-ul"></i>
+                <span class="pl-pill" id="plPill">12</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="playlist-drawer" id="playlistDrawer">
+        <div class="playlist-header">
+          <div class="pl-title"><i class="fa-solid fa-music"></i> DETECTED AUDIO &amp; THEMES</div>
+        </div>
+        <div class="playlist-list" id="playlistContainer">
+          
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="section-title">SOCIALS &amp; PLATFORMS</div>
+    <div class="big-links">
+      <a class="big-link" href="https://github.com/Xmon4u" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-github brand-icon"></i>
+        <div>
+          <strong>GitHub</strong>
+          <small>Explore my code &amp; open-source projects</small>
+        </div>
+        <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
+      </a>
+      <a class="big-link" href="https://x.com/xmon4u" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-x-twitter brand-icon"></i>
+        <div>
+          <strong>X / Twitter</strong>
+          <small>Thoughts, tech &amp; personal updates</small>
+        </div>
+        <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
+      </a>
+      <a class="big-link" href="https://www.instagram.com/xmon.4u" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-instagram brand-icon"></i>
+        <div>
+          <strong>Instagram</strong>
+          <small>Moments, stories &amp; daily updates</small>
+        </div>
+        <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
+      </a>
+      <a class="big-link" href="https://www.facebook.com/profile.php?id=61592495187832" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-facebook-f brand-icon"></i>
+        <div>
+          <strong>Facebook</strong>
+          <small>Connect, follow &amp; stay in touch</small>
+        </div>
+        <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
+      </a>
+      <a class="big-link" href="https://t.me/xmon4u" target="_blank" rel="noopener noreferrer">
+        <i class="fa-brands fa-telegram brand-icon"></i>
+        <div>
+          <strong>Telegram</strong>
+          <small>Message &amp; chat with me directly</small>
+        </div>
+        <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
+      </a>
+      <a class="big-link" href="https://steamcommunity.com/profiles/76561198759562750" target="_blank"
+        rel="noopener noreferrer">
+        <i class="fa-brands fa-steam brand-icon"></i>
+        <div>
+          <strong>Steam Community</strong>
+          <small>Gaming profile &amp; play games together</small>
+        </div>
+        <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
+      </a>
+      <a class="big-link" href="https://buymeacoffee.com/xmon4u" target="_blank" rel="noopener noreferrer">
+        <i class="fa-solid fa-mug-hot brand-icon"></i>
+        <div>
+          <strong>Buy Me a Coffee</strong>
+          <small>Support my work &amp; creative journey</small>
+        </div>
+        <i class="fa-solid fa-arrow-up-right-from-square arrow"></i>
+      </a>
+    </div>
+
+    
+    <div class="section-title">DONATION &amp; SUPPORT</div>
+    <div class="crypto-list">
+      
+      <div class="crypto-card btc">
+        <div class="crypto-icon"><i class="fa-brands fa-bitcoin"></i></div>
+        <div class="crypto-info">
+          <div class="crypto-title">Bitcoin (BTC) <span class="crypto-badge">NETWORK</span></div>
+          <div class="crypto-addr" title="159cWLo7iCrH4FSQZkk7kQsspEjknoESv2">159cWLo7iCrH4FSQZkk7kQsspEjknoESv2</div>
+        </div>
+        <button class="copy-btn" onclick="copyCrypto(this, '159cWLo7iCrH4FSQZkk7kQsspEjknoESv2')">
+          <i class="fa-regular fa-copy"></i> <span>Copy</span>
+        </button>
+      </div>
+      
+      <div class="crypto-card eth">
+        <div class="crypto-icon"><i class="fa-brands fa-ethereum"></i></div>
+        <div class="crypto-info">
+          <div class="crypto-title">Ethereum (ETH) <span class="crypto-badge">ERC20</span></div>
+          <div class="crypto-addr" title="0x2d0e8656da1ab17a48a9bb3f5c3508502f42883c">
+            0x2d0e8656da1ab17a48a9bb3f5c3508502f42883c</div>
+        </div>
+        <button class="copy-btn" onclick="copyCrypto(this, '0x2d0e8656da1ab17a48a9bb3f5c3508502f42883c')">
+          <i class="fa-regular fa-copy"></i> <span>Copy</span>
+        </button>
+      </div>
+      
+      <div class="crypto-card usdt">
+        <div class="crypto-icon"><i class="fa-solid fa-coins"></i></div>
+        <div class="crypto-info">
+          <div class="crypto-title">Tether (USDT) <span class="crypto-badge">TRC20</span></div>
+          <div class="crypto-addr" title="TUUUwvt65kPXXzLr5H2toQ6ete4iT1AVMk">TUUUwvt65kPXXzLr5H2toQ6ete4iT1AVMk</div>
+        </div>
+        <button class="copy-btn" onclick="copyCrypto(this, 'TUUUwvt65kPXXzLr5H2toQ6ete4iT1AVMk')">
+          <i class="fa-regular fa-copy"></i> <span>Copy</span>
+        </button>
+      </div>
+    </div>
+
+    
+    <div class="section-title">CONTACT ME</div>
+    <div class="contact-card">
+      <p class="contact-desc">
+        <i class="fa-solid fa-bolt" style="color:var(--primary);margin-right:6px"></i>
+        Got a project idea, collab request, or just want to say hey? Drop a message below!
+      </p>
+      <form id="contactForm" onsubmit="sendMessage(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="contactName">Your Name</label>
+            <input class="form-input" id="contactName" name="name" type="text" placeholder="e.g. Alex" required
+              autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contactEmail">Email / Telegram</label>
+            <input class="form-input" id="contactEmail" name="contact" type="text" placeholder="email or @username"
+              required autocomplete="off">
+          </div>
+          <div class="form-group full">
+            <label class="form-label" for="contactMsg">Message</label>
+            <textarea class="form-textarea" id="contactMsg" name="message" placeholder="Write your message here..."
+              required></textarea>
+          </div>
+        </div>
+        <button class="form-send" type="submit" id="sendBtn"><span>&#9889; SEND MESSAGE</span></button>
+      </form>
+      <div class="form-success" id="formSuccess">
+        <i class="fa-solid fa-circle-check"></i>
+        Message sent! I'll reach out soon. ✨
+      </div>
+    </div>
+
+    <div class="footer">© 2024 XMON4U • ALL RIGHTS RESERVED</div>
+  </main>
+
+  
+  <div class="bottom-glow" aria-hidden="true"></div>
+
+  
+  
+  <audio id="mainAudio" preload="auto" crossorigin="anonymous" src="music/storm.mp3"></audio>
+
+  <script>
+
+    
+    const THEMES = {
+      
+      rain: {
+        name: 'Cyber Rain',
+        badgeText: 'Cyber Rain & Lightning',
+        badgeIcon: 'fa-solid fa-cloud-showers-heavy',
+        primary: '#38bdf8',
+        secondary: '#0284c7',
+        glow: 'rgba(56, 189, 248, 0.4)',
+        ring: 'conic-gradient(from 0deg, #38bdf8, #60a5fa, #94a3b8, #38bdf8)',
+        bg1: 'rgba(30, 58, 138, 0.38)',
+        bg2: 'rgba(15, 23, 42, 0.45)',
+        bg3: 'rgba(56, 189, 248, 0.2)',
+        base1: '#080c14',
+        base2: '#0f172a',
+        base3: '#030712',
+        defaultCover: 'covers/cover_rain.jpg',
+        bpm: 104,
+        bassIntensity: 0.8
+      },
+      
+      cyber: {
+        name: 'Cyber Matrix',
+        badgeText: 'Cyber Glitch Matrix',
+        badgeIcon: 'fa-solid fa-microchip',
+        primary: '#00ffcc',
+        secondary: '#ff007f',
+        glow: 'rgba(0, 255, 204, 0.42)',
+        ring: 'conic-gradient(from 0deg, #00ffcc, #ff007f, #00f0ff, #00ffcc)',
+        bg1: 'rgba(0, 255, 204, 0.25)',
+        bg2: 'rgba(255, 0, 127, 0.25)',
+        bg3: 'rgba(0, 110, 255, 0.2)',
+        base1: '#030a08',
+        base2: '#071512',
+        base3: '#010403',
+        defaultCover: 'covers/cover_cyber.jpg',
+        bpm: 132,
+        bassIntensity: 0.9
+      },
+      
+      ambient: {
+        name: 'Ambient',
+        badgeText: 'Ambient Particles',
+        badgeIcon: 'fa-solid fa-atom',
+        primary: '#38bdf8',
+        secondary: '#c084fc',
+        glow: 'rgba(56, 189, 248, 0.42)',
+        ring: 'conic-gradient(from 0deg, #38bdf8, #c084fc, #fbbf24, #38bdf8)',
+        bg1: 'rgba(56, 189, 248, 0.25)',
+        bg2: 'rgba(192, 132, 252, 0.25)',
+        bg3: 'rgba(251, 191, 36, 0.18)',
+        base1: '#060814',
+        base2: '#0d1026',
+        base3: '#020308',
+        defaultCover: 'covers/cover_stars.jpg',
+        bpm: 72,
+        bassIntensity: 0.65
+      },
+      
+      night: {
+        name: 'Night Aurora',
+        badgeText: 'Night Sky Aurora',
+        badgeIcon: 'fa-solid fa-moon',
+        primary: '#10b981',
+        secondary: '#8b5cf6',
+        glow: 'rgba(16, 185, 129, 0.42)',
+        ring: 'conic-gradient(from 0deg, #10b981, #8b5cf6, #3b82f6, #10b981)',
+        bg1: 'rgba(16, 185, 129, 0.28)',
+        bg2: 'rgba(139, 92, 246, 0.25)',
+        bg3: 'rgba(59, 130, 246, 0.2)',
+        base1: '#030d0a',
+        base2: '#08171d',
+        base3: '#010506',
+        defaultCover: 'covers/cover_aurora.jpg',
+        bpm: 84,
+        bassIntensity: 0.75
+      },
+      
+      bass: {
+        name: 'Bass Reactive',
+        badgeText: 'Music Reactive Bass',
+        badgeIcon: 'fa-solid fa-volume-high',
+        primary: '#00f0ff',
+        secondary: '#d946ef',
+        glow: 'rgba(0, 240, 255, 0.48)',
+        ring: 'conic-gradient(from 0deg, #00f0ff, #d946ef, #7928ca, #00f0ff)',
+        bg1: 'rgba(121, 40, 202, 0.35)',
+        bg2: 'rgba(0, 240, 255, 0.28)',
+        bg3: 'rgba(217, 70, 239, 0.22)',
+        base1: '#070312',
+        base2: '#0e0624',
+        base3: '#020108',
+        defaultCover: 'covers/cover_bass.jpg',
+        bpm: 128,
+        bassIntensity: 1.0
+      },
+      
+      storm: {
+        name: 'Storm',
+        badgeText: 'Electric Storm',
+        badgeIcon: 'fa-solid fa-bolt',
+        primary: '#00d2ff',
+        secondary: '#7c3aed',
+        glow: 'rgba(0, 210, 255, 0.42)',
+        ring: 'conic-gradient(from 0deg, #00d2ff, #7c3aed, #38bdf8, #00d2ff)',
+        bg1: 'rgba(20, 35, 75, 0.45)',
+        bg2: 'rgba(80, 20, 150, 0.3)',
+        bg3: 'rgba(0, 150, 255, 0.25)',
+        base1: '#070b16',
+        base2: '#0e1424',
+        base3: '#020408',
+        defaultCover: 'covers/cover_storm.jpg',
+        bpm: 92,
+        bassIntensity: 0.95
+      },
+      
+      ocean: {
+        name: 'Ocean',
+        badgeText: 'Abyssal Ocean',
+        badgeIcon: 'fa-solid fa-water',
+        primary: '#00f2fe',
+        secondary: '#0077b6',
+        glow: 'rgba(0, 242, 254, 0.4)',
+        ring: 'conic-gradient(from 0deg, #00f2fe, #0077b6, #48cae4, #00f2fe)',
+        bg1: 'rgba(0, 119, 182, 0.35)',
+        bg2: 'rgba(0, 180, 216, 0.25)',
+        bg3: 'rgba(72, 202, 228, 0.2)',
+        base1: '#02131d',
+        base2: '#032030',
+        base3: '#01080e',
+        defaultCover: 'covers/cover_ocean.jpg',
+        bpm: 68,
+        bassIntensity: 0.7
+      },
+      
+      fire: {
+        name: 'Fire',
+        badgeText: 'Ember Flame',
+        badgeIcon: 'fa-solid fa-fire-flame-curved',
+        primary: '#ff5722',
+        secondary: '#ff9800',
+        glow: 'rgba(255, 87, 34, 0.48)',
+        ring: 'conic-gradient(from 0deg, #ff1744, #ff5722, #ffab00, #ff1744)',
+        bg1: 'rgba(255, 69, 0, 0.32)',
+        bg2: 'rgba(255, 152, 0, 0.25)',
+        bg3: 'rgba(218, 25, 25, 0.2)',
+        base1: '#140502',
+        base2: '#240904',
+        base3: '#080201',
+        defaultCover: 'covers/cover_fire.jpg',
+        bpm: 124,
+        bassIntensity: 0.85
+      },
+      
+      sakura: {
+        name: 'Sakura',
+        badgeText: 'Sakura Drift',
+        badgeIcon: 'fa-solid fa-fan',
+        primary: '#f472b6',
+        secondary: '#fb7185',
+        glow: 'rgba(244, 114, 182, 0.42)',
+        ring: 'conic-gradient(from 0deg, #f472b6, #fb7185, #fbcfe8, #f472b6)',
+        bg1: 'rgba(190, 24, 93, 0.3)',
+        bg2: 'rgba(244, 114, 182, 0.22)',
+        bg3: 'rgba(120, 10, 50, 0.2)',
+        base1: '#12050e',
+        base2: '#1f0a17',
+        base3: '#080206',
+        defaultCover: 'covers/cover_sakura.jpg',
+        bpm: 78,
+        bassIntensity: 0.6
+      },
+      
+      frost: {
+        name: 'Frost',
+        badgeText: 'Subzero Aurora',
+        badgeIcon: 'fa-regular fa-snowflake',
+        primary: '#7dd3fc',
+        secondary: '#0284c7',
+        glow: 'rgba(125, 211, 252, 0.42)',
+        ring: 'conic-gradient(from 0deg, #7dd3fc, #38bdf8, #e0f2fe, #7dd3fc)',
+        bg1: 'rgba(2, 132, 199, 0.28)',
+        bg2: 'rgba(14, 165, 233, 0.22)',
+        bg3: 'rgba(125, 211, 252, 0.18)',
+        base1: '#040d16',
+        base2: '#081726',
+        base3: '#020509',
+        defaultCover: 'covers/cover_frost.jpg',
+        bpm: 96,
+        bassIntensity: 0.75
+      },
+      
+      rainbow: {
+        name: 'Rainbow',
+        badgeText: 'Prism Rainbow',
+        badgeIcon: 'fa-solid fa-rainbow',
+        primary: '#ff007f',
+        secondary: '#00ffcc',
+        glow: 'rgba(255, 0, 127, 0.38)',
+        ring: 'conic-gradient(from 0deg, #ff0055, #ff9900, #ffee00, #00ff66, #00ffff, #7700ff, #ff0055)',
+        bg1: 'rgba(255, 0, 127, 0.22)',
+        bg2: 'rgba(0, 255, 204, 0.22)',
+        bg3: 'rgba(255, 215, 0, 0.18)',
+        base1: '#10061a',
+        base2: '#180929',
+        base3: '#07020d',
+        defaultCover: 'covers/cover_rainbow.jpg',
+        bpm: 116,
+        bassIntensity: 0.85
+      },
+      
+      fireflies: {
+        name: 'Fireflies',
+        badgeText: 'Enchanted Forest',
+        badgeIcon: 'fa-solid fa-seedling',
+        primary: '#10b981',
+        secondary: '#a3e635',
+        glow: 'rgba(16, 185, 129, 0.4)',
+        ring: 'conic-gradient(from 0deg, #10b981, #a3e635, #34d399, #10b981)',
+        bg1: 'rgba(16, 185, 129, 0.25)',
+        bg2: 'rgba(163, 230, 53, 0.22)',
+        bg3: 'rgba(6, 95, 70, 0.2)',
+        base1: '#021208',
+        base2: '#041f0e',
+        base3: '#010804',
+        defaultCover: 'covers/cover_fireflies.jpg',
+        bpm: 86,
+        bassIntensity: 0.7
+      }
+    };
+
+    
+    function detectThemeFromFilename(filename) {
+      const lower = (filename || '').toLowerCase();
+      if (lower.includes('bass') || lower.includes('reactive') || lower.includes('beat') || lower.includes('drop')) return 'bass';
+      if (lower.includes('night') || lower.includes('midnight') || lower.includes('aurora') && !lower.includes('rainbow')) return 'night';
+      if (lower.includes('ambient') || lower.includes('particles') || lower.includes('chill') || lower.includes('relax')) return 'ambient';
+      if (lower.includes('rainbow') || lower.includes('prism') || lower.includes('spectrum')) return 'rainbow';
+      if (lower.includes('rain') || lower.includes('drizzle') || lower.includes('shower')) return 'rain';
+      if (lower.includes('firefl') || lower.includes('forest') || lower.includes('nature') || lower.includes('zen')) return 'fireflies';
+      if (lower.includes('fire') || lower.includes('flame') || lower.includes('ember') || lower.includes('lava') || lower.includes('inferno')) return 'fire';
+      if (lower.includes('storm') || lower.includes('thunder') || lower.includes('lightning')) return 'storm';
+      if (lower.includes('ocean') || lower.includes('sea') || lower.includes('wave') || lower.includes('water')) return 'ocean';
+      if (lower.includes('sakura') || lower.includes('cherry') || lower.includes('blossom') || lower.includes('petal')) return 'sakura';
+      if (lower.includes('frost') || lower.includes('ice') || lower.includes('snow') || lower.includes('blizzard') || lower.includes('subzero')) return 'frost';
+      if (lower.includes('star') || lower.includes('space') || lower.includes('galaxy') || lower.includes('cosmic')) return 'ambient';
+      if (lower.includes('cyber') || lower.includes('glitch') || lower.includes('matrix') || lower.includes('synth')) return 'cyber';
+      return 'storm';
+    }
+
+    let playlist = [
+      {
+        title: "Electric Tempest",
+        artist: "Thunder & Lightning",
+        file: "music/storm.mp3",
+        filename: "storm.mp3",
+        theme: "storm",
+        cover: "covers/cover_storm.jpg"
+      },
+      {
+        title: "Cyber Noir Rain",
+        artist: "Rain & Lightning",
+        file: "music/rain.mp3",
+        filename: "rain.mp3",
+        theme: "rain",
+        cover: "covers/cover_rain.jpg"
+      },
+      {
+        title: "Neon Cyber Glitch",
+        artist: "Digital Matrix",
+        file: "music/cyber.mp3",
+        filename: "cyber.mp3",
+        theme: "cyber",
+        cover: "covers/cover_cyber.jpg"
+      },
+      {
+        title: "Cosmic Ambient",
+        artist: "Starlight Particles",
+        file: "music/ambient.mp3",
+        filename: "ambient.mp3",
+        theme: "ambient",
+        cover: "covers/cover_stars.jpg"
+      },
+      {
+        title: "Midnight Aurora",
+        artist: "Northern Lights",
+        file: "music/night.mp3",
+        filename: "night.mp3",
+        theme: "night",
+        cover: "covers/cover_aurora.jpg"
+      },
+      {
+        title: "Music Reactive Bass",
+        artist: "Bass Pulse Rhythm",
+        file: "music/bass.mp3",
+        filename: "bass.mp3",
+        theme: "bass",
+        cover: "covers/cover_bass.jpg"
+      },
+      {
+        title: "Abyssal Waves",
+        artist: "Deep Sea Horizons",
+        file: "music/ocean.mp3",
+        filename: "ocean.mp3",
+        theme: "ocean",
+        cover: "covers/cover_ocean.jpg"
+      },
+      {
+        title: "Solar Flare Ember",
+        artist: "Infernal Magma Fire",
+        file: "music/fire.mp3",
+        filename: "fire.mp3",
+        theme: "fire",
+        cover: "covers/cover_fire.jpg"
+      },
+      {
+        title: "Sakura Blossom Drift",
+        artist: "Zen Garden Spring",
+        file: "music/sakura.mp3",
+        filename: "sakura.mp3",
+        theme: "sakura",
+        cover: "covers/cover_sakura.jpg"
+      },
+      {
+        title: "Subzero Cryo Frost",
+        artist: "Glacial Blizzard",
+        file: "music/frost.mp3",
+        filename: "frost.mp3",
+        theme: "frost",
+        cover: "covers/cover_frost.jpg"
+      },
+      {
+        title: "Prism Laser Spectrum",
+        artist: "Rainbow Pulse Synth",
+        file: "music/rainbow.mp3",
+        filename: "rainbow.mp3",
+        theme: "rainbow",
+        cover: "covers/cover_rainbow.jpg"
+      },
+      {
+        title: "Enchanted Fireflies",
+        artist: "Deep Bioluminescent Forest",
+        file: "music/fireflies.mp3",
+        filename: "fireflies.mp3",
+        theme: "fireflies",
+        cover: "covers/cover_fireflies.jpg"
+      }
+    ];
+
+    let currentTrackIndex = 0;
+
+    
+    
+    async function loadPlaylistManifest() {
+      try {
+        const res = await fetch('music/playlist.json?v=' + Date.now());
+        if (res.ok) {
+          const tracks = await res.json();
+          if (Array.isArray(tracks) && tracks.length > 0) {
+            playlist = tracks;
+            if (currentTrackIndex >= playlist.length) currentTrackIndex = 0;
+            
+            const curTrack = playlist[currentTrackIndex];
+            if (curTrack && audio.paused && audio.currentTime === 0) {
+              trackTitle.textContent = curTrack.title;
+              trackArtist.textContent = curTrack.artist;
+              musicCover.src = curTrack.cover;
+              
+              
+              const detectedTheme = curTrack.theme || detectThemeFromFilename(curTrack.filename);
+              applyVisualTheme(detectedTheme, false);
+            }
+            renderPlaylistUI();
+          }
+        }
+      } catch (e) {
+        
+      }
+    }
+    let isShuffle = false;
+    let isRepeat = false;
+    let currentThemeKey = 'storm';
+
+    const audio = document.getElementById('mainAudio');
+    const playBtn = document.getElementById('playBtn');
+    const coverWrap = document.getElementById('coverWrap');
+    const musicCover = document.getElementById('musicCover');
+    const coverPlayIcon = document.getElementById('coverPlayIcon');
+    const trackTitle = document.getElementById('trackTitle');
+    const trackArtist = document.getElementById('trackArtist');
+    const trackCounter = document.getElementById('trackCounter');
+    const currentTimeEl = document.getElementById('currentTime');
+    const totalTimeEl = document.getElementById('totalTime');
+    const progressBarFill = document.getElementById('progressBarFill');
+    const progressBarThumb = document.getElementById('progressBarThumb');
+    const volSlider = document.getElementById('volSlider');
+    const volIcon = document.getElementById('volIcon');
+    const shuffleBtn = document.getElementById('shuffleBtn');
+    const repeatBtn = document.getElementById('repeatBtn');
+    const playlistContainer = document.getElementById('playlistContainer');
+    const playlistDrawer = document.getElementById('playlistDrawer');
+    const playlistToggleBtn = document.getElementById('playlistToggleBtn');
+    const plPill = document.getElementById('plPill');
+
+
+    
+    const canvas = document.getElementById('effectsCanvas');
+    const ctx = canvas.getContext('2d');
+    const flash = document.getElementById('flashOverlay');
+    let particles = [];
+    let outgoingParticles = [];
+    let outgoingAlpha = 0;
+    let meteors = [];
+    let ripples = [];
+    let shockwaves = [];
+    let lightningTimer = null;
+
+    
+    let audioCtx = null;
+    let analyser = null;
+    let dataArray = null;
+    let isFileProtocol = window.location.protocol === 'file:';
+    let audioSourceNode = null;
+
+    
+    const RAW_BASS_ENVELOPES = {
+      "storm": "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",
+      "rain": "AAAAAAAAAAomIR8pJBofJCYmKSsrKysrKykmJiYhHxwcHCY4QiYfKSswLmleUkU7LikmJitZWT02R1wzTEo9QjgrKTA4RWZjY1RXZlJhYVJKRUpCODAzV25PRT1uMEpFNi4pJCEhHBcXGhQSEhJHoYdwWU9AQjMuK1RZV0xHQDNXSl5UTEJFQDAuRVxMR0A7MKiRh2tZUkxHOzgzSi4mISEfJCQaFBQSDw8PCggKBQUFJjYmUllKOyYaHBoXFxofHBcUDxIwLiEhKTYzFBcUGhQIHBoPDTs9OCsmIRQXEhoUHxoUISsXJB8cHBQkGhISDw8PFBQaMBwuOz04KysmFBQXFCYkIR8fGiszKykrJiEpGhcUFxIUDw0PD0xFOy4pJi4aEhwXHBofDRIKCgUFAwoIBQMDAw0KCggICAgP0aNcYWFcXF5cV09FTFJUWVe9jGZcVE9KRUA4NmNURz2hf8KmV1lSQjtAQkA9PT1HT0pHoatZR3WCXj1SsmlhXKiMV1y/lkdKUlJST09KRUdFR0xST56ec2FZT0dKSkU7WVlXVK2hx7JjXFRXUlJUTExFRUpKT0ycwmYFCgUFBQgKBQUFBQUXEtTbelK91EpKc/U7Sk/ya0xP0eNzUq3gOzhZ90JXXPd1f5HR8n1ModlHT176SkVK4IJMSrjjdVJm7XhMQtm9XGvUv3NjsNR9T4XyR0xC/DhMUuWKUlKo2XVMcPc9OzP6UlJP25Fziq3gh151+kBHUvJeSlLWlExPesRwCggFAwMFBQMDAwMFDQ0za15CLiYpJiEcGhoaFxQUHxoaFBIPDw8SEhQUEhcaFBoaFBwfHyQfHyQkHxoXHCEkJCYpIRwcHyEhHxwcJCQhLismISE4MyYcGhcaHBwXDxIaJi42MCEaFBIPDRQaHBoXFBQcJis2JBoUEhIUFBcXFBcUHCQmJikXCggNBQUDCAUIBQUDAwMSWeWjY2PrUkJAyX07NpywQE9c1qZSUu1eUlLEijg2jLBApoXJtVdU6GtAPbqROz2PsDY4O9TEXE+4xFk4ssluRYXjhVJhz7pXWehrV1fClj0wf8QwQEDMtUpS63BCSr2cOD19wkKZj9aoVE/ZfUBFsJk9JmPHKTY4x7UcCggFBQUICAUFBQUUFA/Mq2Njx3hFLrCeKzBXvTA7O7+KT0K6dUJAo5kwT2bURZSC1LpjUtuCQkqoqzg2V9k4QkDMxE9Fv7hPPYXjjD1S2XBFRb2wWUfWmTtHo7g4OEzyQEpHzL1jTMmMO0CKxDM9RehApqbZ2XpcyZY9R5nHNkBF8kVUV7LCQggIAwMKDQoICAgKBQMKNkA2Li4wNjYwKyZMV1RZYWNjY2lmZmZma2lmaWNjZmlpbnhreH19enh6gn99bm5waWtwY251enVzcGtrdW5zdXp1eHXoik9MsLVHSmHgOy4h8EwrK9mKFx+jvzM9T+gwV17jXFRh24o2PZbMQEdF6D0wK9RXLjMhCgoKCg0FAwgKCA8NCgoKCLLyoX+e3mNra/dPc3reemturbK1ip7lZmtr8GNmbtaFcJye3qN/iutZXmboWWt11oxzf7X8zJGU/L2WnOu6mcLo46uov/y9fYryXnh//F5/keChhYyt/OOPlvxrhYf3dYer5aGC1rj8x3B9/Fx1dfdhf5TRoXqPqPyhDQgNCAoIChIKFw0KCgoNAwMDAwMAAAAAAAAAAAAAAAA=",
+      "cyber": "AExzV0IkGj1MXE84JBIPMEppaT0aHBIuTFdZTEBMUkBSR1d/f4VjKT1MSnN9kX8wSldMf4V6bjNAOCRSK0pCRy4hDxQkKSszHyYhXlQkTCsSRxcaHyQrWSE2JlxHPSQfJBcUGikzFxwSGho4ODMaFx8fFx8hHBISDw0KFA8NDRKmxNnCmaGMnoWo46GCmX2hhZHjo4KRXoemkeOomaORo6G13riHnIKelJnjo4yho5yRluCmj5x9f4+j27B6lpSZo6PbuqOejKGFodmyf5R/oYqM27V1j16KoZzWupSmlqGerdm1jJGHoYqj2biMoZ6jmZnWuHqMgop9lNTEepzPv6ah1L+jnoecj5zRxHORhZaHhc/HdY9uepae0cmFoZaenLXHxJaZhZyWnNHMdaGeoZaRz8x1nniHipnJz3WRlpacpsnMqJSPlpaRx9Rzj5SMjIXC1HOKbnWRpsLWhaGWnp64vdGUgoqPlpbC1n+Wo6Gemb3ZeIp/hXqPutl/lL3MoaG61LWjsqarjJaKhYyUaaORf1J4h4qCj4dzQH2UlIqKhXMUUpGWhY+Wfx9miqGRlpl9MFyPj3+Kin09eKGcjI+hjBJHjJSHj4d/H0WPlH+Kj4ccOHiKfYWHfzBpkZyMkYp6EjZ/nIWPkYwcQoWemZmZijA9gpZ9j4eKQF6UnIeRnKHbyYyFf5R/jyk9cIxzkZGPNjhjgoV/hYxeQHiW3r2Mj+PChYqKjIKKOFeCnpmUlJYuSnORjIWCj1dKcJSCmZSZ2cSZf4WRh5QfQniFfZSHijghWX+CfXqHXkx1kYKFf4wwFCEuJBcUEhokPUAaFxwcFxQkHxIPDw8NDRQPCgpw1szCq56PnJSez8lzlIyZioXPx3OKa3+Wns/Jh6OUnpy4xMeRj4eWlpnPzHihnKOZkczMc5l6ioyZydF4ipmZnp7Hz62Zj5aWlMLUeI+PjI+Fv9Z1h3N4jKjC1oWjmZyZtb/Rln+KlJmZv9aCnp6jnpa623WKf4WHirjbf4y6z6GcvdG4kZSUmZG43n2MmYqRf7Dbf4V4cIymsN6RnpmZnKi61LCCloyZlLjgh5GhoZyUreOFjJRzipSt4I9/npmco63RxI+WjJSPq+CRhZaHnn2h4JZ/f2mFq6Hgnpmclpmmq9S4epSFlpmm45mPo6OZnqHjln2HfYKFmeCegqPPvb+mnrJmh1dzUmFMNjtHLkAzJjgkISQhIRwNCg0IBQUDAwMDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+      "ambient": "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",
+      "night": "AAADAAAAAAADAwMDAwMDAwAAAAAAAwUFBQUDAwMAAAAAAAUICAUFBQUDAAAAAAANFxISDw0IBQAAAAAAEhwaFxQPCgUAAAAAABchHxoXEg0IAwAAAAAfJCQfHBQPCAMAAAAADwoSEg8NCgUDAAAAABIUFBQPDw0FAwAAAAAaHx8XFBIPBQAAAAAAHyQhGhcSEgUAAAAAAEJAOzYuJhwKAwMFAwM9QEA7MykfDwUFCg8KRUJHOzYrJhcIAwgSF1lSTEc7LikaBQUPGh8mJiEpJBwaJA8XHxIPLiYkKSskJisUGiszHzM4My4rJCkpFxQUGh9AODY2LiQmKxcSFBwfRVlcWU87LjsrMB8fH1RcYVxSOzhCMDMrOylFT1JFODM2JiQuJC4pRVRPQDYkJK16GjApGq2jMFmWpqa4YUp1nKbZsjBmnqGrvWNMbpyhz7IrZpyeo71eO32ZnsS9KWGhmaOhSjh/nJzHuCtjkZGeo0dAc4qUpp4mY4d/irhMSoKFipmjMGGHnpbJUkVwjJHeqDBejJSjrVdCfZGc1qs2bq2mo89PT3Wmpp6hMG6cnKG9R0xwo56whSlekZyovUJFjJme1qYzbqF9j5xARYqcntuZQnOZlpmcPVJ1ipbWj0V6loePoUVXh4yUlplMeJaRnKtCQniRkdGeUnWUlLWRRUqCkYzZjzN4pqiyoz1XeqOtuJE2c62jva04VIWrptZ4LnWjobi9OFKKnKH1jzZ/pqGorThPkaao1H82c5ackaMwXHiKmdR/O3OUlJSwM1yWoZngfTtulJ6yoThKf4eZ+no7c5SWspw4SoeUlPx6RYWwqKOhNleCpqvHazZ9oZm6hzBUjK2t63A7f6amva0zWZmjo8JpO3+hnqaoK1KeqKbjcEx/lJ6jsjBjipGW43hMf5SRqLIrYZycntlwVIKensSrOEyPlKPweFeCloKWhS4hKRoX7VlCepactbIzWYKUntRSRX2WlMeoO159lpbEXkJ/lJS4nClcipGZulxChZmRyZ44Y5GUnONZRXh9is+hK2F/hZSySkV6fYLRpjhphX+PtVlCeoeP4JkwTH9/kdRXQHqHkdGhMGGKgo/jT0yKnpnZmS5ch56h5UpKh5aZz482XI+Pkc9MRYePmc+RK2aPkZ7bQEKClpnMliZrkYWZzEdKfYWHx4wuY3qFmc9FTH9/h8eKK2l/f4qhPUJzioXZkS5mhYyW3kxHf4qM45QuRX91it5PXoqZnKOCMF6MlJ64PU9/lJmofzBhkZGU1EpPjJmWmXMuXoKKocxKVIyRnKN4K2aMlKawVGmKj4qofzNhf4yjyVlmgn+HlnA9a4+KltRecIKKj5lzPWF4gpy6YWOFhYy6eE94loyrv0BZj56ckWs7WYWRh5RFWYeKlJRjNl6WkZSjQleHlJmWXC5mioqosEBcjIyUmVwrboyHobVMaYyFipxpOGt/h6vCWXCMhYyhZkJ4jIWoumF4eoKMnmE4YXiCqLpeboyFirhmV2uMgq2rO16RmZmyYzthlJSwqzteioqUmWY9Zo+Mf5Y7XIqUlLJeNnOKh7qmO1yRh4KrVzZ1j4qmnkdph4WMplRCZn2KnJ5MbodrfaNZR25/iqirWV6KgoetYUBucHWhnmZ4h3+Zpllef4V/qJk4Y5aelrpcRWmPkaGrO2uPhZGeWVJhioe4lkVjioyKpkI4cIeMmas4YYV1ep5MPXB6fbKUTGmUhX+mQkxpaXWyo1Rzf2tzj0JHY2ZuuJxKXIqCjKZHQml1cLCUV1x4c3+RXF5znKFrVIKw7cRpWWZcZl5rR2t6f3p/enBuYd7tloV6j31/fYf862ZrYWZCc3+Cf3Oh+tFr4+ic2ei4goKFf3iHhWFpaWaCkZmPjJR9f4L87ZGHipaeioWMf3+KTHNwWX+UlIqMkfLba+Pef0Jehcn61HNwZmt/V4JXen2Cf4J4bmtp+vV4lHWHenh4lPzgfWF6WVd4goJ9cKP83mv89W7r67qKlH94goWFT39ZV4WUnJSHh4V/pvztdYyHj5aWf3OFgnpma3VpipmZkYWP4N6K/Ohc/OCPLi4kIRwcHB8aHCtCNjAuHx8hJln8/Fc9RUUzPS4pJikhHyQk/PyjPTYpnPzya/z8Xvz8q1dcLi4wPTYmJjZhhXpcXjguMDt6/PxeWZRwXlQzOzZCMDMzRWmHcFxXM6b85Yf8/FL3/MSRraao/OB6gqic8vyrlrKeq/zMdYWPqPf8nIejobL83nqFnKHy/KicnJyj/MmHboyK/Pe/h4+1vfzRmYKKke38uqHEq8f8vYJ4lpH8/K2m1se4/MR9j6ac/Nm9lJ6Uwu3Uj5GWmZGPqLCZnLCWnpSRnJ6jlKi4mZmMf25zgox1oZ6esqOWmaacioWPjJ6oobWjkZmWo5mCipGRqLLUuq2ylp6PmZSmqJSyq6GmioyPioJ/hYqMo5ScmZFzc4J/h4KHgpyemX99lpxzf4Kc/Pywj4yZ0e3Mc3NzeNneeHOUh6PrvWaCgnjt44V1jIqy/MKHjJaFvcyRpqGRq9m9cHp9gsnelrXEtbr8z4yjsKH85bKtq6HH7b2enI+M48ePrbi62/XZf5ycj/zomauckcftsmZ1jI/85V5wY27C4KFXc2uP8MdjYU9huMeRT2NXhcy4enhzacn8nmFpa4/y1GlpY2vH/KtZa2mZ8vV1bnhz4+WZY1lzjPq9XHhpcL/okYJwc5zewnNzhX3g6619eoKm6+BwinNz3vyta3iMf2lAQDAhJDAcMCkwKzMwO0BHNjg4HCkzOyQ7QkVCOys2JiErMDYzO0BFOzYuMCshHzA2K091c2tjMzgmHCsfDx9Sc2lwXDs2JBohMzghXmtrXlkwOCshJjsrRWFuXFxhLi4fFBwpKys2JB8fGhQSDRIPFw8NHA0NDQUNFBIIEhcaFw0ICggIFAgIFBINEhQPChQUCA8UEg0cDwgSCgMDAAAAAAAA",
+      "bass": "AAAANk9STEVFQCYhHxwrFyEcFxokIRwXJBQcHx8cHDguKT0uJCQfHBQUHyEcFBIaJB8aFyEkIRoSEiQ2SkI2MzguHCQXHBwSGhISDw8UFA0PEhIKCgo2LjAwOzYwKx8mIRcXFBofEg0NDxccFxIcGhwhOzMrHCYXGhQSFyEfFxccEhchHBQaJBwXGhIhHxwkHxwUDxQXHBwhDxQhDxcXHBwUFxwSFxoPEjAwKSsrLjApKRwaEhcUHBwPDw0NCg0KCAoKChwpKSQuISspJh8cFBIwJCEaFA0aHCk7QjsuMGG6wrqwxLi/sL3RuszEvcfHurrHv8K/xMm6tc/EvcLJv729urW9x7CtuLKwsKu4o7jEydHW0cnMrbq9nqimsqOrvbC4sqiWsrKtuqGooabCvaHHxLC4v7jHv724v8+6qLiyq7Ctuq24zM/R1NbP1rKwsLKcsK2tqLqyta24iqijqMSovaOrraioqLqyvb2Wq6i9vb3MnKa9v6i4xLq6q6OhsrCeqKatprrCwsKyuLq/zLq90dnez9HZtcnJwsLJzMnJxLq6vbiytbq6v8fMzMS6wr/RzMfEv7XRuLi9vbiyrai9prWrpr2ytbCytb3Rybqtraiovbi6vcSwtbKmpqGtsKuysquwqKGttbKyvbrUobCyrZ7lsKOFhY+egoeKUiYIIRcSHBwzKzNFOzMcJiGy0b/CmabCnLXHxLjEx6a4sL3gtcKozOWZtcS95aiyhY+hqJS6yZGhwquUnrjWxKahj8K9lLrH2eOhuHiRvZ6hur1zfXpUKzBh1DspwoUkIRcICNS9oaG4sL+HlIVeFA8NJCQfFCEcDTAucIyjz8fbtcejpse4mcTMlJSUlpa4x+DCrbio3q2twr/Zx5GjjKOyj6i1q5mhnKu/0dHtsMJ1pquUlrC/4K24lKGmsIe6xJmyxK2ox8/bmbCriqujjJx6CAUFFBQSDQoNCgMIEhIIBQ8SCgUNGjOruLK6x72rv8nHur2/tdHRrbjHq62wwse4z9HU1L3Hz7+yuKieppGjo7XHsrqhnK21q7+ypqGjvcKrsMS9pri6v8e4wsLJ1L+4ybW6tb3Hv9HRz8/CzMzMssKyqKGosqGowq24tbWosq2ywriwo7LJsKi1xMnCxK26q5ahusm6qL+6q7260cS/lrDHsKOmqKu4xLq9tbWhv72weGMkCAgFBQMIChIwh57JzMe1x9G1wr+ysNHZuM/PtbjU2bW/x7C6z8+trbp6Fx8hEhIXDw8UFBQXGhQSGg0KDQoKEg0SGh8UFxccGhQKDwgICAgIFCQkFw0KBQgUOxoPDRcXjL+huJmZj5Gwwr+mxNatxNbP4K2tobrEtZ6rrd69nKGonKGZrbiwsLW6lrK/z8mjqKjUx7XMx8Leq7KHlKGZlL+1irXPtajHz+CwnIWhv7Wjv7LMxJ6UkaGjf6OrlqOtppGhpqu9lqN/sLWjuL211Li1q6GmoZ64xLLEwrCouLrbvbqrsL3ClLKcxNGtsqOmoZyjxMeourqhq6a60aiwnKvgnsLEyeO4q4yRo61/o7WhrbC1lKarx9amin+osJSmsLjgnqN/nKiclLiwlLi1mZ6orY+ZnoqWraieo6ZuFxwXChINCAgICAoNCgoFFwoFCggIDQoKChINJDguJB8SEg0NCggKDwgIDwoICAgIBQgFCAgNDxoXEhINCgoKCAoICAgIBQ0FBQUFCAgFCAgKCAoNDw8KCAgFBQUFBQUFBQUFBQUFBQUFAwMFAwMDAAAAAAAAAAAAAAAAAA==",
+      "ocean": "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",
+      "fire": "AAAAAAAAAAAAAAAAAAADAAMDAwMFBQ8KJCQrJiQhGikhHw8kIR8aHCQcJB8hEiQkKSEfFBIaFyYaHw0fHxoaHBoXHBwcFxwXFxQXFBIcFxQPFxIaFxINEhQXFxcUJjgzOzMmFxwrJBoUIRohFxoNJCkpHxwpKSQXGg8UFCEcGhINHBcXDyQcIR8XDxIcEhcSFxQaFBcPFBQSGhQPDRwhGhccH2vR3o9uuL+/kZnMsFJmxL99Qrrjo3WMx7qoisK6YTOy6LqRnsTCdWbCvaOMq8moQn/MsGlMuNGPY6PCtYWZxLp/a7/WsIqt8L19f8eysoq4wp5Kmc+tSm7R1Ixmv8S9lpnPlj1h1NS4jLLCsG6RxLWUh8S/hUewwqM9Ql51dVIuIY+PTEBuc1JhdZaK0fKReKbExJyZwrVXOMLEllKr66iCgsyyuoK1wplHmevHjIq61IdcuMSrh57RmUBXxLiFTLDCsG6Pyb2cisK6oYK9wsSHj+XMimvEurqUpseMSnXMrX9m0dacc6bEvZyRx7puSs/etYqjxLB4esS4o4K4wnU2kcewUk9heHpZNiaFll5CZopwXGaRhbX3o3qPwrKwj7+9YS61yahSj97HhWnHvbiUrcSoSoXg0Z6CtdGRY6bHtYeWx7BHM8LCj0qjybJzc8S1nn+6xLCCps/Ciorb4Ipwur+6lpzMmUxcxLWMVMLgpnqUx7qoisS9gke96LiHlse6emnCuqaPq8eHPX3HrXVUXH16Y0A7fZx1T1ePf2N1mX9eaXV4TyE9lnAhFC4kKTM2NitPcH9eGiaCf0AmFx8rYXqPejtjeGEwGkxzXhQUJismHzAhK1lzbk8fHHh6KyRjc1RhdXpmTGlzdSQceIdSGh82LjMwNiswYXpwRSRFkW4fISYrO3WMhVxPbnNUFxxpczsUFx8cKyscHztheGMzH1RzYRoaeHA7bnh9UlxrdVwrGquRRzhHOzYzOGNXZniFcD0zf55rRUVhTF6ClJFPa3prQiY9lIJFOEA4Li5HWU9jeHhZQCl/jGlFaYxuY3iRhVRueHpMK3CjhUo2QCswK1ReVGt9f1cwMKORTEBPVE9zipZ6UnB4XjAfeIduQDMwKzAwXFlUbn1wRSY4eGkkHHBwPWl9dYXU1JFuvcK6lp7MqMKyv7i6vbXjnHOUyb+eh7+6VzC45biPnsy6dWPCuqaKq8emRYXMuGNUtdSRYabEsoKWx7WCcMLbq4+47biHgsm4tY+6x5lMocywSm7R1oxeusK6lp7PkUBe1M+1h7LEq2mRwrWUisK9f0W4x6NKSmN6c1I2JI+PTz1peE9jgpaW1uiPfavHwpaRx61UQsK/llSr66uCf8e1sIW4x5FHmfDEjIq6zIVXur+riqPPjztjxLiKXK3Hq2mUxLiUhcK/oX29xMSFmejEim7Cur2UqMeKQHrJsnhmz9aZcLDJvZaPzLpzXtHWuJGjx61zer+1oYW4x24wlM+1YVxhenhcKTNrc0UmV3NcWXN9brX3nHg4H2mMXh8XMyEkITMpgtu9hWPEurqKrcSmQore0ZmCutGPXqjEsoKUx6tFQL29j0qmx7BzfcS1noW1xKh/rczCipHZ2Yxrur+4lp7MlEVex7WKUsTeo3OUyb+hir+9fUe/47qHmcm6eGPEuqiMq8SFNnjHsGtMWXh9XjMhdYdrPVKMc1l6jIWr8LB/f8e1so+1xHUzlsewWX3U2YVev8K6j57MrUJu2darf63HqGaPybiPjMK9UiutxJxHj8m6eGPCuqaMq8S1gpbPzIqC1OuMeKjEvZmRx61PQr+9llKj66h/fcm1tYW4xJRHnvLCio+4zIVXvb+riqHPkTtev7WCT1drf2M4IVRzXBcUems7bnh1luPCj1kcHIp6o8Kmx6bCrcSyx9aWa7DEupmPx61FR8zZtZSrx6tzfcmynoe6wpRHnM+oPXW1zIVXvb+rh6HPo3+Kv9SmjL/3pn+PybqmjL+/gkq4xKFFiuC9gnXEv72PsMKFO4XgzKOMvc+RYabHsn+Ux7hpWcK9hz1FZnhrQik9lIJCPXh1T2uFlpbb2Y9uxMK4lp7MlEphwrKKUsTepnqZx8KejL/CfUzC47qHnMm4embCuqOMsMSHRYLHrWthv8+PYajHrYWWxL2UfcTUqIqo8LKHhcmytYy4xHo2mcmtWXrR2YdhxMK4kZ7MrUVu29amf63JqGmPybWMjMK/TzCwxJlKRzsrKSkrJiYaFCEhIRwaEgU9z+WPdavJvZyUwrXCsrW/sL+r6KN6hcmytYe9v24znu3ClJm41H9cv8Krh6PMskdrxLpwPa3Jo2aRzL2UjMK/j266z72PnOjEjHO/urqPrcKrVI/Mslxc0dSRc6vJuJmZxKtFSs/WtZGox611f8m1noe9wpRHnsyrO0JXeHNXMCaKnFxAYXVhVGaZjL/3o32Pyb+hkb+/VDC/z5xPlOW9hW7Hvb+KsMSmSozlz5SCus+RY6vJsIyWxK1CSr/Cikymx6tzesmynIe/v61/rczHhZTW1pFpv7+1maHRllJmx7KHVMfgoX2Wyb+jj8LCekrH4LqKlMe4gnXCuKaKsMSFPYfHq2tSWXp/XkA2faFuVGaKf2tulIyw8q2Hgsm1uI+9unM2qMmwV4LU24dexMS6lJ7MsEpz29aof7DMo2uRybWRjMK/VC6/x5lKkcm6f27EuqaMrcK4hZnRzJSF1uWReKvHvZycwqtPT8m/lFSw6KuCgsyyuIfCupRKqOvCj5G40XpZwsKrjKPMkT11ybB/T1lzhWs9JmOWc0JAmX1ZeJSMnuu6j3XCuL2RrcSCQI/Jq3Np1tSccK3JupmWxLhjYdbZsoqmwq11f8e1nIrCunAwq8erTH+6z4Jcv8Koh6PMtYeKxNSofb/wpnqRx7+oir+9WTDEx55Ukeu6hXPHur+HsMSjR4zozJaCvdGMY6vHsoqWx6hFVMS9jE9PcH94RytPkYJCM5GCXHOPjGYuJBwUDw0KCAUFAwMDAwMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+      "sakura": "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",
+      "frost": "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",
+      "rainbow": "AAUDBQUFBQMDAwMAAAADAwMDAwMDAwMDAwMICgoNCAgPCgoICg0KCgoFBQUDAwMDAwMDAwMDAwMAAAAAAAAAAwMDAwUICggICg0SDQ0NDQ0KDw0KCg0SDQ0KDQoUFA8cEhISSm59fXhzvaMaXLU2Eg0NDw8PDw8PDQ0KChQUEg8fEhIPDw8KDz1MT09HT09MStHlullUV1leXK2cElyyHw8KCA0SDw8NFBIPCA0SEg0XGg8PDw0SEhISDxQUDQ8aEhIPEhQUCggNFCYXDwgfFxQPCAUcJhIPDQ0PCA0PCAgICikpFwoPEhINDw0NIRcSCggIDwgFBQUFBQ8XDQgFFBIPCggFFBQNCggKDw0FCAoNCA0hHBIKDRwUDQ8PEiEUDxwPEhQUH1KHj4+MivLPNoz8QjtmY2ZhXlleWaHPx6ZzbnBueJywVySjf1xeeHN9dXN1a259f3qHoaOmo5myfUBuuDAwSlJXT09MT0qe3tumeHNzcG54c3N1cGtuaWlucHBmsrKM1vze/EJpf4WP/H0kit5F8JlXa2lz47VUuPz89cJMa2tzsNFHKdG1eOBXXnBpdfVmWWZrafx1gp6WlvWZIWGMNtG9UmFZYbrJR3h1c6jJXFlcXqHWVFJjY4fJUldcUmHPaZahnpa4R1dmaWmjaTuClFSWcCk2ODaCbhQzh5SehS49OzhmjytHel5SijNFQkJKkSQSKwgIlik9RUdHjEUzcJ5PfVQkKS4wc2scKUpHboU7QkdCZo87O0dFV5Y7QkdPSplXY4d/aU9UVFdST3BhV3+KV0w2NjYwRSkICBwpPXqPO0dFRXChOFyjemu1M1RUV2G9LhIUFxfPQFJjYWHPXk+Rslm/jEdSUlfEnClAq7rJx0dpa2uW4EVcaWuR90dzepyP/G6c/MIXKz02MDBSUiskJjA4MDYwKUIwJiEuJjY2DyYpKTMzHxwpMzM2Fx8kISkrHzMhJiQfGvxwkbKtsPqcIXChNtS9WXVreMfgXIyhodTUXGlzbqj6V3Bma5zwR15hXmv8eN66q7X8YX+mrbjyujBhfzbUxFRcV1TH0UKMv8Le21d4dXCy4zsuwplw8Fdrc3B4/FJueod9/FIPDw8494IaSjYc5Z4mHxpKybghHy4crdkrGhwhh+M2HCYkO2FzcG56br3bx7KwvfKFeoyMkfCZeMS9mei1UlRXcMLWR1m9vdveUmZra6vyZozZqJn8Xn+KjI/8TCtcISH8QmN9ioz6hVTb/Hrgh0VFQkzPoTZMo6bPtV54en2h3ldrcHOP8FRzc4p6/Jm44NSy/JZ9lIyK96FzsKOZ479cV09uwtYuR6bC2+BpcGtwtfBrj6OMayYhCgU2HxcrGhcrFPpcf6atv/KjXr3JhfCrRVRST9StKT2tutHMY3qFgrL3SpHUuorwXF5jY27tVBJFHw36T2N6eHDRcFmRmZG9qEA9QEWtihQ9maPEvUdcYVmFvTtMWVl1zEJKUl5UuGZ6npl/umFcdWtroWlMeoVhlGMpMDBAenAaJmtwfXAzO0JAZoo2V559WZYwPUA9RZYhDxQcF4owOEdFR4VKJlduO3NSJCYpKVxeFCRcY1I2Oz09O0BAQkVFQDMKFBIXIRQPHxQUFwqmVFRua26eaz1ua1ychT1SVFyHniszfWuPlkdKTE91qDheuoVprT1SUlJewjsaOBIa0UJUZmNj23NPo9lzv39CQk9PsqMrPZmcv71SY2FhjN5KXm5phehFXmmCf/Vhf8fM0ehjXnh6etuHaaOykcyhSlJXY7XPM0KjmcnlUl5pa6PoY4KReI/oaW5jYWv1YSQ7EhTga3WRkY/gglK94HPelEBPTFLHvyFKx8/Z6FJuaWmh9UVmeHOZ+kVwepaM/GaW8Pz8eBwXGh87LhwIEg0KCggFFBQICg8SFA0KCAoIChckJB8PFyYaDRQSJDYmFBwfFx8kJCQhJCE7OyEXEiQmJiEXHCYXGh8cDQ8KCAUIBQUFISYaDxcpGg8fHxwzIRQkFBoXFyljqLKwrabw5S5m1DhCa3NuYWZjcGmmx7ChbnNzc32eh1Iano84XmNwcGtpbnh1eoeFY2luc4V/zIc7XKNANl5haV5uYWFeh56HlHVwcG5ucHp9fXp6cHp4eG5weNvbyejysvx/dYeWnuWcZp7Hgtm1VF5XT8fJH0+/6/LjVGFmZqP8Xof6ppH8Oy4uJDP8OCZcLiT8c2aKo6j3jGvH/IfUoVJjYVzR0SZSlIe65WFwfXiw615rhYKR9WFueIJ68Iey5dGh/JF/kYyZ65Frv+iR0aZKVFleuLA2Sp6mx7hPY2lclr9XgvCretFCXm5hY+NCLjAuIdtSXGludcJ6VJHHfcSWR09FTKOyMz2rtbW1Umlpc5S9VGFzcILbV2FjcGvbfYfEx62UmaGcnqOennOPf396c2tZVKurgnp6dXqPmYePlIp6TCtCqIyWiox/cJyKnH2PioV1sHV/hY+WjIyFqIqCfX1wXkeHj3qCkYx/jIeHjIKWh4eMkaGUnJ6ZhWuKo6GPkZ6jnIWPmaOyv7VpGlemMzhZXFlZWVlXZo/HzK1zbnV6fZz3jBzPuDNSWVxeXF5zY25pY3M2GhIPFC4aDQUaMy4fKS4aISE2JiY7MzAUKSEXLisfLiQwQD1Hbn11c4JzxOvbv8y9+oKMlpaW+pZz2duc3r1UZml6uuBUYbCr1tZweIJ4sutZjOi4gttjXl5cYfJXOEUUD/d4f5SWlPyHacn8f/KoYXV4Yb3HK0fP6PDZV3V/eKH3WXN4dYf8XnqCkYz8bpT69/z8ZmZ4dW76eiuC4ELJsl5pa3W91FeMv8LW6GZweHqt9VcrkXouEgUFAwMDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADBQoIBQgKDyEhHxwfHx8fHx8cHyYhJCQhISEkHyEfHyQpJC4wMysuKSsuKzAwMzMwKyYkJCEpNjYpODs7Oz09OzMmHx8hJCYrLi42NjYuKzArMzY4Oz1APTg7NkA7ODg9RT09SkBMXnCmkW51Y26MhXp1YVJUT1RUY1xjaV5MRUBARV6Cenh1dWlhWVxcVFleV1xmXlJFQkduWVRXXGaRkWteT2FcV0pSV1dUR0xSTFJSV1lja3NucHBjXlxeVFJcXmFhVEpSVFyFkZSjaV42PWNFOzYuJi5APTArRS4wGhIaHw8PDQ0PLi4pIRoXFxccHxwcISEcDxofFxcXHBcUFBwuHBcaHBwaHzArHyEaFBISDw8XHxccHCsfIRwaGhQcFCYhIRcUGh8hHxcUEhIcEhwUJiQpPTgwIRofNiYcKSYhHCQXHxwPEhIhFxokISEmEhQaHyEuJhcmKRcUFxoXEhoSEg8PDw8KISkhFBohGh8hHxwaFxQhHBwcIRcXFxIXLhoPEhwaFxwXDxcUFBQXFBokHxoaDxQICgUDAwMDAwMDAwMDAAMAAwADAwMDAwMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "fireflies": "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",
+    };
+
+    const DECODED_BASS_CACHE = {};
+
+    function getRealTrackBass(themeKey, currentTime) {
+      if (!DECODED_BASS_CACHE[themeKey]) {
+        const b64 = RAW_BASS_ENVELOPES[themeKey];
+        if (!b64) return 0;
+        try {
+          const bin = atob(b64);
+          const arr = new Uint8Array(bin.length);
+          for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+          DECODED_BASS_CACHE[themeKey] = arr;
+        } catch (e) {
+          return 0;
+        }
+      }
+
+      const arr = DECODED_BASS_CACHE[themeKey];
+      const idxFloat = currentTime * 10;
+      const i0 = Math.floor(idxFloat);
+      if (i0 >= arr.length) return 0;
+      const i1 = Math.min(arr.length - 1, i0 + 1);
+      const frac = idxFloat - i0;
+      const v0 = arr[i0] / 255.0;
+      const v1 = arr[i1] / 255.0;
+      return v0 + (v1 - v0) * frac;
+    }
+
+    function setupAudioContext() {
+      try {
+        if (!audioCtx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (AudioContextClass) {
+            audioCtx = new AudioContextClass();
+          }
+        }
+        if (audioCtx) {
+          if (audioCtx.state === 'suspended') {
+            audioCtx.resume().catch(() => {});
+          }
+          if (!audioSourceNode && audio) {
+            try {
+              analyser = audioCtx.createAnalyser();
+              analyser.fftSize = 512;
+              analyser.smoothingTimeConstant = 0.22;
+              audioSourceNode = audioCtx.createMediaElementSource(audio);
+              audioSourceNode.connect(analyser);
+              analyser.connect(audioCtx.destination);
+              dataArray = new Uint8Array(analyser.frequencyBinCount);
+            } catch (nodeErr) {
+              console.warn("Web Audio graph connection notice:", nodeErr);
+            }
+          }
+        }
+      } catch (e) {
+        console.warn("Audio Context init:", e);
+      }
+    }
+
+    
+    ['click', 'touchstart', 'pointerdown', 'keydown'].forEach(evt => {
+      window.addEventListener(evt, () => {
+        if (audioCtx && audioCtx.state === 'suspended') {
+          audioCtx.resume().catch(() => {});
+        }
+      }, { once: true, passive: true });
+    });
+
+    let dpr = window.devicePixelRatio || 1;
+    function resizeCanvas() {
+      dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resizeCanvas();
+    
+    let resizeTimeout = null;
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        spawnThemeParticles(currentThemeKey, false);
+      }, 200);
+    }, { passive: true });
+
+    
+    function createParticleSet(themeKey) {
+      const W = window.innerWidth, H = window.innerHeight;
+      const list = [];
+
+      if (themeKey === 'storm') {
+        for (let i = 0; i < 95; i++) {
+          list.push({
+            x: Math.random() * W, y: Math.random() * H,
+            vy: 16 + Math.random() * 12, vx: -1.5 - Math.random() * 2,
+            len: 16 + Math.random() * 18, alpha: 0.2 + Math.random() * 0.35
+          });
+        }
+      } else if (themeKey === 'ocean') {
+        for (let i = 0; i < 65; i++) {
+          list.push({
+            x: Math.random() * W, y: Math.random() * H,
+            r: 2 + Math.random() * 6, vy: -0.8 - Math.random() * 1.8,
+            wobbleSpeed: 0.02 + Math.random() * 0.04, wobbleDist: 15 + Math.random() * 25,
+            t: Math.random() * 100, alpha: 0.25 + Math.random() * 0.45,
+            hue: 180 + Math.random() * 25
+          });
+        }
+      } else if (themeKey === 'rain') {
+        for (let i = 0; i < 90; i++) {
+          list.push({
+            x: Math.random() * W, y: Math.random() * H,
+            vy: 18 + Math.random() * 10, vx: -3 - Math.random() * 2,
+            len: 18 + Math.random() * 20, alpha: 0.2 + Math.random() * 0.3
+          });
+        }
+      } else if (themeKey === 'rainbow') {
+        for (let i = 0; i < 70; i++) {
+          list.push({
+            x: Math.random() * W, y: Math.random() * H,
+            r: 2 + Math.random() * 4, vx: (Math.random() - 0.5) * 1.2, vy: -0.5 - Math.random() * 1.2,
+            hue: Math.random() * 360, hueSpeed: 0.8 + Math.random() * 1.5,
+            alpha: 0.3 + Math.random() * 0.5, pulse: Math.random() * Math.PI
+          });
+        }
+      } else if (themeKey === 'ambient') {
+        for (let i = 0; i < 80; i++) {
+          list.push({
+            x: Math.random() * W, y: Math.random() * H,
+            r: 1.5 + Math.random() * 3.5, vx: (Math.random() - 0.5) * 0.8, vy: (Math.random() - 0.5) * 0.8,
+            alpha: 0.25 + Math.random() * 0.55, pulse: Math.random() * Math.PI * 2,
+            color: Math.random() > 0.5 ? '#38bdf8' : (Math.random() > 0.5 ? '#c084fc' : '#fbbf24')
+          });
+        }
+      } else if (themeKey === 'night') {
+        for (let i = 0; i < 100; i++) {
+          list.push({
+            x: Math.random() * W, y: Math.random() * H,
+            r: 1 + Math.random() * 2, alpha: 0.2 + Math.random() * 0.6,
+            pulse: Math.random() * Math.PI * 2, pulseSpeed: 0.02 + Math.random() * 0.04
+          });
+        }
+      } else if (themeKey === 'bass') {
+        shockwaves = [
+          { radius: 60, speed: 2, alpha: 0.8 },
+          { radius: 140, speed: 2.2, alpha: 0.6 },
+          { radius: 220, speed: 2.4, alpha: 0.4 }
+        ];
+        for (let i = 0; i < 50; i++) {
+          list.push({
+            x: Math.random() * W, y: Math.random() * H,
+            r: 2 + Math.random() * 4, vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2,
+            alpha: 0.3 + Math.random() * 0.5, color: Math.random() > 0.5 ? '#00f0ff' : '#d946ef'
+          });
+        }
+      } else if (themeKey === 'fire') {
+        for (let i = 0; i < 85; i++) {
+          list.push({
+            x: Math.random() * W, y: H + Math.random() * 80,
+            r: 1.5 + Math.random() * 3.5, vy: -2 - Math.random() * 3.5, vx: (Math.random() - 0.5) * 1.8,
+            life: 1, decay: 0.005 + Math.random() * 0.012,
+            color: Math.random() > 0.5 ? '#ff5722' : (Math.random() > 0.5 ? '#ffab00' : '#ff1744')
+          });
+        }
+      } else if (themeKey === 'fireflies') {
+        for (let i = 0; i < 45; i++) {
+          list.push({
+            x: Math.random() * W, y: Math.random() * H,
+            r: 3 + Math.random() * 3.5, vx: (Math.random() - 0.5) * 1.2, vy: (Math.random() - 0.5) * 1.2,
+            glowPulse: Math.random() * Math.PI * 2, pulseSpeed: 0.03 + Math.random() * 0.04,
+            targetVx: (Math.random() - 0.5) * 1.5, targetVy: (Math.random() - 0.5) * 1.5
+          });
+        }
+      } else if (themeKey === 'cyber') {
+        for (let i = 0; i < 60; i++) {
+          list.push({
+            x: Math.random() * W, y: Math.random() * H,
+            vy: 1.5 + Math.random() * 3, alpha: 0.2 + Math.random() * 0.5,
+            char: ['0', '1', 'X', 'M', '4', 'U', '▲', '■'][Math.floor(Math.random() * 8)],
+            color: Math.random() > 0.5 ? '#00ffcc' : '#ff007f'
+          });
+        }
+      } else if (themeKey === 'sakura') {
+        for (let i = 0; i < 50; i++) {
+          list.push({
+            x: Math.random() * W, y: Math.random() * H,
+            rx: 4 + Math.random() * 5, ry: 2 + Math.random() * 3,
+            vy: 1 + Math.random() * 1.8, vx: 1 + Math.random() * 1.5,
+            rot: Math.random() * Math.PI * 2, rotSpeed: 0.01 + Math.random() * 0.02,
+            flutter: Math.random() * Math.PI, flutterSpeed: 0.02 + Math.random() * 0.03,
+            alpha: 0.35 + Math.random() * 0.45
+          });
+        }
+      } else if (themeKey === 'frost') {
+        for (let i = 0; i < 75; i++) {
+          list.push({
+            x: Math.random() * W, y: Math.random() * H,
+            r: 1.2 + Math.random() * 3, vy: 0.8 + Math.random() * 1.8, vx: (Math.random() - 0.5) * 0.8,
+            rot: Math.random() * Math.PI * 2, rotSpeed: 0.01 + Math.random() * 0.03,
+            alpha: 0.25 + Math.random() * 0.55
+          });
+        }
+      }
+      return list;
+    }
+
+    function spawnThemeParticles(themeKey, crossDissolve = true) {
+      if (crossDissolve && particles.length > 0) {
+        outgoingParticles = particles.slice(0, 40);
+        outgoingAlpha = 1.0;
+      } else {
+        outgoingParticles = [];
+        outgoingAlpha = 0;
+      }
+      particles = createParticleSet(themeKey);
+      meteors = [];
+      ripples = [];
+      shockwaves = [];
+      activeLightningBolts = [];
+    }
+
+    
+    let activeLightningBolts = [];
+    let lastLightningTime = 0;
+
+    function generateLightningSegments(x1, y1, x2, y2, depth) {
+      const segs = [];
+      function buildBranch(bx1, by1, bx2, by2, curDepth) {
+        if (curDepth <= 0) return;
+        const dx = bx2 - bx1, dy = by2 - by1;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const steps = Math.max(5, Math.floor(dist / 34));
+        const pts = [{ x: bx1, y: by1 }];
+        for (let i = 1; i < steps; i++) {
+          const t = i / steps;
+          pts.push({
+            x: bx1 + dx * t + (Math.random() - 0.5) * dist * 0.32,
+            y: by1 + dy * t + (Math.random() - 0.5) * dist * 0.12
+          });
+        }
+        pts.push({ x: bx2, y: by2 });
+        segs.push(pts);
+
+        if (curDepth > 1) {
+          const splitIdx = Math.floor(pts.length * (0.3 + Math.random() * 0.4));
+          const sp = pts[splitIdx];
+          const angle = Math.atan2(dy, dx) + (Math.random() - 0.5) * 1.4;
+          const branchLen = dist * (0.2 + Math.random() * 0.3);
+          buildBranch(sp.x, sp.y, sp.x + Math.cos(angle) * branchLen, sp.y + Math.sin(angle) * branchLen, curDepth - 1);
+        }
+      }
+      buildBranch(x1, y1, x2, y2, depth);
+      return segs;
+    }
+
+    function triggerLightningEffect() {
+      if (currentThemeKey !== 'storm' && currentThemeKey !== 'rain') return;
+      const now = performance.now();
+      if (now - lastLightningTime < 2200) return; 
+      lastLightningTime = now;
+
+      const W = window.innerWidth, H = window.innerHeight;
+      const sx = W * (0.15 + Math.random() * 0.7);
+      const ex = sx + (Math.random() - 0.5) * W * 0.4;
+      const ey = H * (0.35 + Math.random() * 0.45);
+
+      
+      if (activeLightningBolts.length > 2) activeLightningBolts.shift();
+      activeLightningBolts.push({
+        startTime: now,
+        duration: 240,
+        segments: generateLightningSegments(sx, 0, ex, ey, 2)
+      });
+      scheduleNextLightning();
+    }
+
+    function scheduleNextLightning() {
+      clearTimeout(lightningTimer);
+      if (currentThemeKey === 'storm' || currentThemeKey === 'rain') {
+        lightningTimer = setTimeout(triggerLightningEffect, 5000 + Math.random() * 6000);
+      }
+    }
+
+    
+    let currentBassPulse = 0;
+    let prevBassPulse = 0;
+    let beatBaseline = 0.20;
+    let currentBeatStrength = 0;
+    let isBeatHit = false;
+    let lastBeatTime = 0;
+    let currentSubBass = 0;
+    let currentLowMid = 0;
+    let currentMidEnergy = 0;
+    let currentHighEnergy = 0;
+    let currentOverallEnergy = 0;
+    let ringRotation = 0;
+    let lastLightningBeatTime = 0;
+
+    
+    let domElementsCached = false;
+    let cachedCyberChars = [];
+    let cachedCyberName = null;
+    let cachedAvRing = null;
+    let cachedAvWave = null;
+    let cachedAvatarWrap = null;
+    let cachedCoverWrap = null;
+    let cachedAudioCard = null;
+    let cachedBottomGlow = null;
+    let cachedEqSpans = [];
+    let charsResting = false;
+
+    function initRenderFrameCache() {
+      cachedCyberChars = Array.from(document.querySelectorAll('.cyber-char'));
+      cachedCyberName = document.getElementById('cyberName');
+      cachedAvRing = document.getElementById('avatarRing');
+      cachedAvWave = document.getElementById('avatarVisualizerWave');
+      cachedAvatarWrap = document.querySelector('.avatar-wrap');
+      cachedCoverWrap = document.getElementById('coverWrap');
+      cachedAudioCard = document.querySelector('.audio-card');
+      cachedBottomGlow = document.querySelector('.bottom-glow');
+      const eq = document.getElementById('eqBars');
+      cachedEqSpans = eq ? Array.from(eq.querySelectorAll('span')) : [];
+      domElementsCached = true;
+    }
+
+    function renderFrame() {
+      if (!domElementsCached) initRenderFrameCache();
+      const W = window.innerWidth, H = window.innerHeight;
+      ctx.clearRect(0, 0, W, H);
+
+      
+      const activeTheme = THEMES[currentThemeKey] || THEMES.storm;
+      let targetBass = 0;
+      const isPlaying = !audio.paused && audio.currentTime > 0 && !audio.ended;
+
+      if (isPlaying) {
+        let hasRealFFT = false;
+        let instBass = 0;
+        let rawSub = 0;
+        let rawBassPunch = 0;
+        let rawLowMid = 0;
+        let rawMid = 0;
+        let rawHi = 0;
+
+        
+        if (analyser && dataArray) {
+          try {
+            analyser.getByteFrequencyData(dataArray);
+
+            
+            if (dataArray[0] > 0 || dataArray[1] > 0 || dataArray[2] > 0 || dataArray[5] > 0) {
+              hasRealFFT = true;
+            }
+
+            
+            rawSub = Math.min(1.0, ((dataArray[0] * 1.3 + dataArray[1] * 0.9) / 2.2) / 255.0);
+
+            
+            rawBassPunch = Math.min(1.0, ((dataArray[1] * 0.7 + dataArray[2] * 1.3 + dataArray[3] * 0.6) / 2.6) / 255.0);
+
+            
+            instBass = Math.min(1.0, rawSub * 0.60 + rawBassPunch * 0.40);
+
+            
+            let lmSum = 0;
+            for (let i = 3; i <= 6; i++) lmSum += (dataArray[i] || 0);
+            rawLowMid = Math.min(1.0, (lmSum / 4) / 255.0);
+
+            
+            let mSum = 0;
+            for (let i = 7; i <= 23; i++) mSum += (dataArray[i] || 0);
+            rawMid = Math.min(1.0, (mSum / 17) / 255.0);
+
+            
+            let hSum = 0;
+            for (let i = 24; i <= 92; i++) hSum += (dataArray[i] || 0);
+            rawHi = Math.min(1.0, (hSum / 69) / 255.0);
+          } catch (e) { }
+        }
+
+        const now = performance.now();
+
+        if (hasRealFFT) {
+          
+          if (instBass > beatBaseline) {
+            beatBaseline += (instBass - beatBaseline) * 0.014;
+          } else {
+            beatBaseline += (instBass - beatBaseline) * 0.045;
+          }
+
+          
+          const kickDelta = instBass - beatBaseline;
+
+          
+          if (kickDelta > 0.075 && instBass > 0.12 && (now - lastBeatTime > 110)) {
+            isBeatHit = true;
+            lastBeatTime = now;
+            currentBeatStrength = Math.min(1.0, 0.45 + kickDelta * 2.6);
+          } else {
+            isBeatHit = false;
+            currentBeatStrength *= 0.88;
+            if (currentBeatStrength < 0.01) currentBeatStrength = 0;
+          }
+
+          
+          currentSubBass += (rawSub - currentSubBass) * 0.45;
+          currentLowMid += (rawLowMid - currentLowMid) * 0.40;
+          currentMidEnergy += (rawMid - currentMidEnergy) * 0.40;
+          currentHighEnergy += (rawHi - currentHighEnergy) * 0.40;
+          currentOverallEnergy = (currentSubBass * 0.35 + currentLowMid * 0.25 + currentMidEnergy * 0.25 + currentHighEnergy * 0.15);
+
+          
+          const liveBass = Math.min(1.0, instBass * 0.35 + currentBeatStrength * 0.65);
+          targetBass = liveBass;
+        } else {
+          
+          const fallbackBass = getRealTrackBass(currentThemeKey, audio.currentTime);
+          const kickDelta = fallbackBass - beatBaseline;
+          beatBaseline += (fallbackBass - beatBaseline) * 0.02;
+
+          if (kickDelta > 0.08 && fallbackBass > 0.15 && (now - lastBeatTime > 130)) {
+            isBeatHit = true;
+            lastBeatTime = now;
+            currentBeatStrength = Math.min(1.0, 0.5 + kickDelta * 2.0);
+          } else {
+            isBeatHit = false;
+            currentBeatStrength *= 0.88;
+          }
+
+          currentSubBass = fallbackBass * 0.85;
+          currentLowMid = fallbackBass * 0.65;
+          currentMidEnergy = fallbackBass * 0.45;
+          currentHighEnergy = fallbackBass * 0.35;
+          currentOverallEnergy = fallbackBass * 0.6;
+          targetBass = Math.min(1.0, fallbackBass * 0.4 + currentBeatStrength * 0.6);
+        }
+
+        
+        const volScale = Math.max(0.20, audio.volume);
+        const intensity = activeTheme.bassIntensity || 0.85;
+        targetBass = Math.min(1.0, targetBass * volScale * intensity);
+      } else {
+        targetBass = 0;
+        beatBaseline = 0.20;
+        currentBeatStrength = 0;
+        isBeatHit = false;
+        currentSubBass *= 0.82;
+        currentLowMid *= 0.82;
+        currentMidEnergy *= 0.82;
+        currentHighEnergy *= 0.82;
+        currentOverallEnergy *= 0.82;
+      }
+
+      
+      if (targetBass > currentBassPulse) {
+        currentBassPulse += (targetBass - currentBassPulse) * 0.75;
+      } else {
+        currentBassPulse += (targetBass - currentBassPulse) * 0.20;
+      }
+
+      
+      const vibeIntensity = activeTheme.bassIntensity || 0.85;
+
+      
+      if (activeTheme.glow) {
+        const bgAlpha = isPlaying ? Math.min(0.26, (0.04 + currentBassPulse * 0.12 * vibeIntensity + currentBeatStrength * 0.08)).toFixed(3) : '0.04';
+        const bgGrad = ctx.createRadialGradient(W * 0.5, H * 0.45, 10, W * 0.5, H * 0.45, Math.max(W, H) * (0.65 + currentBeatStrength * 0.18));
+        bgGrad.addColorStop(0, activeTheme.glow.replace(/[\d\.]+\)$/, `${bgAlpha})`));
+        bgGrad.addColorStop(1, 'transparent');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      const bottomGlow = cachedBottomGlow;
+      if (bottomGlow) {
+        const bgOpacity = isPlaying ? Math.min(1.0, 0.40 + currentBassPulse * 0.50 + currentBeatStrength * 0.20) : 0.40;
+        bottomGlow.style.opacity = bgOpacity.toFixed(2);
+      }
+      
+      
+      const avRing = cachedAvRing;
+      const avWave = cachedAvWave;
+      ringRotation = (ringRotation + 0.65 + currentBassPulse * 0.60) % 360;
+
+      if (avRing) {
+        const ringScale = 1 + (currentBassPulse * 0.22 * vibeIntensity) + (currentBeatStrength * 0.12);
+        avRing.style.transform = `rotate(${ringRotation.toFixed(1)}deg) scale(${ringScale.toFixed(3)})`;
+        avRing.style.boxShadow = `0 0 ${Math.round(20 + currentBassPulse * 52 + currentBeatStrength * 28)}px ${activeTheme.glow}`;
+      }
+      if (avWave) {
+        
+        const waveScale = 1 + (currentBassPulse * 0.40 * vibeIntensity) + (currentBeatStrength * 0.22);
+        const waveOpacity = Math.min(1.0, currentBassPulse * 0.85 * vibeIntensity + currentBeatStrength * 0.35);
+        avWave.style.transform = `scale(${waveScale.toFixed(3)})`;
+        avWave.style.opacity = waveOpacity.toFixed(2);
+        avWave.style.borderColor = activeTheme.primary;
+        avWave.style.boxShadow = `0 0 ${Math.round(16 + currentBassPulse * 45 + currentBeatStrength * 30)}px ${activeTheme.glow}`;
+      }
+
+      
+      const avWrap = cachedAvatarWrap;
+      if (avWrap && isPlaying && (currentBassPulse > 0.08 || currentBeatStrength > 0.10)) {
+        const rect = avWrap.getBoundingClientRect();
+        const cX = rect.left + rect.width / 2;
+        const cY = rect.top + rect.height / 2;
+        const baseRadius = (rect.width / 2) + 8;
+        const barCount = 48;
+        const angleStep = (Math.PI * 2) / barCount;
+        ctx.save();
+        for (let i = 0; i < barCount; i++) {
+          const angle = i * angleStep + (ringRotation * Math.PI / 180);
+          let barVal = 0;
+          if (dataArray && dataArray.length > 0) {
+            const binIdx = Math.floor((i % (barCount / 2)) * (28 / (barCount / 2)));
+            barVal = (dataArray[binIdx] || 0) / 255.0;
+          } else {
+            barVal = currentBassPulse * (0.6 + 0.4 * Math.sin(i * 0.6));
+          }
+          const barLen = Math.max(3, barVal * (20 * vibeIntensity + currentBeatStrength * 16));
+          const r1 = baseRadius + 2;
+          const r2 = r1 + barLen;
+          const x1 = cX + Math.cos(angle) * r1;
+          const y1 = cY + Math.sin(angle) * r1;
+          const x2 = cX + Math.cos(angle) * r2;
+          const y2 = cY + Math.sin(angle) * r2;
+
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.strokeStyle = activeTheme.primary;
+          ctx.lineWidth = 2.2;
+          ctx.globalAlpha = Math.min(0.92, 0.35 + barVal * 0.65 + currentBeatStrength * 0.25);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      
+      const cyberChars = cachedCyberChars;
+      const cNameEl = cachedCyberName;
+      if (cyberChars.length > 0) {
+        if (!isPlaying || (currentBassPulse < 0.05 && currentBeatStrength < 0.05)) {
+          
+          if (!charsResting) {
+            charsResting = true;
+            if (cNameEl) {
+              cNameEl.style.transform = 'scale(1)';
+            }
+            cyberChars.forEach((charEl) => {
+              charEl.style.setProperty('--jitter-x', '0px');
+              charEl.style.setProperty('--jitter-y', '0px');
+              charEl.style.setProperty('--split-opacity', '0');
+              charEl.style.setProperty('--split-x1', '-1.5px');
+              charEl.style.setProperty('--split-x2', '1.5px');
+              charEl.style.setProperty('--char-filter', 'none');
+              charEl.style.textShadow = '';
+            });
+          }
+        } else {
+          charsResting = false;
+          
+          if (cNameEl) {
+            const logoScale = 1 + (currentBassPulse * 0.08 * vibeIntensity) + (currentBeatStrength * 0.05);
+            cNameEl.style.transform = `scale(${logoScale.toFixed(3)})`;
+          }
+
+          const t = audio.currentTime;
+          const pulse = currentBassPulse;
+          const beat = currentBeatStrength;
+          const energy = Math.max(pulse, beat);
+          const themeKey = currentThemeKey;
+
+          cyberChars.forEach((charEl, idx) => {
+            const charFreq = 22.0 + (idx * 3.5);
+            const charPhase = (t * charFreq) + (idx * 2.1);
+            const n1 = Math.sin(charPhase);
+            const n2 = Math.cos(charPhase * 1.3 + idx);
+
+            let jX = 0, jY = 0, sOpacity = 0, sX1 = -1.5, sX2 = 1.5, filter = 'none';
+
+            if (themeKey === 'storm') {
+              
+              jX = (n1 * (1.6 + pulse * 3.2 + beat * 2.2)).toFixed(1);
+              jY = (n2 * (0.8 + pulse * 1.5 + beat * 1.0)).toFixed(1);
+              sOpacity = Math.min(1.0, 0.25 + pulse * 0.65 + beat * 0.45).toFixed(2);
+              sX1 = (- (2.2 + pulse * 3.4 + beat * 2.2)).toFixed(1);
+              sX2 = (2.2 + pulse * 3.4 + beat * 2.2).toFixed(1);
+              if (pulse > 0.35 || beat > 0.40) {
+                filter = 'brightness(1.6) drop-shadow(0 0 14px #00d2ff) drop-shadow(0 0 28px rgba(56,189,248,0.85))';
+              }
+              charEl.style.textShadow = `0 0 ${Math.round(14 + pulse * 36 + beat * 26)}px #ffffff, 0 0 ${Math.round(24 + pulse * 52 + beat * 34)}px #00d2ff, 0 0 ${Math.round(45 + pulse * 68 + beat * 45)}px rgba(56,189,248,0.85)`;
+            } else if (themeKey === 'rain') {
+              
+              jY = (Math.sin(t * 7.0 + idx * 1.4) * (0.8 + pulse * 2.5 + beat * 1.4)).toFixed(1);
+              sOpacity = Math.min(0.85, 0.20 + pulse * 0.50 + beat * 0.32).toFixed(2);
+              sX1 = (- (1.6 + pulse * 2.0)).toFixed(1);
+              sX2 = (1.6 + pulse * 2.0).toFixed(1);
+              if (pulse > 0.36) {
+                filter = 'brightness(1.4) drop-shadow(0 0 10px #38bdf8)';
+              }
+              charEl.style.textShadow = `0 0 ${Math.round(12 + pulse * 30 + beat * 22)}px #38bdf8, 0 0 ${Math.round(24 + pulse * 45 + beat * 28)}px rgba(14,165,233,0.8)`;
+            } else if (themeKey === 'cyber') {
+              
+              jX = (n1 * (1.6 + pulse * 3.5 + beat * 2.6)).toFixed(1);
+              jY = (n2 * 0.5 * (pulse + beat)).toFixed(1);
+              sOpacity = Math.min(1.0, 0.35 + pulse * 0.55 + beat * 0.45).toFixed(2);
+              sX1 = (- (2.8 + pulse * 3.0 + beat * 2.2)).toFixed(1);
+              sX2 = (2.8 + pulse * 3.0 + beat * 2.2).toFixed(1);
+              if (pulse > 0.38 || beat > 0.45) {
+                filter = 'contrast(1.45) hue-rotate(45deg) drop-shadow(0 0 14px #00ffcc)';
+              }
+              charEl.style.textShadow = `0 0 ${Math.round(14 + pulse * 34 + beat * 26)}px #00ffcc, 0 0 ${Math.round(26 + pulse * 50 + beat * 32)}px rgba(0,255,204,0.85), 0 0 ${Math.round(40 + pulse * 55)}px rgba(255,0,127,0.6)`;
+            } else if (themeKey === 'ambient') {
+              
+              const breath = Math.sin(t * 3.0 + idx * 0.9);
+              jY = (breath * (1.2 + pulse * 2.2 + beat * 1.2)).toFixed(1);
+              sOpacity = Math.min(0.80, 0.20 + pulse * 0.42 + beat * 0.28).toFixed(2);
+              sX1 = (- (1.6 + pulse * 1.8)).toFixed(1);
+              sX2 = (1.6 + pulse * 1.8).toFixed(1);
+              if (pulse > 0.34) {
+                filter = `brightness(${(1.0 + pulse * 0.48).toFixed(2)}) drop-shadow(0 0 14px #a78bfa)`;
+              }
+              charEl.style.textShadow = `0 0 ${Math.round(14 + pulse * 32 + beat * 22)}px #a78bfa, 0 0 ${Math.round(25 + pulse * 48 + beat * 30)}px rgba(167,139,250,0.85), 0 0 ${Math.round(42 + pulse * 60)}px rgba(251,191,36,0.45)`;
+            } else if (themeKey === 'night') {
+              
+              jY = (Math.sin(t * 4.0 + idx * 1.1) * (1.4 + pulse * 2.8 + beat * 1.5)).toFixed(1);
+              sOpacity = Math.min(0.88, 0.25 + pulse * 0.50 + beat * 0.35).toFixed(2);
+              sX1 = (- (2.0 + pulse * 2.4 + beat * 1.6)).toFixed(1);
+              sX2 = (2.0 + pulse * 2.4 + beat * 1.6).toFixed(1);
+              if (pulse > 0.35) {
+                filter = 'brightness(1.4) drop-shadow(0 0 12px #10b981)';
+              }
+              charEl.style.textShadow = `0 0 ${Math.round(14 + pulse * 34 + beat * 24)}px #10b981, 0 0 ${Math.round(26 + pulse * 50 + beat * 32)}px rgba(139,92,246,0.85)`;
+            } else if (themeKey === 'bass') {
+              
+              jX = (n1 * (2.0 + pulse * 4.2 + beat * 3.2)).toFixed(1);
+              jY = (n2 * (1.0 + pulse * 2.4 + beat * 1.6)).toFixed(1);
+              sOpacity = Math.min(1.0, 0.45 + pulse * 0.55 + beat * 0.45).toFixed(2);
+              sX1 = (- (3.2 + pulse * 3.8 + beat * 2.8)).toFixed(1);
+              sX2 = (3.2 + pulse * 3.8 + beat * 2.8).toFixed(1);
+              if (pulse > 0.35 || beat > 0.45) {
+                filter = 'contrast(1.45) brightness(1.4) drop-shadow(0 0 16px #ff0055)';
+              }
+              charEl.style.textShadow = `0 0 ${Math.round(16 + pulse * 40 + beat * 30)}px #00f0ff, 0 0 ${Math.round(32 + pulse * 58 + beat * 40)}px #ff0055`;
+            } else if (themeKey === 'ocean') {
+              
+              jY = (Math.cos(t * 3.4 + idx * 0.8) * (1.3 + pulse * 2.6)).toFixed(1);
+              jX = (Math.sin(t * 2.4 + idx * 0.6) * (0.9 + pulse * 1.8)).toFixed(1);
+              sOpacity = Math.min(0.85, 0.22 + pulse * 0.45 + beat * 0.30).toFixed(2);
+              sX1 = (- (1.8 + pulse * 2.2)).toFixed(1);
+              sX2 = (1.8 + pulse * 2.2).toFixed(1);
+              if (pulse > 0.35) {
+                filter = 'brightness(1.4) drop-shadow(0 0 12px #00f2fe)';
+              }
+              charEl.style.textShadow = `0 0 ${Math.round(14 + pulse * 32 + beat * 22)}px #00f2fe, 0 0 ${Math.round(26 + pulse * 48 + beat * 30)}px rgba(2,132,199,0.85)`;
+            } else if (themeKey === 'fire') {
+              
+              jY = (Math.sin(t * 22.0 + idx * 4.2) * (0.8 + pulse * 2.5 + beat * 1.8)).toFixed(1);
+              sOpacity = Math.min(1.0, 0.32 + pulse * 0.55 + beat * 0.40).toFixed(2);
+              sX1 = (- (2.2 + pulse * 2.6 + beat * 2.0)).toFixed(1);
+              sX2 = (2.2 + pulse * 2.6 + beat * 2.0).toFixed(1);
+              if (pulse > 0.34 || beat > 0.42) {
+                filter = 'brightness(1.6) drop-shadow(0 0 14px #ff4500) drop-shadow(0 0 24px #ff8c00)';
+              }
+              charEl.style.textShadow = `0 0 ${Math.round(16 + pulse * 36 + beat * 26)}px #ff4500, 0 0 ${Math.round(28 + pulse * 54 + beat * 35)}px #ff8c00`;
+            } else if (themeKey === 'sakura') {
+              
+              jX = (Math.sin(t * 3.6 + idx * 1.2) * (1.1 + pulse * 2.2)).toFixed(1);
+              jY = (Math.cos(t * 3.0 + idx * 1.0) * (0.7 + pulse * 1.6)).toFixed(1);
+              sOpacity = Math.min(0.82, 0.20 + pulse * 0.42 + beat * 0.28).toFixed(2);
+              sX1 = (- (1.6 + pulse * 1.8)).toFixed(1);
+              sX2 = (1.6 + pulse * 1.8).toFixed(1);
+              if (pulse > 0.35) {
+                filter = 'brightness(1.35) drop-shadow(0 0 10px #ff758c)';
+              }
+              charEl.style.textShadow = `0 0 ${Math.round(13 + pulse * 30 + beat * 22)}px #ff758c, 0 0 ${Math.round(24 + pulse * 46 + beat * 28)}px rgba(244,114,182,0.85)`;
+            } else if (themeKey === 'frost') {
+              
+              jX = (Math.sign(n1) * (1.6 + pulse * 2.8 + beat * 2.2)).toFixed(1);
+              sOpacity = Math.min(1.0, 0.35 + pulse * 0.52 + beat * 0.40).toFixed(2);
+              sX1 = (- (2.6 + pulse * 2.8 + beat * 2.0)).toFixed(1);
+              sX2 = (2.6 + pulse * 2.8 + beat * 2.0).toFixed(1);
+              if (pulse > 0.35 || beat > 0.42) {
+                filter = 'brightness(1.6) drop-shadow(0 0 14px #38bdf8)';
+              }
+              charEl.style.textShadow = `0 0 ${Math.round(14 + pulse * 32 + beat * 24)}px #38bdf8, 0 0 ${Math.round(26 + pulse * 50 + beat * 32)}px rgba(125,211,252,0.85)`;
+            } else if (themeKey === 'rainbow') {
+              
+              jX = (n1 * (1.6 + pulse * 2.8 + beat * 2.0)).toFixed(1);
+              sOpacity = Math.min(1.0, 0.38 + pulse * 0.50 + beat * 0.40).toFixed(2);
+              sX1 = (- (2.8 + pulse * 3.0 + beat * 2.2)).toFixed(1);
+              sX2 = (2.8 + pulse * 3.0 + beat * 2.2).toFixed(1);
+              filter = `hue-rotate(${Math.round((t * 85 + idx * 35) % 360)}deg)`;
+              const hue = Math.round((t * 55 + idx * 30) % 360);
+              charEl.style.textShadow = `0 0 ${Math.round(15 + pulse * 34 + beat * 24)}px hsl(${hue}, 100%, 65%), 0 0 ${Math.round(28 + pulse * 52 + beat * 32)}px hsl(${(hue+60)%360}, 100%, 55%)`;
+            } else if (themeKey === 'fireflies') {
+              
+              const lantern = (Math.sin(t * 4.2 + idx * 1.3) * 0.5 + 0.5);
+              jY = (Math.sin(t * 2.6 + idx * 0.8) * (0.8 + pulse * 1.8)).toFixed(1);
+              sOpacity = Math.min(0.85, 0.18 + lantern * 0.38 * pulse + beat * 0.30).toFixed(2);
+              sX1 = (- (1.5 + pulse * 1.6)).toFixed(1);
+              sX2 = (1.5 + pulse * 1.6).toFixed(1);
+              filter = `brightness(${(1.0 + lantern * 0.50 * (pulse + beat * 0.5)).toFixed(2)}) drop-shadow(0 0 12px #fbbf24)`;
+              charEl.style.textShadow = `0 0 ${Math.round(13 + pulse * 32 + beat * 22)}px #fbbf24, 0 0 ${Math.round(25 + pulse * 48 + beat * 30)}px rgba(52,211,153,0.85)`;
+            }
+
+            charEl.style.setProperty('--jitter-x', `${jX}px`);
+            charEl.style.setProperty('--jitter-y', `${jY}px`);
+            charEl.style.setProperty('--split-x1', `${sX1}px`);
+            charEl.style.setProperty('--split-x2', `${sX2}px`);
+            charEl.style.setProperty('--split-opacity', `${sOpacity}`);
+            charEl.style.setProperty('--char-filter', filter);
+          });
+        }
+      }
+
+      
+      const coverWrap = cachedCoverWrap;
+      if (coverWrap) {
+        const cScale = 1 + (currentBassPulse * 0.08 * vibeIntensity) + (currentBeatStrength * 0.05);
+        coverWrap.style.transform = `scale(${cScale.toFixed(3)})`;
+        coverWrap.style.boxShadow = `0 12px ${Math.round(20 + currentBassPulse * 45 + currentBeatStrength * 25)}px ${activeTheme.glow}`;
+      }
+
+      
+      const audioCard = cachedAudioCard;
+      if (audioCard) {
+        const cardScale = 1 + (currentBassPulse * 0.015 * vibeIntensity) + (currentBeatStrength * 0.008);
+        audioCard.style.transform = `scale(${cardScale.toFixed(4)})`;
+        audioCard.style.boxShadow = `0 16px 48px rgba(0,0,0,0.5), 0 0 ${Math.round(14 + currentBassPulse * 32 + currentBeatStrength * 20)}px ${activeTheme.glow}`;
+      }
+
+      
+      const spans = cachedEqSpans;
+      if (spans && spans.length >= 4) {
+        if (!isPlaying) {
+          spans.forEach(s => { s.style.height = '4px'; s.style.opacity = '0.35'; });
+        } else {
+          
+          const h1 = Math.min(26, Math.max(4, 4 + currentSubBass * 22));
+          
+          const h2 = Math.min(28, Math.max(5, 5 + Math.max(currentBassPulse, currentBeatStrength) * 23));
+          
+          const h3 = Math.min(24, Math.max(4, 4 + currentMidEnergy * 20));
+          
+          const h4 = Math.min(22, Math.max(4, 4 + currentHighEnergy * 18));
+
+          spans[0].style.height = `${Math.round(h1)}px`;
+          spans[1].style.height = `${Math.round(h2)}px`;
+          spans[2].style.height = `${Math.round(h3)}px`;
+          spans[3].style.height = `${Math.round(h4)}px`;
+          spans.forEach(s => s.style.opacity = `${(0.70 + currentBassPulse * 0.30).toFixed(2)}`);
+        }
+      }
+
+      
+      if (outgoingAlpha > 0.01 && outgoingParticles.length > 0) {
+        outgoingAlpha *= 0.93;
+        ctx.globalAlpha = outgoingAlpha;
+        for (let p of outgoingParticles) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, (p.r || 2), 0, Math.PI * 2);
+          ctx.fillStyle = p.color || 'rgba(180,220,255,0.4)';
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1.0;
+      }
+
+      
+      if (currentThemeKey === 'storm') {
+        const stormVibe = currentBassPulse * 0.7 + currentBeatStrength * 0.3;
+        ctx.strokeStyle = `rgba(180,220,255,${0.22 + stormVibe * 0.32})`;
+        ctx.lineWidth = 1.2 + stormVibe * 1.0;
+        for (let p of particles) {
+          p.x += p.vx * (1 + stormVibe * 0.6);
+          p.y += p.vy * (1 + stormVibe * 0.8);
+          if (p.y > H) { p.y = -p.len; p.x = Math.random() * W; }
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p.x + p.vx * (1 + stormVibe * 0.6), p.y + p.len * (1 + stormVibe * 0.5));
+          ctx.stroke();
+        }
+        
+        const now = performance.now();
+        if (isPlaying && isBeatHit && currentBassPulse > 0.60 && currentBeatStrength > 0.50 && (now - lastLightningBeatTime > 900)) {
+          lastLightningBeatTime = now;
+          triggerLightningEffect();
+        }
+      } else if (currentThemeKey === 'ocean') {
+        const oceanVibe = currentBassPulse * 0.65 + currentBeatStrength * 0.35;
+        for (let p of particles) {
+          p.t += p.wobbleSpeed * (1 + oceanVibe * 0.9);
+          p.y += p.vy * (1 + oceanVibe * 0.85);
+          const xOffset = Math.sin(p.t) * (p.wobbleDist * (1 + oceanVibe * 0.6));
+          if (p.y < -20) { p.y = H + 20; p.x = Math.random() * W; }
+          ctx.beginPath();
+          ctx.arc(p.x + xOffset, p.y, p.r * (1 + oceanVibe * 0.5), 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(${p.hue}, 90%, 65%, ${p.alpha * (0.4 + oceanVibe * 0.4)})`;
+          ctx.shadowBlur = 10 + oceanVibe * 18;
+          ctx.shadowColor = 'rgba(0,242,254,0.7)';
+          ctx.fill();
+          ctx.strokeStyle = `hsla(${p.hue}, 100%, 80%, ${p.alpha})`;
+          ctx.lineWidth = 1 + oceanVibe * 0.9;
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+        }
+      } else if (currentThemeKey === 'rain') {
+        const rainVibe = currentBassPulse * 0.65 + currentBeatStrength * 0.35;
+        ctx.strokeStyle = `rgba(160,210,255,${0.25 + rainVibe * 0.35})`;
+        ctx.lineWidth = 1.1 + rainVibe * 0.8;
+        for (let p of particles) {
+          p.x += p.vx;
+          p.y += p.vy * (1 + rainVibe * 0.75);
+          if (p.y > H) {
+            p.y = -p.len; p.x = Math.random() * W;
+            if ((Math.random() < 0.2 + rainVibe * 0.4) && ripples.length < 25) {
+              ripples.push({ x: p.x, y: H - Math.random() * 40, r: 1, maxR: 14 + rainVibe * 26, alpha: 0.5 + rainVibe * 0.45 });
+            }
+          }
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p.x + p.vx * 1.5, p.y + p.len * (1 + rainVibe * 0.45));
+          ctx.stroke();
+        }
+        
+        if (isBeatHit && currentBeatStrength > 0.45 && ripples.length < 25) {
+          ripples.push({ x: Math.random() * W, y: H - Math.random() * 50, r: 2, maxR: 20 + currentBeatStrength * 30, alpha: 0.8 });
+        }
+        for (let i = ripples.length - 1; i >= 0; i--) {
+          const r = ripples[i];
+          r.r += 0.8 + rainVibe * 1.5;
+          r.alpha -= 0.02;
+          if (r.alpha <= 0) { ripples.splice(i, 1); continue; }
+          ctx.beginPath();
+          ctx.ellipse(r.x, r.y, r.r * 2, r.r, 0, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(180,225,255,${r.alpha})`;
+          ctx.lineWidth = 1 + rainVibe * 0.9;
+          ctx.stroke();
+        }
+      } else if (currentThemeKey === 'rainbow') {
+        const rainbowVibe = currentBassPulse * 0.6 + currentBeatStrength * 0.4;
+        for (let p of particles) {
+          p.x += p.vx * (1 + rainbowVibe * 0.7);
+          p.y += p.vy * (1 + rainbowVibe * 0.7);
+          p.hue = (p.hue + p.hueSpeed * (1 + rainbowVibe * 1.8)) % 360;
+          p.pulse += 0.05 + rainbowVibe * 0.08;
+          if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+          if (p.x < -10) p.x = W + 10;
+          if (p.x > W + 10) p.x = -10;
+
+          const currentR = p.r * (0.8 + 0.3 * Math.sin(p.pulse)) * (1 + rainbowVibe * 0.65);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, currentR, 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(${p.hue}, 95%, 65%, ${p.alpha * (0.8 + rainbowVibe * 0.45)})`;
+          ctx.shadowBlur = 12 + rainbowVibe * 22;
+          ctx.shadowColor = `hsla(${p.hue}, 100%, 70%, 0.8)`;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+      } else if (currentThemeKey === 'ambient') {
+        const ambientVibe = currentBassPulse * 0.65 + currentBeatStrength * 0.35;
+        for (let p of particles) {
+          p.x += p.vx * (1 + ambientVibe * 0.65);
+          p.y += p.vy * (1 + ambientVibe * 0.65);
+          p.pulse += 0.03 + ambientVibe * 0.05;
+          if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+          if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+          const alpha = Math.min(1, p.alpha * (0.6 + 0.4 * Math.sin(p.pulse) + ambientVibe * 0.55));
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * (1 + ambientVibe * 0.8), 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = alpha;
+          ctx.shadowBlur = 10 + ambientVibe * 18;
+          ctx.shadowColor = p.color;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          ctx.globalAlpha = 1.0;
+        }
+      } else if (currentThemeKey === 'night') {
+        
+        const nightVibe = currentBassPulse * 0.65 + currentBeatStrength * 0.35;
+        const time = performance.now() * 0.001;
+        ctx.save();
+        const grad = ctx.createLinearGradient(0, 0, W, H * (0.45 + nightVibe * 0.18));
+        grad.addColorStop(0, 'rgba(16, 185, 129, 0)');
+        grad.addColorStop(0.4, `rgba(16, 185, 129, ${0.18 + nightVibe * 0.25})`);
+        grad.addColorStop(0.7, `rgba(139, 92, 246, ${0.20 + nightVibe * 0.28})`);
+        grad.addColorStop(1, 'rgba(139, 92, 246, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(0, H * 0.15);
+        const waveAmp1 = 35 + nightVibe * 42;
+        const waveAmp2 = 20 + nightVibe * 28;
+        for (let x = 0; x <= W; x += 35) {
+          const y = H * 0.2 + Math.sin(x * 0.003 + time * 0.8) * waveAmp1 + Math.cos(x * 0.005 + time * 0.5) * waveAmp2;
+          ctx.lineTo(x, y);
+        }
+        ctx.lineTo(W, 0); ctx.lineTo(0, 0);
+        ctx.fill();
+        ctx.restore();
+
+        
+        for (let p of particles) {
+          p.pulse += p.pulseSpeed + nightVibe * 0.06;
+          const a = Math.min(1, p.alpha * (0.4 + 0.6 * Math.sin(p.pulse) + nightVibe * 0.55));
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * (1 + nightVibe * 0.45), 0, Math.PI * 2);
+          ctx.fillStyle = '#fff';
+          ctx.globalAlpha = a;
+          ctx.shadowBlur = nightVibe > 0.35 ? 10 : 0;
+          ctx.shadowColor = '#8b5cf6';
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          ctx.globalAlpha = 1.0;
+        }
+      } else if (currentThemeKey === 'bass') {
+        
+        const bassNorm = currentBassPulse;
+        const beatNorm = currentBeatStrength;
+        const totalBassVibe = bassNorm * 0.65 + beatNorm * 0.35;
+        const av = document.querySelector('.avatar-wrap');
+        const avRect = av ? av.getBoundingClientRect() : { left: W / 2, top: 180, width: 0, height: 0 };
+        const cX = avRect.left + (avRect.width / 2);
+        const cY = avRect.top + (avRect.height / 2);
+
+        
+        for (let s of shockwaves) {
+          s.radius += s.speed + (bassNorm * 9.5) + (beatNorm * 6.0);
+          s.alpha -= 0.016;
+          if (s.alpha <= 0) {
+            s.radius = 65;
+            s.alpha = 0.9 * (0.35 + totalBassVibe * 0.65);
+          }
+          ctx.beginPath();
+          ctx.arc(cX, cY, s.radius, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(0, 240, 255, ${Math.max(0, s.alpha)})`;
+          ctx.lineWidth = 2 + totalBassVibe * 5.5;
+          ctx.shadowBlur = 20 + totalBassVibe * 22;
+          ctx.shadowColor = '#00f0ff';
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+        }
+
+        
+        ctx.beginPath();
+        ctx.arc(cX, cY, 80 + bassNorm * 44 + beatNorm * 22, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(217, 70, 239, ${0.45 + totalBassVibe * 0.55})`;
+        ctx.lineWidth = 3 + totalBassVibe * 4.5;
+        ctx.shadowBlur = 22 + totalBassVibe * 20;
+        ctx.shadowColor = '#d946ef';
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        for (let p of particles) {
+          p.x += p.vx * (1 + totalBassVibe * 3.6);
+          p.y += p.vy * (1 + totalBassVibe * 3.6);
+          if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+          if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * (1 + totalBassVibe * 1.4), 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.shadowBlur = 14 + totalBassVibe * 14;
+          ctx.shadowColor = p.color;
+          ctx.globalAlpha = p.alpha;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          ctx.globalAlpha = 1.0;
+        }
+      } else if (currentThemeKey === 'fire') {
+        const fireVibe = currentBassPulse * 0.65 + currentBeatStrength * 0.35;
+        for (let p of particles) {
+          p.y += p.vy * (1 + fireVibe * 1.4);
+          p.x += (p.vx + (Math.random() - 0.5) * 1.2) * (1 + fireVibe * 0.7);
+          p.life -= p.decay * (1 - fireVibe * 0.2);
+          if (p.life <= 0 || p.y < -10) {
+            p.y = H + 10; p.x = Math.random() * W;
+            p.life = 1;
+          }
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * p.life * (1 + fireVibe * 0.9), 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.shadowBlur = 12 + fireVibe * 24;
+          ctx.shadowColor = '#ff5722';
+          ctx.globalAlpha = Math.min(1, p.life * (0.85 + fireVibe * 0.35));
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          ctx.globalAlpha = 1.0;
+        }
+      } else if (currentThemeKey === 'fireflies') {
+        const flyVibe = currentBassPulse * 0.65 + currentBeatStrength * 0.35;
+        for (let p of particles) {
+          p.glowPulse += p.pulseSpeed + flyVibe * 0.08;
+          p.x += p.vx * (1 + flyVibe * 0.55);
+          p.y += p.vy * (1 + flyVibe * 0.55);
+          if (Math.random() < 0.03) {
+            p.targetVx = (Math.random() - 0.5) * 1.6;
+            p.targetVy = (Math.random() - 0.5) * 1.6;
+          }
+          p.vx += (p.targetVx - p.vx) * 0.05;
+          p.vy += (p.targetVy - p.vy) * 0.05;
+
+          if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+          if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+
+          const glow = Math.min(1, 0.35 + 0.65 * Math.max(0, Math.sin(p.glowPulse)) + flyVibe * 0.55);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r * glow * (1 + flyVibe * 0.55), 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(163,230,53,${glow})`;
+          ctx.shadowBlur = (16 + flyVibe * 22) * glow;
+          ctx.shadowColor = 'rgba(163,230,53,0.9)';
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+      } else if (currentThemeKey === 'cyber') {
+        const cyberVibe = currentBassPulse * 0.65 + currentBeatStrength * 0.35;
+        ctx.font = `${Math.round(11 + cyberVibe * 3.0)}px "JetBrains Mono", monospace`;
+        for (let p of particles) {
+          p.y += p.vy * (1 + cyberVibe * 0.95);
+          if (p.y > H + 20) { p.y = -10; p.x = Math.random() * W; }
+          ctx.fillStyle = p.color;
+          ctx.shadowBlur = 8 + cyberVibe * 18;
+          ctx.shadowColor = p.color;
+          ctx.globalAlpha = Math.min(1, p.alpha * (1 + cyberVibe * 0.55));
+          ctx.fillText(p.char, p.x, p.y);
+          ctx.shadowBlur = 0;
+          ctx.globalAlpha = 1.0;
+        }
+        
+        if (isPlaying && isBeatHit && currentBeatStrength > 0.55 && Math.random() < 0.35) {
+          ctx.fillStyle = 'rgba(0, 255, 204, 0.16)';
+          const scanY = Math.random() * H;
+          ctx.fillRect(0, scanY, W, 2 + Math.random() * 6);
+        }
+      } else if (currentThemeKey === 'sakura') {
+        const sakuraVibe = currentBassPulse * 0.65 + currentBeatStrength * 0.35;
+        for (let p of particles) {
+          p.rot += p.rotSpeed * (1 + sakuraVibe * 1.0);
+          p.flutter += p.flutterSpeed * (1 + sakuraVibe * 1.0);
+          p.y += p.vy * (1 + sakuraVibe * 0.55);
+          p.x += p.vx + Math.sin(p.flutter) * (0.8 + sakuraVibe * 2.8);
+          if (p.y > H + 15) { p.y = -15; p.x = Math.random() * W; }
+          if (p.x > W + 15) p.x = -15;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.beginPath();
+          ctx.ellipse(0, 0, p.rx * (1 + sakuraVibe * 0.45), p.ry * (1 + sakuraVibe * 0.45), 0, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(244,114,182,${p.alpha * (0.8 + sakuraVibe * 0.45)})`;
+          ctx.shadowBlur = 8 + sakuraVibe * 16;
+          ctx.shadowColor = '#f472b6';
+          ctx.fill();
+          ctx.restore();
+        }
+      } else if (currentThemeKey === 'frost') {
+        const frostVibe = currentBassPulse * 0.65 + currentBeatStrength * 0.35;
+        for (let p of particles) {
+          p.y += p.vy * (1 + frostVibe * 0.55);
+          p.x += p.vx + Math.sin(p.rot) * (0.5 + frostVibe * 1.8);
+          p.rot += p.rotSpeed * (1 + frostVibe * 1.0);
+          if (p.y > H + 10) { p.y = -10; p.x = Math.random() * W; }
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.beginPath();
+          const r = p.r * (1 + frostVibe * 0.55);
+          ctx.moveTo(-r, 0); ctx.lineTo(r, 0);
+          ctx.moveTo(0, -r); ctx.lineTo(0, r);
+          ctx.strokeStyle = `rgba(224,242,254,${p.alpha * (0.8 + frostVibe * 0.45)})`;
+          ctx.lineWidth = 1 + frostVibe * 0.9;
+          ctx.shadowBlur = 6 + frostVibe * 18;
+          ctx.shadowColor = '#7dd3fc';
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+
+      
+      if (activeLightningBolts.length > 0) {
+        const now = performance.now();
+        for (let b = activeLightningBolts.length - 1; b >= 0; b--) {
+          const bolt = activeLightningBolts[b];
+          const elapsed = now - bolt.startTime;
+          if (elapsed >= bolt.duration) {
+            activeLightningBolts.splice(b, 1);
+            continue;
+          }
+          const alpha = (1 - elapsed / bolt.duration) * 0.95;
+          
+          ctx.strokeStyle = `rgba(56,189,248,${(alpha * 0.4).toFixed(3)})`;
+          ctx.lineWidth = 5;
+          for (let pts of bolt.segments) {
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+            ctx.stroke();
+          }
+          
+          ctx.strokeStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
+          ctx.lineWidth = 1.8;
+          for (let pts of bolt.segments) {
+            ctx.beginPath();
+            ctx.moveTo(pts[0].x, pts[0].y);
+            for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      prevBassPulse = currentBassPulse;
+      window.currentBassPulse = currentBassPulse;
+      window.currentBeatStrength = currentBeatStrength;
+      window.isBeatHit = isBeatHit;
+      requestAnimationFrame(renderFrame);
+    }
+
+
+
+    
+    let morphTimer = null;
+    function applyVisualTheme(themeKey, triggerTransition = true) {
+      const theme = THEMES[themeKey] || THEMES.storm;
+      currentThemeKey = themeKey;
+
+      const doApply = () => {
+        const root = document.documentElement;
+        root.style.setProperty('--primary', theme.primary);
+        root.style.setProperty('--secondary', theme.secondary);
+        root.style.setProperty('--glow', theme.glow);
+        root.style.setProperty('--theme-ring', theme.ring);
+        root.style.setProperty('--theme-bg-1', theme.bg1);
+        root.style.setProperty('--theme-bg-2', theme.bg2);
+        root.style.setProperty('--theme-bg-3', theme.bg3);
+        root.style.setProperty('--theme-base-1', theme.base1);
+        root.style.setProperty('--theme-base-2', theme.base2);
+        root.style.setProperty('--theme-base-3', theme.base3);
+
+        const badge = document.getElementById('themeBadge');
+        if (badge) {
+          badge.innerHTML = `<i class="${theme.badgeIcon}"></i> ${theme.badgeText}`;
+          badge.style.borderColor = theme.primary;
+          badge.style.color = theme.primary;
+        }
+
+        
+        document.body.setAttribute('data-theme', themeKey);
+        const cName = document.getElementById('cyberName');
+        if (cName) cName.setAttribute('data-theme', themeKey);
+
+        spawnThemeParticles(themeKey, triggerTransition);
+        if (themeKey === 'storm' || themeKey === 'rain') {
+          scheduleNextLightning();
+        } else {
+          clearTimeout(lightningTimer);
+          activeLightningBolts = [];
+        }
+      };
+
+      if (triggerTransition) {
+        const overlay = document.getElementById('themeTransitionOverlay');
+        if (overlay) {
+          overlay.classList.add('morphing');
+          if (morphTimer) clearTimeout(morphTimer);
+          morphTimer = setTimeout(() => {
+            doApply();
+            morphTimer = setTimeout(() => {
+              if (overlay) overlay.classList.remove('morphing');
+              morphTimer = null;
+            }, 300);
+          }, 140);
+        } else {
+          doApply();
+        }
+      } else {
+        doApply();
+      }
+    }
+
+    
+    document.addEventListener('visibilitychange', () => {
+      const overlay = document.getElementById('themeTransitionOverlay');
+      if (overlay) overlay.classList.remove('morphing');
+      if (document.hidden) {
+        clearTimeout(lightningTimer);
+        activeLightningBolts = [];
+      } else {
+        if (audioCtx && audioCtx.state === 'suspended' && !audio.paused) {
+          audioCtx.resume().catch(() => {});
+        }
+        if (currentThemeKey === 'storm' || currentThemeKey === 'rain') {
+          scheduleNextLightning();
+        }
+      }
+    });
+
+    
+
+    function renderPlaylistUI() {
+      if (!playlistContainer) return;
+      playlistContainer.innerHTML = '';
+      plPill.textContent = playlist.length;
+      trackCounter.textContent = `${currentTrackIndex + 1} / ${playlist.length}`;
+
+      const isPlaying = !audio.paused;
+
+      playlist.forEach((track, idx) => {
+        const detectedTheme = track.theme || detectThemeFromFilename(track.filename);
+        const themeInfo = THEMES[detectedTheme] || THEMES.storm;
+        const isActive = idx === currentTrackIndex;
+
+        const item = document.createElement('div');
+        item.className = `pl-item ${isActive ? 'active' : ''} ${isActive && isPlaying ? 'playing' : ''}`;
+        item.onclick = () => selectTrack(idx);
+
+        let idxContent = idx + 1;
+        if (isActive) {
+          if (isPlaying) {
+            idxContent = '<div class="pl-mini-eq"><span></span><span></span><span></span></div>';
+          } else {
+            idxContent = '<i class="fa-solid fa-volume-high"></i>';
+          }
+        }
+
+        item.innerHTML = `
+      <div class="pl-item-idx">${idxContent}</div>
+      <img class="pl-item-img" src="${track.cover}" alt="Track Art" onerror="this.onerror=null;this.src='covers/cover_storm.jpg'">
+      <div class="pl-item-info">
+        <div class="pl-item-title">${track.title}</div>
+        <div class="pl-item-sub">
+          <span class="pl-item-artist">${track.artist}</span>
+          <span class="pl-item-theme"><i class="${themeInfo.badgeIcon}"></i> ${themeInfo.name}</span>
+        </div>
+      </div>
+      <div class="pl-item-play-icon">${isActive && isPlaying ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>'}</div>
+    `;
+        playlistContainer.appendChild(item);
+      });
+    }
+
+    
+    let currentFadeTimer = null;
+    function switchTrackSeamlessly(nextIdx, autoPlay = true) {
+      if (nextIdx < 0) nextIdx = playlist.length - 1;
+      if (nextIdx >= playlist.length) nextIdx = 0;
+
+      if (currentFadeTimer) {
+        clearInterval(currentFadeTimer);
+        currentFadeTimer = null;
+      }
+
+      const targetVol = parseFloat(volSlider.value) || 0.85;
+
+      if (audio.paused || !autoPlay || audio.volume <= 0.05) {
+        audio.volume = targetVol;
+        currentTrackIndex = nextIdx;
+        loadTrack(currentTrackIndex, autoPlay, true);
+        return;
+      }
+
+      
+      let step = 0;
+      const steps = 3;
+      currentFadeTimer = setInterval(() => {
+        step++;
+        audio.volume = Math.max(0, targetVol * (1 - step / steps));
+        if (step >= steps) {
+          clearInterval(currentFadeTimer);
+          currentFadeTimer = null;
+          currentTrackIndex = nextIdx;
+          loadTrack(currentTrackIndex, true, true);
+          let inStep = 0;
+          currentFadeTimer = setInterval(() => {
+            inStep++;
+            audio.volume = Math.min(targetVol, (inStep / steps) * targetVol);
+            if (inStep >= steps) {
+              clearInterval(currentFadeTimer);
+              currentFadeTimer = null;
+              audio.volume = targetVol;
+            }
+          }, 25);
+        }
+      }, 20);
+    }
+
+    function switchTrack(nextIdx, autoPlay = true) {
+      switchTrackSeamlessly(nextIdx, autoPlay);
+    }
+
+    function loadTrack(index, autoPlay = true, withTransition = true) {
+      if (index < 0) index = playlist.length - 1;
+      if (index >= playlist.length) index = 0;
+      currentTrackIndex = index;
+      const track = playlist[currentTrackIndex];
+
+      const detectedTheme = track.theme || detectThemeFromFilename(track.filename);
+      applyVisualTheme(detectedTheme, withTransition);
+
+      trackTitle.textContent = track.title;
+      trackArtist.textContent = track.artist;
+      musicCover.src = track.cover;
+      musicCover.onerror = function () { this.onerror = null; this.src = 'covers/cover_storm.jpg'; };
+      renderPlaylistUI();
+
+      
+      progressBarFill.style.width = '0%';
+      progressBarThumb.style.left = '0%';
+      currentTimeEl.textContent = '0:00';
+
+      
+      currentBassPulse = 0;
+      prevBassPulse = 0;
+      beatBaseline = 0.20;
+      currentBeatStrength = 0;
+      isBeatHit = false;
+      lastBeatTime = 0;
+      currentSubBass = 0;
+      currentLowMid = 0;
+      currentMidEnergy = 0;
+      currentHighEnergy = 0;
+      currentOverallEnergy = 0;
+      activeLightningBolts = [];
+      shockwaves = [];
+      ripples = [];
+      charsResting = false;
+      if (cachedCyberName) cachedCyberName.style.transform = 'scale(1)';
+      if (cachedCyberChars && cachedCyberChars.length > 0) {
+        cachedCyberChars.forEach(charEl => {
+          charEl.style.setProperty('--jitter-x', '0px');
+          charEl.style.setProperty('--jitter-y', '0px');
+          charEl.style.setProperty('--split-opacity', '0');
+          charEl.style.setProperty('--split-x1', '-1.5px');
+          charEl.style.setProperty('--split-x2', '1.5px');
+          charEl.style.setProperty('--char-filter', 'none');
+          charEl.style.textShadow = '';
+        });
+      }
+
+      
+      const targetVol = parseFloat(volSlider.value) || 0.85;
+      audio.volume = targetVol;
+
+      
+      const curSrc = audio.getAttribute('src') || audio.src || '';
+      if (!curSrc.endsWith(track.file) && !curSrc.endsWith(encodeURI(track.file))) {
+        audio.src = track.file;
+      }
+
+      if (autoPlay) {
+        setupAudioContext();
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              updatePlayState(true);
+            })
+            .catch(err => {
+              console.warn("Autoplay blocked or playback error:", err);
+              updatePlayState(false);
+            });
+        }
+      } else {
+        updatePlayState(false);
+      }
+    }
+
+    audio.addEventListener('error', () => {
+      console.warn("Audio playback error on source:", audio.src);
+      updatePlayState(false);
+    });
+
+    function updatePlayState(isPlaying) {
+      if (isPlaying) {
+        playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        coverPlayIcon.className = 'fa-solid fa-pause';
+        coverWrap.classList.add('playing');
+      } else {
+        playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+        coverPlayIcon.className = 'fa-solid fa-play';
+        coverWrap.classList.remove('playing');
+        charsResting = false;
+        currentBassPulse = 0;
+        currentBeatStrength = 0;
+        isBeatHit = false;
+        currentSubBass = 0;
+        currentLowMid = 0;
+        currentMidEnergy = 0;
+        currentHighEnergy = 0;
+        currentOverallEnergy = 0;
+      }
+
+      
+      const items = playlistContainer ? playlistContainer.querySelectorAll('.pl-item') : [];
+      items.forEach((item, idx) => {
+        const isActive = idx === currentTrackIndex;
+        item.classList.toggle('active', isActive);
+        item.classList.toggle('playing', isActive && isPlaying);
+        const idxEl = item.querySelector('.pl-item-idx');
+        const playIconEl = item.querySelector('.pl-item-play-icon');
+        if (idxEl) {
+          if (isActive) {
+            idxEl.innerHTML = isPlaying ? '<div class="pl-mini-eq"><span></span><span></span><span></span></div>' : '<i class="fa-solid fa-volume-high"></i>';
+          } else {
+            idxEl.textContent = idx + 1;
+          }
+        }
+        if (playIconEl) {
+          playIconEl.innerHTML = isActive && isPlaying ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+        }
+      });
+    }
+
+    function togglePlay() {
+      const enterEl = document.getElementById("enter");
+      if (enterEl && !enterEl.classList.contains("hide")) enterEl.classList.add("hide");
+      setupAudioContext();
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+      if (audio.paused) {
+        const targetVol = parseFloat(volSlider.value) || 0.85;
+        audio.volume = targetVol;
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => updatePlayState(true)).catch(() => updatePlayState(false));
+        }
+      } else {
+        audio.pause();
+        updatePlayState(false);
+      }
+    }
+
+    function nextTrack() {
+      let nextIdx;
+      if (isShuffle) {
+        nextIdx = Math.floor(Math.random() * playlist.length);
+        if (nextIdx === currentTrackIndex && playlist.length > 1) {
+          nextIdx = (nextIdx + 1) % playlist.length;
+        }
+      } else {
+        nextIdx = (currentTrackIndex + 1) % playlist.length;
+      }
+      switchTrack(nextIdx, true);
+    }
+
+    function prevTrack() {
+      let prevIdx;
+      if (audio.currentTime > 3) {
+        audio.currentTime = 0;
+        if (audio.paused) audio.play();
+        return;
+      }
+      if (isShuffle) {
+        prevIdx = Math.floor(Math.random() * playlist.length);
+      } else {
+        prevIdx = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+      }
+      switchTrack(prevIdx, true);
+    }
+
+    function selectTrack(idx) {
+      if (idx === currentTrackIndex) {
+        togglePlay();
+        return;
+      }
+      switchTrack(idx, true);
+    }
+
+    function toggleShuffle() {
+      isShuffle = !isShuffle;
+      shuffleBtn.classList.toggle('active', isShuffle);
+    }
+
+    function toggleRepeat() {
+      isRepeat = !isRepeat;
+      repeatBtn.classList.toggle('active', isRepeat);
+    }
+
+    function togglePlaylistDrawer() {
+      playlistDrawer.classList.toggle('open');
+      playlistToggleBtn.classList.toggle('open');
+    }
+
+
+    
+    audio.addEventListener('timeupdate', () => {
+      if (!isScrubbing && audio.duration) {
+        const pct = (audio.currentTime / audio.duration) * 100;
+        progressBarFill.style.width = pct + '%';
+        progressBarThumb.style.left = pct + '%';
+        currentTimeEl.textContent = fmtTime(audio.currentTime);
+        totalTimeEl.textContent = fmtTime(audio.duration);
+      } else if (!isScrubbing) {
+        currentTimeEl.textContent = fmtTime(audio.currentTime);
+      }
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+      totalTimeEl.textContent = fmtTime(audio.duration);
+    });
+
+    audio.addEventListener('ended', () => {
+      if (isRepeat) {
+        audio.currentTime = 0;
+        audio.play();
+      } else {
+        nextTrack();
+      }
+    });
+
+    
+    let isScrubbing = false;
+    const pWrap = document.getElementById('progressBarWrap');
+
+    function seekToPosition(e) {
+      if (!pWrap) return;
+      const rect = pWrap.getBoundingClientRect();
+      const clientX = e.clientX ?? (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+      const clickX = clientX - rect.left;
+      const pct = Math.max(0, Math.min(1, clickX / rect.width));
+      progressBarFill.style.width = (pct * 100) + '%';
+      progressBarThumb.style.left = (pct * 100) + '%';
+      if (audio.duration) {
+        audio.currentTime = pct * audio.duration;
+        currentTimeEl.textContent = fmtTime(audio.currentTime);
+      }
+    }
+
+    function seekAudio(e) {
+      seekToPosition(e);
+    }
+
+    if (pWrap) {
+      pWrap.addEventListener('pointerdown', (e) => {
+        isScrubbing = true;
+        pWrap.classList.add('scrubbing');
+        pWrap.setPointerCapture(e.pointerId);
+        seekToPosition(e);
+      });
+      pWrap.addEventListener('pointermove', (e) => {
+        if (isScrubbing) seekToPosition(e);
+      });
+      pWrap.addEventListener('pointerup', (e) => {
+        if (isScrubbing) {
+          isScrubbing = false;
+          pWrap.classList.remove('scrubbing');
+          try { pWrap.releasePointerCapture(e.pointerId); } catch (_) { }
+        }
+      });
+      pWrap.addEventListener('pointercancel', () => {
+        isScrubbing = false;
+        pWrap.classList.remove('scrubbing');
+      });
+    }
+
+    function fmtTime(secs) {
+      if (!isFinite(secs) || isNaN(secs)) return '0:00';
+      const m = Math.floor(secs / 60);
+      const s = Math.floor(secs % 60);
+      return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    
+    function setVolume(val) {
+      audio.volume = val;
+      if (val == 0) {
+        volIcon.className = 'fa-solid fa-volume-xmark';
+      } else if (val < 0.5) {
+        volIcon.className = 'fa-solid fa-volume-low';
+      } else {
+        volIcon.className = 'fa-solid fa-volume-high';
+      }
+    }
+
+    let lastVolume = 0.8;
+    function toggleMute() {
+      if (audio.volume > 0) {
+        lastVolume = audio.volume;
+        audio.volume = 0;
+        volSlider.value = 0;
+        volIcon.className = 'fa-solid fa-volume-xmark';
+      } else {
+        audio.volume = lastVolume || 0.8;
+        volSlider.value = audio.volume;
+        setVolume(audio.volume);
+      }
+    }
+
+    
+    window.addEventListener('keydown', (e) => {
+      const tag = (e.target && e.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlay();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        if (audio.duration) audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        audio.currentTime = Math.max(0, audio.currentTime - 5);
+      } else if (e.code === 'ArrowUp') {
+        e.preventDefault();
+        const newVol = Math.min(1, (parseFloat(volSlider.value) || 0) + 0.05);
+        volSlider.value = newVol;
+        setVolume(newVol);
+      } else if (e.code === 'ArrowDown') {
+        e.preventDefault();
+        const newVol = Math.max(0, (parseFloat(volSlider.value) || 0) - 0.05);
+        volSlider.value = newVol;
+        setVolume(newVol);
+      } else if (e.code === 'KeyM') {
+        e.preventDefault();
+        toggleMute();
+      } else if (e.code === 'KeyL') {
+        e.preventDefault();
+        togglePlaylistDrawer();
+      } else if (e.code === 'KeyN') {
+        e.preventDefault();
+        nextTrack();
+      } else if (e.code === 'KeyP') {
+        e.preventDefault();
+        prevTrack();
+      }
+    });
+
+    
+    function enterSite() {
+      const enterEl = document.getElementById("enter");
+      if (enterEl) enterEl.classList.add("hide");
+      setupAudioContext();
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+      audio.volume = parseFloat(volSlider.value) || 0.85;
+      
+      if (audio.paused) {
+        const p = audio.play();
+        if (p !== undefined) {
+          p.then(() => updatePlayState(true)).catch(() => updatePlayState(false));
+        }
+      } else {
+        updatePlayState(true);
+      }
+    }
+
+    
+    loadTrack(0, false, false);
+    renderPlaylistUI();
+    spawnThemeParticles(currentThemeKey, false);
+    requestAnimationFrame(renderFrame);
+    scheduleNextLightning();
+    loadPlaylistManifest();
+
+
+    
+    function copyCrypto(btn, addr) {
+      const handleSuccess = () => {
+        const card = btn.closest(".crypto-card");
+        const addrEl = card ? card.querySelector(".crypto-addr") : null;
+        const icon = btn.querySelector("i");
+        const text = btn.querySelector("span");
+        btn.classList.add("copied");
+        if (addrEl) addrEl.classList.add("unblur");
+        if (icon) icon.className = "fa-solid fa-check";
+        if (text) text.textContent = "Copied!";
+        setTimeout(() => {
+          btn.classList.remove("copied");
+          if (addrEl) addrEl.classList.remove("unblur");
+          if (icon) icon.className = "fa-regular fa-copy";
+          if (text) text.textContent = "Copy";
+        }, 2000);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(addr).then(handleSuccess).catch(() => fallbackCopy(addr, handleSuccess));
+      } else {
+        fallbackCopy(addr, handleSuccess);
+      }
+    }
+
+    function fallbackCopy(text, onSuccess) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        ta.style.top = '-9999px';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (ok && onSuccess) onSuccess();
+      } catch (e) {
+        console.error("Copy failed:", e);
+      }
+    }
+
+    
+    const FORMSPREE = 'https://formspree.io/f/mbgjadvb';
+
+    function sendMessage(e) {
+      e.preventDefault();
+      const form = document.getElementById('contactForm');
+      const success = document.getElementById('formSuccess');
+      const sb = document.getElementById('sendBtn');
+      const span = sb.querySelector('span');
+
+      sb.disabled = true;
+      span.textContent = '⏳ SENDING...';
+
+      const data = new FormData(form);
+
+      fetch(FORMSPREE, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      })
+        .then(res => {
+          if (res.ok) {
+            form.style.display = 'none';
+            success.classList.add('show');
+            triggerLightningEffect();
+          } else {
+            span.textContent = '⚠️ ERROR — try again';
+            sb.disabled = false;
+          }
+        })
+        .catch(() => {
+          span.textContent = '⚠️ No connection';
+          sb.disabled = false;
+        });
+    }
+  
+    
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+
+    const cursorDotEl = document.getElementById('cursorDot');
+    const cursorPointerEl = document.getElementById('cursorPointer');
+    const cursorRingEl = document.getElementById('cursorRing');
+    const cCanvas = document.getElementById('cursorTrailCanvas');
+    const cCtx = cCanvas ? cCanvas.getContext('2d', { alpha: true }) : null;
+
+    if (isTouchDevice) {
+      if (cursorDotEl) cursorDotEl.style.display = 'none';
+      if (cursorRingEl) cursorRingEl.style.display = 'none';
+      if (cCanvas) cCanvas.style.display = 'none';
+    }
+
+    let mouseX = -100, mouseY = -100;
+    let ringX = -100, ringY = -100;
+    let isMouseActive = false;
+    let isHovered = false;
+    let lastParticleX = -999, lastParticleY = -999;
+    let lastParticleTime = 0;
+    let hasParticlesDrawn = false;
+    const trailParticles = [];
+
+    function resizeCursorCanvas() {
+      if (!cCanvas) return;
+      cCanvas.width = window.innerWidth;
+      cCanvas.height = window.innerHeight;
+    }
+    resizeCursorCanvas();
+    window.addEventListener('resize', resizeCursorCanvas, { passive: true });
+
+    
+    window.addEventListener('pointermove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      if (!isMouseActive) {
+        
+        isMouseActive = true;
+        ringX = mouseX;
+        ringY = mouseY;
+        if (cursorDotEl) {
+          cursorDotEl.style.opacity = '1';
+          cursorDotEl.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+        }
+        if (cursorRingEl) {
+          cursorRingEl.style.opacity = '1';
+          cursorRingEl.style.transform = `translate3d(${ringX.toFixed(1)}px, ${ringY.toFixed(1)}px, 0) scale(1)`;
+        }
+      } else {
+        
+        if (cursorDotEl) {
+          cursorDotEl.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+        }
+      }
+
+      
+      const now = performance.now();
+      const dx = mouseX - lastParticleX;
+      const dy = mouseY - lastParticleY;
+      if ((dx * dx + dy * dy >= 100) || (now - lastParticleTime > 40 && (dx * dx + dy * dy >= 16))) {
+        spawnCursorTrailParticle(mouseX, mouseY);
+        lastParticleX = mouseX;
+        lastParticleY = mouseY;
+        lastParticleTime = now;
+      }
+    }, { passive: true });
+
+    
+    function handleCursorLeave() {
+      isMouseActive = false;
+      isHovered = false;
+      if (cursorDotEl) cursorDotEl.style.opacity = '0';
+      if (cursorRingEl) {
+        cursorRingEl.style.opacity = '0';
+        cursorRingEl.classList.remove('hovered');
+      }
+    }
+    document.addEventListener('pointerleave', handleCursorLeave, { passive: true });
+    document.addEventListener('mouseleave', handleCursorLeave, { passive: true });
+
+    
+    let isMouseDown = false;
+    window.addEventListener('pointerdown', () => {
+      isMouseDown = true;
+      if (cursorDotEl) cursorDotEl.classList.add('clicking');
+    }, { passive: true });
+
+    window.addEventListener('pointerup', () => {
+      isMouseDown = false;
+      if (cursorDotEl) cursorDotEl.classList.remove('clicking');
+    }, { passive: true });
+
+    
+    const INTERACTIVE_SELECTOR = 'a, button, input, textarea, select, .cover-wrap, .pl-item, .social, .crypto-card, .btn-ctrl, .track-item';
+    document.addEventListener('pointerover', (e) => {
+      const el = e.target;
+      if (!el || !el.closest) return;
+      if (el.closest(INTERACTIVE_SELECTOR)) {
+        if (!isHovered) {
+          isHovered = true;
+          if (cursorRingEl) cursorRingEl.classList.add('hovered');
+        }
+      }
+    }, { passive: true });
+
+    document.addEventListener('pointerout', (e) => {
+      const toEl = e.relatedTarget;
+      if (!toEl || !toEl.closest || !toEl.closest(INTERACTIVE_SELECTOR)) {
+        if (isHovered) {
+          isHovered = false;
+          if (cursorRingEl) cursorRingEl.classList.remove('hovered');
+        }
+      }
+    }, { passive: true });
+
+    
+    function spawnCursorTrailParticle(x, y) {
+      if (trailParticles.length > 20) trailParticles.splice(0, trailParticles.length - 20);
+      const theme = currentThemeKey;
+      const pulse = currentBassPulse;
+
+      if (theme === 'storm') {
+        trailParticles.push({
+          x, y,
+          vx: (Math.random() - 0.5) * (2 + pulse * 3),
+          vy: (Math.random() - 0.5) * (2 + pulse * 3),
+          len: 4 + Math.random() * 8,
+          alpha: 0.8, decay: 0.05,
+          color: '#00d2ff', type: 'spark'
+        });
+      } else if (theme === 'rain') {
+        trailParticles.push({
+          x: x + (Math.random() - 0.5) * 6, y,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: 1.5 + Math.random() * 2,
+          r: 1.5 + Math.random() * 2,
+          alpha: 0.7, decay: 0.04,
+          color: '#38bdf8', type: 'circle'
+        });
+      } else if (theme === 'cyber') {
+        const glyphs = ['0', '1', 'X', '4'];
+        trailParticles.push({
+          x: x + (Math.random() - 0.5) * 12,
+          y: y + (Math.random() - 0.5) * 12,
+          char: glyphs[Math.floor(Math.random() * glyphs.length)],
+          alpha: 0.85, decay: 0.045,
+          color: Math.random() > 0.5 ? '#00ffcc' : '#ff007f', type: 'text'
+        });
+      } else if (theme === 'ambient') {
+        trailParticles.push({
+          x, y,
+          vx: (Math.random() - 0.5) * 1.2,
+          vy: (Math.random() - 0.5) * 1.2,
+          r: 1.2 + Math.random() * 2.5,
+          alpha: 0.75, decay: 0.03,
+          color: Math.random() > 0.5 ? '#fbbf24' : '#c084fc', type: 'star'
+        });
+      } else if (theme === 'night') {
+        trailParticles.push({
+          x, y,
+          vx: (Math.random() - 0.5) * 1.4,
+          vy: -1.0 - Math.random() * 1.5,
+          r: 1.5 + Math.random() * 2.5,
+          alpha: 0.7, decay: 0.035,
+          color: Math.random() > 0.5 ? '#10b981' : '#8b5cf6', type: 'glow'
+        });
+      } else if (theme === 'bass') {
+        trailParticles.push({
+          x, y, r: 4,
+          alpha: 0.8, decay: 0.05,
+          color: '#00f0ff', type: 'ring'
+        });
+      } else if (theme === 'ocean') {
+        trailParticles.push({
+          x: x + (Math.random() - 0.5) * 8, y,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: -1.0 - Math.random() * 1.8,
+          r: 1.8 + Math.random() * 2.5,
+          alpha: 0.75, decay: 0.035,
+          color: '#00f2fe', type: 'bubble'
+        });
+      } else if (theme === 'fire') {
+        trailParticles.push({
+          x, y,
+          vx: (Math.random() - 0.5) * 1.8,
+          vy: -1.5 - Math.random() * 2.2,
+          len: 3 + Math.random() * 6,
+          alpha: 0.85, decay: 0.045,
+          color: Math.random() > 0.5 ? '#ff4500' : '#ffd700', type: 'spark'
+        });
+      } else if (theme === 'sakura') {
+        trailParticles.push({
+          x, y,
+          vx: (Math.random() - 0.5) * 1.5 + 0.8,
+          vy: 0.8 + Math.random() * 1.5,
+          rx: 2.5 + Math.random() * 2.5, ry: 1.5 + Math.random() * 1.5,
+          rot: Math.random() * Math.PI,
+          alpha: 0.8, decay: 0.035,
+          color: '#ff758c', type: 'petal'
+        });
+      } else if (theme === 'frost') {
+        trailParticles.push({
+          x, y,
+          vx: (Math.random() - 0.5) * 1.2,
+          vy: 0.5 + Math.random() * 1.5,
+          r: 2.5 + Math.random() * 2,
+          alpha: 0.8, decay: 0.038,
+          color: '#7dd3fc', type: 'frost'
+        });
+      } else if (theme === 'rainbow') {
+        const colors = ['#ff007f', '#00f0ff', '#fbbf24', '#a855f7', '#10b981'];
+        trailParticles.push({
+          x, y,
+          vx: (Math.random() - 0.5) * 2,
+          vy: (Math.random() - 0.5) * 2,
+          len: 4 + Math.random() * 7,
+          alpha: 0.85, decay: 0.045,
+          color: colors[Math.floor(Math.random() * colors.length)], type: 'spark'
+        });
+      } else if (theme === 'fireflies') {
+        trailParticles.push({
+          x, y,
+          vx: (Math.random() - 0.5) * 1.2,
+          vy: (Math.random() - 0.5) * 1.2,
+          r: 2 + Math.random() * 2.5,
+          alpha: 0.8, decay: 0.035,
+          color: '#fbbf24', type: 'glow'
+        });
+      }
+    }
+
+    
+    function renderCustomCursorLoop() {
+      if (isMouseActive) {
+        
+        ringX += (mouseX - ringX) * 0.35;
+        ringY += (mouseY - ringY) * 0.35;
+
+        if (cursorRingEl) {
+          const hoverScale = isHovered ? 1.55 : 1.0;
+          const clickScale = isMouseDown ? 0.78 : 1.0;
+          const totalScale = hoverScale * clickScale * (1 + (currentBassPulse * 0.22));
+          cursorRingEl.style.transform = `translate3d(${ringX.toFixed(1)}px, ${ringY.toFixed(1)}px, 0) scale(${totalScale.toFixed(3)})`;
+        }
+      }
+
+      
+      if (cCtx && cCanvas) {
+        if (trailParticles.length > 0) {
+          hasParticlesDrawn = true;
+          cCtx.clearRect(0, 0, cCanvas.width, cCanvas.height);
+          
+          for (let i = trailParticles.length - 1; i >= 0; i--) {
+            const p = trailParticles[i];
+            p.alpha -= p.decay;
+            if (p.alpha <= 0) {
+              trailParticles.splice(i, 1);
+              continue;
+            }
+
+            cCtx.globalAlpha = p.alpha;
+            cCtx.fillStyle = p.color;
+            cCtx.strokeStyle = p.color;
+
+            if (p.type === 'circle') {
+              p.x += p.vx || 0; p.y += p.vy || 0;
+              cCtx.beginPath();
+              cCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+              cCtx.fill();
+            } else if (p.type === 'spark') {
+              p.x += p.vx; p.y += p.vy;
+              cCtx.lineWidth = 1.4;
+              cCtx.beginPath();
+              cCtx.moveTo(p.x, p.y);
+              cCtx.lineTo(p.x + p.vx * 2.5, p.y + p.vy * 2.5);
+              cCtx.stroke();
+            } else if (p.type === 'text') {
+              cCtx.font = '11px "JetBrains Mono", monospace';
+              cCtx.fillText(p.char, p.x, p.y);
+            } else if (p.type === 'ring') {
+              p.r += 1.2;
+              cCtx.lineWidth = 1.2;
+              cCtx.beginPath();
+              cCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+              cCtx.stroke();
+            } else if (p.type === 'glow' || p.type === 'bubble') {
+              p.x += p.vx || 0; p.y += p.vy || 0;
+              cCtx.beginPath();
+              cCtx.arc(p.x, p.y, p.r * 1.8, 0, Math.PI * 2);
+              cCtx.globalAlpha = p.alpha * 0.35;
+              cCtx.fill();
+              cCtx.beginPath();
+              cCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+              cCtx.globalAlpha = p.alpha;
+              cCtx.fill();
+            } else if (p.type === 'petal') {
+              p.x += p.vx; p.y += p.vy; p.rot += 0.04;
+              cCtx.save();
+              cCtx.translate(p.x, p.y);
+              cCtx.rotate(p.rot);
+              cCtx.beginPath();
+              cCtx.ellipse(0, 0, p.rx, p.ry, 0, 0, Math.PI * 2);
+              cCtx.fill();
+              cCtx.restore();
+            } else if (p.type === 'frost') {
+              p.x += p.vx; p.y += p.vy;
+              cCtx.lineWidth = 1.2;
+              cCtx.beginPath();
+              cCtx.moveTo(p.x - p.r, p.y); cCtx.lineTo(p.x + p.r, p.y);
+              cCtx.moveTo(p.x, p.y - p.r); cCtx.lineTo(p.x, p.y + p.r);
+              cCtx.stroke();
+            } else if (p.type === 'star') {
+              p.x += p.vx; p.y += p.vy;
+              cCtx.beginPath();
+              cCtx.arc(p.x, p.y, p.r * 1.6, 0, Math.PI * 2);
+              cCtx.globalAlpha = p.alpha * 0.3;
+              cCtx.fill();
+              cCtx.beginPath();
+              cCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+              cCtx.globalAlpha = p.alpha;
+              cCtx.fill();
+            }
+          }
+        } else if (hasParticlesDrawn) {
+          cCtx.clearRect(0, 0, cCanvas.width, cCanvas.height);
+          hasParticlesDrawn = false;
+        }
+      }
+
+      if (!isTouchDevice) {
+        requestAnimationFrame(renderCustomCursorLoop);
+      }
+    }
+    if (!isTouchDevice) {
+      requestAnimationFrame(renderCustomCursorLoop);
+    }
+
+  
+</script>
+</body>
+
+</html>

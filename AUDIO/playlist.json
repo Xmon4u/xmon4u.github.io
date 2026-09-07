@@ -1,0 +1,98 @@
+[
+  {
+    "title": "Electric Tempest",
+    "artist": "Thunder & Lightning",
+    "file": "music/storm.mp3",
+    "filename": "storm.mp3",
+    "theme": "storm",
+    "cover": "covers/cover_storm.jpg"
+  },
+  {
+    "title": "Cyber Noir Rain",
+    "artist": "Rain & Lightning",
+    "file": "music/rain.mp3",
+    "filename": "rain.mp3",
+    "theme": "rain",
+    "cover": "covers/cover_rain.jpg"
+  },
+  {
+    "title": "Neon Cyber Glitch",
+    "artist": "Digital Matrix",
+    "file": "music/cyber.mp3",
+    "filename": "cyber.mp3",
+    "theme": "cyber",
+    "cover": "covers/cover_cyber.jpg"
+  },
+  {
+    "title": "Cosmic Ambient",
+    "artist": "Starlight Particles",
+    "file": "music/ambient.mp3",
+    "filename": "ambient.mp3",
+    "theme": "ambient",
+    "cover": "covers/cover_stars.jpg"
+  },
+  {
+    "title": "Midnight Aurora",
+    "artist": "Northern Lights",
+    "file": "music/night.mp3",
+    "filename": "night.mp3",
+    "theme": "night",
+    "cover": "covers/cover_aurora.jpg"
+  },
+  {
+    "title": "Music Reactive Bass",
+    "artist": "Bass Pulse Rhythm",
+    "file": "music/bass.mp3",
+    "filename": "bass.mp3",
+    "theme": "bass",
+    "cover": "covers/cover_bass.jpg"
+  },
+  {
+    "title": "Abyssal Waves",
+    "artist": "Deep Sea Horizons",
+    "file": "music/ocean.mp3",
+    "filename": "ocean.mp3",
+    "theme": "ocean",
+    "cover": "covers/cover_ocean.jpg"
+  },
+  {
+    "title": "Solar Flare Ember",
+    "artist": "Infernal Magma Fire",
+    "file": "music/fire.mp3",
+    "filename": "fire.mp3",
+    "theme": "fire",
+    "cover": "covers/cover_fire.jpg"
+  },
+  {
+    "title": "Sakura Blossom Drift",
+    "artist": "Zen Garden Spring",
+    "file": "music/sakura.mp3",
+    "filename": "sakura.mp3",
+    "theme": "sakura",
+    "cover": "covers/cover_sakura.jpg"
+  },
+  {
+    "title": "Subzero Cryo Frost",
+    "artist": "Glacial Blizzard",
+    "file": "music/frost.mp3",
+    "filename": "frost.mp3",
+    "theme": "frost",
+    "cover": "covers/cover_frost.jpg"
+  },
+  {
+    "title": "Prism Laser Spectrum",
+    "artist": "Rainbow Pulse Synth",
+    "file": "music/rainbow.mp3",
+    "filename": "rainbow.mp3",
+    "theme": "rainbow",
+    "cover": "covers/cover_rainbow.jpg"
+  },
+  {
+    "title": "Enchanted Fireflies",
+    "artist": "Deep Bioluminescent Forest",
+    "file": "music/fireflies.mp3",
+    "filename": "fireflies.mp3",
+    "theme": "fireflies",
+    "cover": "covers/cover_fireflies.jpg"
+  }
+]
