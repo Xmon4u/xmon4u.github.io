@@ -1589,8 +1589,114 @@
       font-family: 'Orbitron', sans-serif
     }
 
-    
+    /* Cyberpunk Visual Visitor Counter HUD Badge */
+    .visitor-badge {
+      position: fixed;
+      top: max(16px, env(safe-area-inset-top));
+      right: max(18px, env(safe-area-inset-right));
+      z-index: 40;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 14px 6px 12px;
+      border-radius: 20px;
+      background: rgba(9, 11, 18, 0.86);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45), 0 0 10px rgba(0, 210, 255, 0.12);
+      user-select: none;
+      -webkit-user-select: none;
+      pointer-events: auto;
+      font-family: 'JetBrains Mono', 'Orbitron', monospace;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      color: rgba(255, 255, 255, 0.92);
+      transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.25s ease;
+      cursor: default;
+    }
+
+    .visitor-badge:hover {
+      border-color: var(--primary);
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.6), 0 0 16px var(--glow);
+      transform: translateY(-1.5px);
+    }
+
+    .visitor-eye-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .visitor-eye-icon {
+      display: inline-block;
+      font-size: 13px;
+      color: var(--primary);
+      text-shadow: 0 0 8px var(--glow);
+      transform-origin: center center;
+      animation: cyberEyeBlink 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+      transition: color 0.4s ease, text-shadow 0.4s ease;
+    }
+
+    .visitor-count-text {
+      display: inline-flex;
+      align-items: center;
+      font-weight: 600;
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    .visitor-count-text .count-num {
+      color: #ffffff;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      font-size: 12px;
+      text-shadow: 0 0 8px var(--glow);
+    }
+
+    .visitor-count-text .count-label {
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 11px;
+      font-weight: 500;
+      margin-left: 4px;
+      letter-spacing: 0.8px;
+    }
+
+    @keyframes cyberEyeBlink {
+      0%, 86%, 100% {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+      92% {
+        transform: scaleY(0.08);
+        opacity: 0.65;
+      }
+      96% {
+        transform: scaleY(1.05);
+        opacity: 1;
+      }
+    }
+
     @media(max-width:580px) {
+      .visitor-badge {
+        top: max(10px, env(safe-area-inset-top));
+        right: max(12px, env(safe-area-inset-right));
+        padding: 5px 11px 5px 9px;
+        font-size: 11px;
+        background: rgba(9, 11, 18, 0.94);
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.6);
+      }
+      .visitor-eye-icon {
+        font-size: 11px;
+      }
+      .visitor-count-text .count-num {
+        font-size: 11px;
+      }
+      .visitor-count-text .count-label {
+        font-size: 10px;
+      }
+
       .wrap {
         padding-top: 35px
       }
@@ -1751,7 +1857,8 @@
       .avatar-ring,
       .eq-bars span,
       .avatar-wrap.glitching .avatar,
-      .avatar-wrap.glitching .avatar-glitch-layer {
+      .avatar-wrap.glitching .avatar-glitch-layer,
+      .visitor-eye-icon {
         animation: none !important;
       }
     }
@@ -2073,6 +2180,17 @@
       <p>Welcome to my official profile</p>
       <button class="enter-btn" onclick="enterSite()">ENTER PROFILE</button>
     </div>
+  </div>
+
+  <!-- Cyberpunk Visual Visitor Counter -->
+  <div class="visitor-badge" id="visitorBadge" title="Profile Views" aria-label="1,284 Views">
+    <span class="visitor-eye-wrap" aria-hidden="true">
+      <i class="fa-solid fa-eye visitor-eye-icon"></i>
+    </span>
+    <span class="visitor-count-text">
+      <span class="count-num">1,284</span>
+      <span class="count-label">Views</span>
+    </span>
   </div>
 
   <main class="wrap">
@@ -4760,7 +4878,7 @@
     }, { passive: true });
 
     
-    const INTERACTIVE_SELECTOR = 'a, button, input, textarea, select, .cover-wrap, .pl-item, .social, .crypto-card, .btn-ctrl, .track-item';
+    const INTERACTIVE_SELECTOR = 'a, button, input, textarea, select, .cover-wrap, .pl-item, .social, .crypto-card, .btn-ctrl, .track-item, .visitor-badge';
     document.addEventListener('pointerover', (e) => {
       const el = e.target;
       if (!el || !el.closest) return;
