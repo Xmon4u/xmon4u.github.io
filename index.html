@@ -439,5 +439,13 @@ fetch('music/playlist.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(j=>{
   if(Array.isArray(j)&&j.length){const was=audio.paused&&!audio.currentTime;playlist=j;if(idx>=j.length)idx=0;if(was)load(idx,false);else renderList()}}).catch(()=>{});
 requestAnimationFrame(frame);
 </script>
+<script>
+addEventListener('contextmenu',e=>e.preventDefault(),true);
+addEventListener('dragstart',e=>e.preventDefault(),true);
+addEventListener('keydown',e=>{
+  const k=e.keyCode,c=e.ctrlKey||e.metaKey;
+  if(k===123||(c&&e.shiftKey&&[73,74,67].includes(k))||(c&&[85,83,80].includes(k)))e.preventDefault();
+},true);
+</script>
 </body>
 </html>
