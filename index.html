@@ -120,9 +120,9 @@ footer{text-align:center;margin-top:44px;font:500 10.5px Orbitron;letter-spacing
 html{color-scheme:dark}
 .av{animation:bob 4s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-8px)}}
-.av::before,.av::after{position:absolute;z-index:3;color:var(--p);text-shadow:0 0 12px var(--glow);animation:tw 2.4s infinite}
-.av::before{content:"✦";top:-4px;right:-16px;font-size:22px}
-.av::after{content:"✧";bottom:2px;left:-18px;font-size:17px;animation-delay:1.2s}
+.av::before,.av::after{clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);position:absolute;z-index:3;color:var(--p);text-shadow:0 0 12px var(--glow);animation:tw 2.4s infinite}
+.av::before{content:"";top:-2px;right:-14px;width:22px;height:22px;background:var(--p)}
+.av::after{content:"";bottom:4px;left:-16px;width:15px;height:15px;background:var(--s);animation-delay:1.2s}
 @keyframes tw{50%{transform:scale(1.45) rotate(25deg);opacity:.35}}
 .chips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px}
 .chips span{padding:6px 15px;border-radius:99px;font-size:12px;background:rgba(255,255,255,.06);border:1px solid var(--line);transition:.25s}
@@ -140,6 +140,18 @@ html{color-scheme:dark}
 .big:hover>i:first-child{animation:wig .5s}
 .send{border-radius:99px}
 input,textarea{border-radius:16px}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:44px 44px;-webkit-mask:radial-gradient(70% 60% at 50% 30%,#000,transparent);mask:radial-gradient(70% 60% at 50% 30%,#000,transparent)}
+@property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+.player{border:1.5px solid transparent;background:linear-gradient(#0a0d15,#0a0d15) padding-box,conic-gradient(from var(--ang),var(--p),transparent 30%,var(--s),transparent 70%,var(--p)) border-box;animation:ang 6s linear infinite}
+@keyframes ang{to{--ang:360deg}}
+main{counter-reset:s}
+h3.sec::before{counter-increment:s;content:"0" counter(s) " //";color:var(--p);font-family:'JetBrains Mono'}
+.big{position:relative;overflow:hidden}
+.big::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.12),transparent);transform:skewX(-20deg);transition:.7s}
+.big:hover::after{left:130%}
+.cur{margin-left:2px;animation:bk 1s steps(2) infinite}
+@keyframes bk{50%{opacity:0}}
+.chips i{color:var(--p);margin-right:4px}
 ::-webkit-scrollbar{width:8px;height:8px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:linear-gradient(var(--p),var(--s));border-radius:8px;border:2px solid transparent;background-clip:padding-box}
@@ -155,7 +167,7 @@ input,textarea{border-radius:16px}
 <body>
 <div class="bg"></div><canvas id="fx"></canvas><canvas id="trail"></canvas><div id="cd"></div><div id="cr"></div>
 
-<div class="enter" id="enter"><div><h2>XMON4U</h2><p>Welcome to my official profile</p><button class="btn-enter" onclick="enter()">✨ ENTER PROFILE</button></div></div>
+<div class="enter" id="enter"><div><h2>XMON4U</h2><p>Welcome to my official profile</p><button class="btn-enter" onclick="enter()"><i class="fa-solid fa-bolt"></i> ENTER PROFILE</button></div></div>
 <div class="views"><i class="fa-solid fa-eye"></i><span>1,284 Views</span></div>
 
 <main>
@@ -163,9 +175,9 @@ input,textarea{border-radius:16px}
   <div class="av" id="av"><div class="wave" id="wave"></div><div class="ring" id="ring"></div>
     <img id="avImg" src="avatar.jpg" alt="XMON4U" onerror="this.onerror=null;this.src='covers/cover_storm.jpg'"></div>
   <h1 class="name" id="name" aria-label="XMON4U"></h1>
-  <div class="chips"><span>💻 Developer</span><span>✨ Creator</span><span>🎮 Gamer</span></div>
-  <p class="bio">Welcome to my personal space 💙</p>
-  <div class="live">online &amp; vibing</div>
+  <div class="chips"><span><i class="fa-solid fa-code"></i> Developer</span><span><i class="fa-solid fa-wand-magic-sparkles"></i> Creator</span><span><i class="fa-solid fa-gamepad"></i> Gamer</span></div>
+  <p class="bio">Welcome to my personal space</p>
+  <div class="live">status: online<b class="cur">_</b></div>
 </section>
 <nav class="socials" id="socials"></nav>
 
@@ -184,9 +196,9 @@ input,textarea{border-radius:16px}
   <div class="drawer" id="drawer"><div class="list" id="list"></div></div>
 </section>
 
-<h3 class="sec">🌐 SOCIALS &amp; PLATFORMS</h3><div class="grid" id="bigs"></div>
-<h3 class="sec">☕ DONATION &amp; SUPPORT</h3><div class="grid" id="cryptos"></div>
-<h3 class="sec">💌 CONTACT ME</h3>
+<h3 class="sec">SOCIALS &amp; PLATFORMS</h3><div class="grid" id="bigs"></div>
+<h3 class="sec">DONATION &amp; SUPPORT</h3><div class="grid" id="cryptos"></div>
+<h3 class="sec">CONTACT ME</h3>
 <div class="card contact">
   <p><i class="fa-solid fa-bolt" style="color:var(--p)"></i>&nbsp; Got a project idea, collab request, or just want to say hey? Drop a message below!</p>
   <form id="form">
@@ -195,11 +207,11 @@ input,textarea{border-radius:16px}
       <div><label for="c">Email / Telegram</label><input id="c" name="contact" placeholder="email or @username" required autocomplete="off"></div>
       <div class="f"><label for="m">Message</label><textarea id="m" name="message" placeholder="Write your message here..." required></textarea></div>
     </div>
-    <button class="send" id="send" type="submit">⚡ SEND MESSAGE</button>
+    <button class="send" id="send" type="submit"><i class="fa-solid fa-paper-plane"></i> SEND MESSAGE</button>
   </form>
-  <div class="ok-msg" id="okmsg"><i class="fa-solid fa-circle-check"></i> Message sent! I'll reach out soon. ✨</div>
+  <div class="ok-msg" id="okmsg"><i class="fa-solid fa-circle-check"></i> Message sent! I'll reach out soon.</div>
 </div>
-<footer>MADE WITH 💙 © 2024 XMON4U</footer>
+<footer>MADE WITH <i class="fa-solid fa-heart" style="color:var(--p)"></i> &nbsp;© 2024 XMON4U</footer>
 </main>
 
 <audio id="audio" preload="auto" crossorigin="anonymous"></audio>
@@ -416,10 +428,10 @@ if(matchMedia('(pointer:fine)').matches){
 
 /* ---------- Contact form ---------- */
 $('form').onsubmit=e=>{
-  e.preventDefault();const b=$('send');b.disabled=true;b.textContent='⏳ SENDING...';
+  e.preventDefault();const b=$('send');b.disabled=true;b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> SENDING...';
   fetch('https://formspree.io/f/mbgjadvb',{method:'POST',body:new FormData($('form')),headers:{Accept:'application/json'}})
     .then(r=>{if(r.ok){$('form').style.display='none';$('okmsg').style.display='block';bolt()}else throw 0})
-    .catch(()=>{b.textContent='⚠️ Error — try again';b.disabled=false})};
+    .catch(()=>{b.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> ERROR — TRY AGAIN';b.disabled=false})};
 
 /* ---------- Boot ---------- */
 setVol(.8);load(0,false);
