@@ -118,6 +118,28 @@ footer{text-align:center;margin-top:44px;font:500 10.5px Orbitron;letter-spacing
 #cr{width:30px;height:30px;margin:-15px;border-radius:50%;border:1.5px solid var(--p);box-shadow:0 0 12px var(--glow);transition:border-color .25s,background .2s}
 #cr.h{background:rgba(255,255,255,.1);border-color:#fff}
 html{color-scheme:dark}
+.av{animation:bob 4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.av::before,.av::after{position:absolute;z-index:3;color:var(--p);text-shadow:0 0 12px var(--glow);animation:tw 2.4s infinite}
+.av::before{content:"✦";top:-4px;right:-16px;font-size:22px}
+.av::after{content:"✧";bottom:2px;left:-18px;font-size:17px;animation-delay:1.2s}
+@keyframes tw{50%{transform:scale(1.45) rotate(25deg);opacity:.35}}
+.chips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px}
+.chips span{padding:6px 15px;border-radius:99px;font-size:12px;background:rgba(255,255,255,.06);border:1px solid var(--line);transition:.25s}
+.chips span:hover{transform:translateY(-3px) rotate(-3deg);border-color:var(--p);box-shadow:0 8px 22px var(--glow)}
+.live{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font:500 11px 'JetBrains Mono';color:#86efac}
+.live::before{content:"";width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 10px #22c55e;animation:pl 1.6s infinite}
+@keyframes pl{50%{transform:scale(1.6);opacity:.4}}
+.soc{border-radius:20px}.soc:hover{animation:wig .5s}
+@keyframes wig{25%{rotate:-12deg}75%{rotate:12deg}}
+.card{border-radius:30px}.player{border-radius:34px}.big,.cr{border-radius:22px}
+.cover{border-radius:26px;transition:border-radius .6s}
+.cover.playing{border-radius:50%;box-shadow:0 0 30px var(--glow)}
+.cover.playing img{animation:spin 9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.big:hover>i:first-child{animation:wig .5s}
+.send{border-radius:99px}
+input,textarea{border-radius:16px}
 ::-webkit-scrollbar{width:8px;height:8px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:linear-gradient(var(--p),var(--s));border-radius:8px;border:2px solid transparent;background-clip:padding-box}
@@ -133,7 +155,7 @@ html{color-scheme:dark}
 <body>
 <div class="bg"></div><canvas id="fx"></canvas><canvas id="trail"></canvas><div id="cd"></div><div id="cr"></div>
 
-<div class="enter" id="enter"><div><h2>XMON4U</h2><p>Welcome to my official profile</p><button class="btn-enter" onclick="enter()">ENTER PROFILE</button></div></div>
+<div class="enter" id="enter"><div><h2>XMON4U</h2><p>Welcome to my official profile</p><button class="btn-enter" onclick="enter()">✨ ENTER PROFILE</button></div></div>
 <div class="views"><i class="fa-solid fa-eye"></i><span>1,284 Views</span></div>
 
 <main>
@@ -141,7 +163,9 @@ html{color-scheme:dark}
   <div class="av" id="av"><div class="wave" id="wave"></div><div class="ring" id="ring"></div>
     <img id="avImg" src="avatar.jpg" alt="XMON4U" onerror="this.onerror=null;this.src='covers/cover_storm.jpg'"></div>
   <h1 class="name" id="name" aria-label="XMON4U"></h1>
-  <p class="bio">Developer • Creator • Gamer<br>Welcome to my personal space.</p>
+  <div class="chips"><span>💻 Developer</span><span>✨ Creator</span><span>🎮 Gamer</span></div>
+  <p class="bio">Welcome to my personal space 💙</p>
+  <div class="live">online &amp; vibing</div>
 </section>
 <nav class="socials" id="socials"></nav>
 
@@ -160,9 +184,9 @@ html{color-scheme:dark}
   <div class="drawer" id="drawer"><div class="list" id="list"></div></div>
 </section>
 
-<h3 class="sec">SOCIALS &amp; PLATFORMS</h3><div class="grid" id="bigs"></div>
-<h3 class="sec">DONATION &amp; SUPPORT</h3><div class="grid" id="cryptos"></div>
-<h3 class="sec">CONTACT ME</h3>
+<h3 class="sec">🌐 SOCIALS &amp; PLATFORMS</h3><div class="grid" id="bigs"></div>
+<h3 class="sec">☕ DONATION &amp; SUPPORT</h3><div class="grid" id="cryptos"></div>
+<h3 class="sec">💌 CONTACT ME</h3>
 <div class="card contact">
   <p><i class="fa-solid fa-bolt" style="color:var(--p)"></i>&nbsp; Got a project idea, collab request, or just want to say hey? Drop a message below!</p>
   <form id="form">
@@ -175,7 +199,7 @@ html{color-scheme:dark}
   </form>
   <div class="ok-msg" id="okmsg"><i class="fa-solid fa-circle-check"></i> Message sent! I'll reach out soon. ✨</div>
 </div>
-<footer>© 2024 XMON4U • ALL RIGHTS RESERVED</footer>
+<footer>MADE WITH 💙 © 2024 XMON4U</footer>
 </main>
 
 <audio id="audio" preload="auto" crossorigin="anonymous"></audio>
@@ -242,6 +266,7 @@ function load(i,play){
   if(play){setupAudio();audio.play().then(()=>state(true)).catch(()=>state(false))}else state(false);
 }
 function state(on){
+  $('cover').classList.toggle('playing',on);
   $('play').innerHTML=`<i class="fa-solid fa-${on?'pause':'play'}"></i>`;
   document.querySelectorAll('.pl.act>i:last-child').forEach(e=>e.className=`fa-solid fa-${on?'pause':'play'}`);
 }
