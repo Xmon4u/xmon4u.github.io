@@ -1678,7 +1678,252 @@
       }
     }
 
+    /* Terminal HUD Button (Top Left Corner) */
+    .terminal-hud-btn {
+      position: fixed;
+      top: max(16px, env(safe-area-inset-top));
+      left: max(18px, env(safe-area-inset-left));
+      z-index: 40;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 13px;
+      border-radius: 20px;
+      background: rgba(9, 11, 18, 0.86);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+      color: rgba(255, 255, 255, 0.88);
+      font-family: 'JetBrains Mono', 'Orbitron', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease, color 0.3s ease;
+    }
+    .terminal-hud-btn i {
+      color: var(--primary);
+      font-size: 12px;
+      transition: color 0.3s ease;
+    }
+    .terminal-hud-btn kbd {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 9px;
+      font-family: 'JetBrains Mono', monospace;
+      color: rgba(255, 255, 255, 0.75);
+    }
+    .terminal-hud-btn:hover {
+      border-color: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 14px var(--glow);
+      transform: translateY(-1.5px);
+    }
+
+    /* Profile Status Pill */
+    .profile-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 4px 12px;
+      margin: 8px auto 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      border-radius: 20px;
+      font-family: 'JetBrains Mono', 'Orbitron', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #34d399;
+      user-select: none;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.12);
+      transition: all 0.3s ease;
+    }
+    .profile-status-pill:hover {
+      background: rgba(16, 185, 129, 0.14);
+      border-color: #34d399;
+      box-shadow: 0 0 18px rgba(16, 185, 129, 0.3);
+      transform: translateY(-1px);
+    }
+    .status-pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: statusPulse 2s infinite ease-in-out;
+    }
+    @keyframes statusPulse {
+      0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 8px #10b981; }
+      50% { opacity: 0.45; transform: scale(0.85); box-shadow: 0 0 2px #10b981; }
+    }
+
+    /* Tech Stack Tags */
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 7px;
+      margin: 12px auto 0;
+      max-width: 520px;
+    }
+    .tech-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.78);
+      letter-spacing: 0.4px;
+      user-select: none;
+      transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+    }
+    .tech-tag i {
+      color: var(--primary);
+      font-size: 11px;
+      transition: color 0.3s ease;
+    }
+    .tech-tag:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--primary);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), 0 0 12px var(--glow);
+    }
+
+    /* Cyber Terminal Modal */
+    .cyber-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: rgba(2, 4, 8, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .cyber-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .cyber-terminal-card {
+      width: min(560px, 94%);
+      background: #090b12;
+      border: 1.5px solid var(--primary);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 25px var(--glow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.96) translateY(8px);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cyber-modal-overlay.active .cyber-terminal-card {
+      transform: scale(1) translateY(0);
+    }
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: 'Orbitron', monospace;
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .terminal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+    .terminal-close-btn {
+      background: none;
+      border: none;
+      color: #888;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 2px 6px;
+      line-height: 1;
+    }
+    .terminal-close-btn:hover { color: #fff; }
+    .terminal-body {
+      padding: 14px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      max-height: 260px;
+      overflow-y: auto;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+    .terminal-line {
+      margin: 3px 0;
+    }
+    .terminal-line.cmd { color: var(--primary); font-weight: 600; }
+    .terminal-line.success { color: #34d399; }
+    .terminal-line.info { color: #94a3b8; }
+    .terminal-line.highlight { color: #f1f5f9; font-weight: 600; }
+    .terminal-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(0, 0, 0, 0.4);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .terminal-prompt {
+      color: var(--primary);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .terminal-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+
     @media(max-width:580px) {
+      .terminal-hud-btn {
+        top: max(10px, env(safe-area-inset-top));
+        left: max(12px, env(safe-area-inset-left));
+        padding: 5px 10px;
+        font-size: 10px;
+        background: rgba(9, 11, 18, 0.94);
+      }
+      .terminal-hud-btn kbd {
+        display: none;
+      }
+      .tech-tags {
+        gap: 5px;
+      }
+      .tech-tag {
+        font-size: 10px;
+        padding: 4px 9px;
+      }
       .visitor-badge {
         top: max(10px, env(safe-area-inset-top));
         right: max(12px, env(safe-area-inset-right));
@@ -2108,6 +2353,583 @@
     text-shadow: 0 0 15px rgba(254, 243, 199, 0.85), 0 0 32px #fbbf24, 0 0 55px #34d399;
   }
 
+
+/* =========================================================
+   XMON4U — V2 VISUAL REDESIGN
+   Logic-safe visual layer: existing IDs/classes preserved.
+   ========================================================= */
+
+:root{
+  --xmon-max: 980px;
+  --xmon-radius: 24px;
+  --xmon-radius-sm: 16px;
+  --xmon-line: rgba(255,255,255,.085);
+  --xmon-soft: rgba(255,255,255,.045);
+  --xmon-glass: rgba(5,8,14,.70);
+  --xmon-glass-strong: rgba(5,8,14,.88);
+  --xmon-shadow: 0 24px 70px rgba(0,0,0,.42);
+  --xmon-text: #f5f8ff;
+  --xmon-muted: rgba(226,232,240,.62);
+}
+
+/* ---------- global shell ---------- */
+html{
+  background:#020308;
+  scroll-behavior:smooth;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,.20) transparent;
+}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(900px 520px at 50% -10%, color-mix(in srgb, var(--primary) 12%, transparent), transparent 65%),
+    radial-gradient(700px 480px at 100% 70%, color-mix(in srgb, var(--secondary) 8%, transparent), transparent 70%),
+    #020308 !important;
+  color:var(--xmon-text);
+  overflow-x:hidden;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:.55;
+  background:
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+  background-size:52px 52px;
+  mask-image:linear-gradient(to bottom, black, transparent 85%);
+}
+.bg{
+  opacity:.70 !important;
+  filter:saturate(.82) contrast(1.04);
+}
+.noise{opacity:.025 !important;}
+
+/* ---------- entry screen ---------- */
+.enter{
+  background:
+    radial-gradient(circle at 50% 40%, color-mix(in srgb,var(--primary) 13%,transparent), transparent 34%),
+    #020308 !important;
+}
+.enter-box{
+  width:min(430px,calc(100vw - 36px));
+  padding:38px 30px 32px !important;
+  border:1px solid var(--xmon-line) !important;
+  border-radius:28px !important;
+  background:linear-gradient(145deg,rgba(13,17,27,.92),rgba(4,6,11,.88)) !important;
+  box-shadow:0 30px 100px rgba(0,0,0,.60),0 0 60px color-mix(in srgb,var(--primary) 10%,transparent) !important;
+  backdrop-filter:blur(18px);
+}
+.enter-box::before{
+  content:"SYSTEM / PROFILE NODE";
+  display:block;
+  margin-bottom:16px;
+  color:var(--primary);
+  font:600 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.22em;
+  opacity:.75;
+}
+.enter-logo{
+  letter-spacing:.16em !important;
+  font-weight:900 !important;
+  text-shadow:0 0 26px var(--glow) !important;
+}
+.enter-btn{
+  border-radius:12px !important;
+  border:1px solid color-mix(in srgb,var(--primary) 45%,transparent) !important;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 16%,transparent),rgba(255,255,255,.025)) !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.08),0 0 28px color-mix(in srgb,var(--primary) 10%,transparent) !important;
+  letter-spacing:.12em !important;
+}
+
+/* ---------- floating HUD ---------- */
+.terminal-hud-btn,
+.visitor-badge{
+  z-index:60 !important;
+  border:1px solid var(--xmon-line) !important;
+  background:rgba(4,7,12,.72) !important;
+  box-shadow:0 12px 32px rgba(0,0,0,.30),inset 0 1px rgba(255,255,255,.06) !important;
+  backdrop-filter:blur(16px) saturate(1.2) !important;
+}
+.terminal-hud-btn{
+  width:42px !important;
+  height:42px !important;
+  border-radius:13px !important;
+  color:var(--xmon-muted) !important;
+  transition:transform .2s ease,border-color .2s ease,color .2s ease,box-shadow .2s ease !important;
+}
+.terminal-hud-btn:hover{
+  color:var(--primary) !important;
+  border-color:color-mix(in srgb,var(--primary) 45%,transparent) !important;
+  transform:translateY(-2px);
+  box-shadow:0 12px 34px rgba(0,0,0,.35),0 0 22px color-mix(in srgb,var(--primary) 12%,transparent) !important;
+}
+.visitor-badge{
+  border-radius:13px !important;
+  padding:8px 11px !important;
+}
+.visitor-eye-wrap{
+  width:26px !important;
+  height:26px !important;
+  border-radius:9px !important;
+  background:color-mix(in srgb,var(--primary) 8%,transparent);
+  border:1px solid color-mix(in srgb,var(--primary) 20%,transparent);
+}
+.visitor-eye-icon{color:var(--primary) !important;filter:drop-shadow(0 0 7px var(--glow));}
+.count-num{font-weight:800 !important;letter-spacing:.04em;}
+.count-label{opacity:.55 !important;letter-spacing:.08em;}
+
+/* ---------- main layout ---------- */
+.wrap{
+  position:relative;
+  z-index:2;
+  width:min(var(--xmon-max),calc(100% - 32px)) !important;
+  margin:0 auto !important;
+  padding:92px 0 56px !important;
+}
+.profile{
+  position:relative;
+  padding:54px 28px 34px !important;
+  border:1px solid var(--xmon-line);
+  border-radius:32px;
+  background:
+    radial-gradient(460px 220px at 50% 0%, color-mix(in srgb,var(--primary) 8%,transparent), transparent 72%),
+    linear-gradient(145deg,rgba(12,16,25,.78),rgba(4,6,11,.58));
+  box-shadow:var(--xmon-shadow),inset 0 1px rgba(255,255,255,.055);
+  overflow:hidden;
+}
+.profile::before{
+  content:"XMON / PROFILE";
+  position:absolute;
+  top:18px;
+  left:22px;
+  font:700 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.20em;
+  color:rgba(255,255,255,.30);
+}
+.profile::after{
+  content:"";
+  position:absolute;
+  width:260px;height:260px;
+  right:-150px;bottom:-170px;
+  border:1px solid color-mix(in srgb,var(--primary) 20%,transparent);
+  border-radius:50%;
+  box-shadow:0 0 80px color-mix(in srgb,var(--primary) 8%,transparent);
+  pointer-events:none;
+}
+.avatar-wrap{
+  filter:drop-shadow(0 22px 35px rgba(0,0,0,.45));
+}
+.avatar{
+  border:1px solid rgba(255,255,255,.12) !important;
+  box-shadow:
+    0 0 0 7px rgba(255,255,255,.025),
+    0 0 0 8px color-mix(in srgb,var(--primary) 16%,transparent),
+    0 24px 55px rgba(0,0,0,.48) !important;
+}
+.avatar-ring{opacity:.85 !important;}
+.name-wrap{margin-top:24px !important;}
+.name{
+  letter-spacing:.16em !important;
+  text-shadow:
+    0 0 8px rgba(255,255,255,.22),
+    0 0 32px color-mix(in srgb,var(--primary) 20%,transparent) !important;
+}
+.bio{
+  color:var(--xmon-muted) !important;
+  line-height:1.7 !important;
+  letter-spacing:.02em;
+}
+.profile-status-pill{
+  border:1px solid color-mix(in srgb,var(--primary) 22%,transparent) !important;
+  background:rgba(255,255,255,.035) !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.045) !important;
+  border-radius:999px !important;
+  padding:8px 12px !important;
+}
+.tech-tags{
+  gap:8px !important;
+  margin-top:18px !important;
+}
+.tech-tag{
+  border:1px solid var(--xmon-line) !important;
+  background:rgba(255,255,255,.035) !important;
+  color:rgba(241,245,249,.72) !important;
+  border-radius:999px !important;
+  padding:7px 11px !important;
+  font-size:10px !important;
+  letter-spacing:.04em;
+}
+
+/* ---------- socials ---------- */
+.links{
+  margin:20px auto 30px !important;
+  gap:9px !important;
+}
+.social{
+  width:42px !important;
+  height:42px !important;
+  border:1px solid var(--xmon-line) !important;
+  border-radius:13px !important;
+  background:rgba(7,10,16,.68) !important;
+  color:rgba(255,255,255,.68) !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.05) !important;
+}
+.social:hover{
+  color:var(--primary) !important;
+  border-color:color-mix(in srgb,var(--primary) 42%,transparent) !important;
+  box-shadow:0 0 24px color-mix(in srgb,var(--primary) 12%,transparent),inset 0 1px rgba(255,255,255,.08) !important;
+}
+
+/* ---------- shared section headers ---------- */
+.section-title{
+  display:flex !important;
+  align-items:center;
+  gap:12px;
+  margin:42px 0 14px !important;
+  color:rgba(255,255,255,.48) !important;
+  font:700 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace !important;
+  letter-spacing:.20em !important;
+}
+.section-title::before{
+  content:"";
+  width:28px;
+  height:1px;
+  background:linear-gradient(90deg,var(--primary),transparent);
+  box-shadow:0 0 10px var(--glow);
+}
+.section-title::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,var(--xmon-line),transparent);
+}
+
+/* ---------- audio station ---------- */
+.card.audio-card{
+  position:relative;
+  border:1px solid var(--xmon-line) !important;
+  border-radius:var(--xmon-radius) !important;
+  background:
+    radial-gradient(480px 180px at 15% 0%,color-mix(in srgb,var(--primary) 7%,transparent),transparent 70%),
+    linear-gradient(145deg,rgba(11,15,23,.90),rgba(4,6,10,.76)) !important;
+  box-shadow:var(--xmon-shadow),inset 0 1px rgba(255,255,255,.055) !important;
+  overflow:hidden;
+}
+.card.audio-card::before{
+  content:"XMON AUDIO NODE";
+  position:absolute;
+  top:14px;
+  right:18px;
+  color:rgba(255,255,255,.25);
+  font:700 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.18em;
+  pointer-events:none;
+}
+.audio-main{padding:26px !important;}
+.cover-wrap{
+  border:1px solid rgba(255,255,255,.10) !important;
+  border-radius:18px !important;
+  box-shadow:0 18px 40px rgba(0,0,0,.38) !important;
+  overflow:hidden;
+}
+.cover-wrap::after{
+  background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.42)) !important;
+}
+.track-details{padding-left:22px !important;}
+.track-title,#trackTitle{
+  letter-spacing:.03em !important;
+}
+.track-artist{
+  color:var(--xmon-muted) !important;
+}
+.theme-badge{
+  border:1px solid color-mix(in srgb,var(--primary) 25%,transparent) !important;
+  background:color-mix(in srgb,var(--primary) 7%,transparent) !important;
+  border-radius:999px !important;
+}
+.track-badge-count{
+  border:1px solid var(--xmon-line) !important;
+  background:rgba(255,255,255,.035) !important;
+  border-radius:999px !important;
+  padding:6px 9px !important;
+}
+.progress-bar-track{
+  background:rgba(255,255,255,.08) !important;
+  border-radius:999px !important;
+}
+.progress-bar-fill{
+  box-shadow:0 0 16px var(--glow) !important;
+}
+.controls-row{margin-top:18px !important;}
+.ctrl-btn{
+  border:1px solid var(--xmon-line) !important;
+  background:rgba(255,255,255,.035) !important;
+  color:rgba(255,255,255,.68) !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.05) !important;
+  transition:transform .18s ease,border-color .18s ease,color .18s ease,background .18s ease !important;
+}
+.ctrl-btn:hover{
+  color:var(--primary) !important;
+  border-color:color-mix(in srgb,var(--primary) 42%,transparent) !important;
+  background:color-mix(in srgb,var(--primary) 7%,transparent) !important;
+  transform:translateY(-2px);
+}
+.ctrl-btn.main-play{
+  border-color:color-mix(in srgb,var(--primary) 42%,transparent) !important;
+  background:linear-gradient(145deg,color-mix(in srgb,var(--primary) 18%,transparent),rgba(255,255,255,.035)) !important;
+  box-shadow:0 0 28px color-mix(in srgb,var(--primary) 11%,transparent),inset 0 1px rgba(255,255,255,.10) !important;
+}
+.vol-slider{
+  accent-color:var(--primary);
+}
+.playlist-drawer{
+  border-top:1px solid var(--xmon-line) !important;
+  background:rgba(0,0,0,.16) !important;
+}
+.playlist-header{
+  border-bottom:1px solid var(--xmon-line) !important;
+}
+.playlist-list{padding:10px !important;}
+
+/* ---------- social platform cards ---------- */
+.big-links{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px !important;
+}
+.big-link{
+  min-height:74px !important;
+  border:1px solid var(--xmon-line) !important;
+  border-radius:18px !important;
+  background:linear-gradient(145deg,rgba(10,14,22,.82),rgba(5,7,12,.72)) !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.045),0 12px 28px rgba(0,0,0,.20) !important;
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,background .2s ease !important;
+}
+.big-link:hover{
+  transform:translateY(-3px) !important;
+  border-color:color-mix(in srgb,var(--primary) 35%,transparent) !important;
+  box-shadow:0 18px 38px rgba(0,0,0,.28),0 0 28px color-mix(in srgb,var(--primary) 8%,transparent) !important;
+}
+.brand-icon{
+  color:var(--primary) !important;
+  filter:drop-shadow(0 0 8px var(--glow));
+}
+.big-link .arrow{opacity:.34 !important;}
+
+/* ---------- donation ---------- */
+.crypto-list{gap:10px !important;}
+.crypto-card{
+  border:1px solid var(--xmon-line) !important;
+  border-radius:18px !important;
+  background:linear-gradient(145deg,rgba(10,14,22,.82),rgba(5,7,12,.70)) !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.045) !important;
+}
+.crypto-icon{
+  width:42px !important;
+  height:42px !important;
+  border-radius:13px !important;
+  background:rgba(255,255,255,.045) !important;
+}
+.crypto-info{min-width:0;}
+.crypto-title{letter-spacing:.02em;}
+.crypto-addr{
+  color:rgba(226,232,240,.48) !important;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace !important;
+}
+.copy-btn{
+  border:1px solid var(--xmon-line) !important;
+  border-radius:11px !important;
+  background:rgba(255,255,255,.035) !important;
+}
+
+/* ---------- contact ---------- */
+.contact-card{
+  border:1px solid var(--xmon-line) !important;
+  border-radius:24px !important;
+  background:linear-gradient(145deg,rgba(11,15,23,.86),rgba(4,6,10,.74)) !important;
+  box-shadow:var(--xmon-shadow),inset 0 1px rgba(255,255,255,.05) !important;
+  padding:24px !important;
+}
+.contact-desc{
+  color:var(--xmon-muted) !important;
+  line-height:1.7 !important;
+}
+.form-input,.form-textarea{
+  border:1px solid var(--xmon-line) !important;
+  border-radius:13px !important;
+  background:rgba(0,0,0,.20) !important;
+  color:var(--xmon-text) !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.035) !important;
+  transition:border-color .2s ease,box-shadow .2s ease,background .2s ease !important;
+}
+.form-input:focus,.form-textarea:focus{
+  border-color:color-mix(in srgb,var(--primary) 50%,transparent) !important;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 8%,transparent),0 0 24px color-mix(in srgb,var(--primary) 6%,transparent) !important;
+  background:rgba(0,0,0,.28) !important;
+}
+.form-send{
+  border:1px solid color-mix(in srgb,var(--primary) 38%,transparent) !important;
+  border-radius:13px !important;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 15%,transparent),rgba(255,255,255,.035)) !important;
+  box-shadow:0 12px 30px color-mix(in srgb,var(--primary) 6%,transparent),inset 0 1px rgba(255,255,255,.08) !important;
+}
+
+/* ---------- terminal ---------- */
+.cyber-modal-overlay{
+  background:rgba(0,0,0,.72) !important;
+  backdrop-filter:blur(12px) !important;
+}
+.terminal-modal,.terminal-window{
+  border:1px solid var(--xmon-line) !important;
+  border-radius:20px !important;
+  background:rgba(4,7,12,.94) !important;
+  box-shadow:0 30px 100px rgba(0,0,0,.65),0 0 50px color-mix(in srgb,var(--primary) 8%,transparent) !important;
+}
+
+/* ---------- footer ---------- */
+.footer{
+  margin-top:36px !important;
+  padding:22px 0 8px !important;
+  border-top:1px solid var(--xmon-line);
+  color:rgba(255,255,255,.28) !important;
+  font:600 9px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace !important;
+  letter-spacing:.16em !important;
+}
+
+/* ---------- motion polish ---------- */
+.big-link,.crypto-card,.contact-card,.audio-card,.profile{
+  transform:translateZ(0);
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    scroll-behavior:auto !important;
+    transition-duration:.001ms !important;
+  }
+}
+
+/* ---------- tablet ---------- */
+@media (max-width:760px){
+  .wrap{
+    width:min(100% - 20px,680px) !important;
+    padding:76px 0 36px !important;
+  }
+  .profile{
+    padding:46px 18px 26px !important;
+    border-radius:24px;
+  }
+  .profile::before{left:16px;}
+  .links{margin-bottom:22px !important;}
+  .audio-main{padding:18px !important;}
+  .track-details{padding-left:0 !important;margin-top:16px;}
+  .big-links{grid-template-columns:1fr;}
+  .contact-card{padding:18px !important;border-radius:20px;}
+}
+
+/* ---------- phone ---------- */
+@media (max-width:520px){
+  .wrap{
+    width:calc(100% - 14px) !important;
+    padding-top:68px !important;
+  }
+  .terminal-hud-btn{
+    width:38px !important;
+    height:38px !important;
+  }
+  .visitor-badge{
+    padding:7px 9px !important;
+  }
+  .visitor-badge .count-label{display:none;}
+  .profile{
+    padding:42px 12px 22px !important;
+    border-radius:22px;
+  }
+  .avatar{max-width:min(180px,52vw) !important;}
+  .name{font-size:clamp(28px,10vw,44px) !important;}
+  .bio{font-size:12px !important;}
+  .tech-tags{
+    max-width:340px;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+  .tech-tag{
+    font-size:9px !important;
+    padding:6px 9px !important;
+  }
+  .links{
+    flex-wrap:wrap !important;
+    max-width:330px;
+  }
+  .social{
+    width:39px !important;
+    height:39px !important;
+  }
+  .card.audio-card{
+    border-radius:20px !important;
+  }
+  .audio-main{padding:14px !important;}
+  .cover-wrap{
+    width:min(170px,48vw) !important;
+    margin:0 auto !important;
+    border-radius:16px !important;
+  }
+  .track-header{
+    gap:8px !important;
+  }
+  .track-badge-count{
+    font-size:9px !important;
+  }
+  .controls-row{
+    flex-wrap:wrap !important;
+    justify-content:center !important;
+    gap:12px !important;
+  }
+  .ctrl-left,.ctrl-right{
+    width:100%;
+    justify-content:center !important;
+  }
+  .ctrl-right{gap:8px !important;}
+  .section-title{
+    margin-top:32px !important;
+    font-size:9px !important;
+    letter-spacing:.15em !important;
+  }
+  .big-link{
+    min-height:66px !important;
+    border-radius:16px !important;
+  }
+  .crypto-card{
+    border-radius:16px !important;
+    padding:12px !important;
+  }
+  .crypto-addr{
+    max-width:46vw;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .form-row{
+    grid-template-columns:1fr !important;
+  }
+  .footer{
+    font-size:8px !important;
+    letter-spacing:.11em !important;
+  }
+}
+
+/* ---------- very small screens ---------- */
+@media (max-width:360px){
+  .visitor-badge{right:8px !important;}
+  .terminal-hud-btn{left:8px !important;}
+  .wrap{width:calc(100% - 10px) !important;}
+  .profile{padding-left:9px !important;padding-right:9px !important;}
+  .ctrl-btn{width:36px !important;height:36px !important;}
+}
+
 </style>
 <script>
 (function(){
@@ -2182,6 +3004,13 @@
     </div>
   </div>
 
+  <!-- Cyberpunk HUD: Terminal Trigger (Left) & Visitor Badge (Right) -->
+  <button class="terminal-hud-btn" id="terminalHudBtn" onclick="toggleCyberTerminal()" title="Cyber Terminal (Ctrl+K)">
+    <i class="fa-solid fa-terminal"></i>
+    <span>SYS.TERM</span>
+    <kbd>Ctrl+K</kbd>
+  </button>
+
   <div class="visitor-badge" id="visitorBadge" title="Profile Views" aria-label="1,284 Views">
     <span class="visitor-eye-wrap" aria-hidden="true">
       <i class="fa-solid fa-eye visitor-eye-icon"></i>
@@ -2214,6 +3043,21 @@
         </h1>
       </div>
       <p class="bio">Developer • Creator • Gamer<br>Welcome to my personal space.</p>
+
+      <!-- Live Status Indicator -->
+      <div class="profile-status-pill" title="System Live Status">
+        <span class="status-pulse-dot"></span>
+        <span class="status-text">ONLINE • BUILDING</span>
+      </div>
+
+      <!-- Cyberpunk Tech Stack Chips -->
+      <div class="tech-tags">
+        <span class="tech-tag"><i class="fa-brands fa-js"></i> JavaScript</span>
+        <span class="tech-tag"><i class="fa-solid fa-gamepad"></i> Game Dev</span>
+        <span class="tech-tag"><i class="fa-brands fa-python"></i> Python</span>
+        <span class="tech-tag"><i class="fa-solid fa-bolt"></i> Cyberpunk UI</span>
+        <span class="tech-tag"><i class="fa-solid fa-headphones"></i> Sound Design</span>
+      </div>
     </section>
 
     
@@ -5121,7 +5965,178 @@
       requestAnimationFrame(renderCustomCursorLoop);
     }
 
+    // ==========================================
+    // Cyberpunk Command Terminal (SYS.TERM)
+    // ==========================================
+    const terminalModal = document.getElementById('terminalModal');
+    const terminalInput = document.getElementById('terminalInput');
+    const terminalOutput = document.getElementById('terminalOutput');
+
+    function toggleCyberTerminal() {
+      if (!terminalModal) return;
+      const isOpen = terminalModal.classList.contains('active');
+      if (isOpen) {
+        closeCyberTerminal();
+      } else {
+        openCyberTerminal();
+      }
+    }
+
+    function openCyberTerminal() {
+      if (!terminalModal) return;
+      terminalModal.classList.add('active');
+      if (terminalInput) {
+        setTimeout(() => terminalInput.focus(), 80);
+      }
+    }
+
+    function closeCyberTerminal() {
+      if (!terminalModal) return;
+      terminalModal.classList.remove('active');
+      if (terminalInput) terminalInput.blur();
+    }
+
+    function handleTerminalOverlayClick(e) {
+      if (e.target === terminalModal) {
+        closeCyberTerminal();
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        toggleCyberTerminal();
+      } else if (e.key === 'Escape' && terminalModal && terminalModal.classList.contains('active')) {
+        closeCyberTerminal();
+      }
+    });
+
+    function appendTerminalLine(text, type = 'info') {
+      if (!terminalOutput) return;
+      const p = document.createElement('div');
+      p.className = `terminal-line ${type}`;
+      p.textContent = text;
+      terminalOutput.appendChild(p);
+      const body = terminalOutput.parentElement;
+      if (body) body.scrollTop = body.scrollHeight;
+    }
+
+    function executeTerminalCommand(cmdRaw) {
+      const cmd = cmdRaw.trim().toLowerCase();
+      if (!cmd) return;
+
+      appendTerminalLine(`> ${cmdRaw}`, 'cmd');
+
+      const parts = cmd.split(/\s+/);
+      const baseCmd = parts[0];
+      const arg = parts.slice(1).join(' ');
+
+      switch (baseCmd) {
+        case 'help':
+          appendTerminalLine('AVAILABLE COMMANDS:', 'highlight');
+          appendTerminalLine('  theme <name>  : Change active theme (storm, cyber, ocean, fire, etc.)');
+          appendTerminalLine('  glitch        : Trigger cyberpunk avatar glitch');
+          appendTerminalLine('  play / pause  : Toggle audio playback');
+          appendTerminalLine('  next / prev   : Switch audio tracks');
+          appendTerminalLine('  status        : Check system runtime status');
+          appendTerminalLine('  clear         : Clear terminal console');
+          appendTerminalLine('  exit          : Close terminal');
+          break;
+
+        case 'theme':
+          if (!arg) {
+            appendTerminalLine('Themes: storm, cyber, ocean, rain, ambient, night, bass, fire, sakura, frost, rainbow, fireflies', 'info');
+          } else if (THEMES[arg]) {
+            applyTheme(arg, true);
+            appendTerminalLine(`Theme switched to [${arg.toUpperCase()}]`, 'success');
+          } else {
+            appendTerminalLine(`Unknown theme "${arg}". Type "theme" for list.`, 'info');
+          }
+          break;
+
+        case 'glitch':
+          triggerAvatarGlitch(600);
+          appendTerminalLine('Avatar Cyberpunk Glitch Triggered.', 'success');
+          break;
+
+        case 'play':
+          togglePlay(true);
+          appendTerminalLine('Audio Playback Started.', 'success');
+          break;
+
+        case 'pause':
+          togglePlay(false);
+          appendTerminalLine('Audio Paused.', 'info');
+          break;
+
+        case 'next':
+          nextTrack();
+          appendTerminalLine('Switched to Next Track.', 'success');
+          break;
+
+        case 'prev':
+          prevTrack();
+          appendTerminalLine('Switched to Previous Track.', 'success');
+          break;
+
+        case 'status':
+          appendTerminalLine('STATUS: ONLINE [v2.4]', 'success');
+          appendTerminalLine(`THEME: ${currentThemeKey.toUpperCase()} | PARTICLES: ${particles.length}`, 'highlight');
+          appendTerminalLine(`FPS TARGET: ${isMobileDevice ? '30 (Mobile Optimized)' : '60 (Desktop)'}`, 'info');
+          break;
+
+        case 'clear':
+        case 'cls':
+          if (terminalOutput) terminalOutput.innerHTML = '';
+          break;
+
+        case 'exit':
+        case 'quit':
+          closeCyberTerminal();
+          break;
+
+        default:
+          appendTerminalLine(`Command not recognized: "${cmdRaw}". Type "help" for command list.`, 'info');
+          break;
+      }
+    }
+
+    if (terminalInput) {
+      terminalInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          const val = terminalInput.value;
+          terminalInput.value = '';
+          executeTerminalCommand(val);
+        }
+      });
+    }
+
 </script>
+
+  <!-- Cyberpunk Terminal Modal -->
+  <div class="cyber-modal-overlay" id="terminalModal" onclick="handleTerminalOverlayClick(event)" aria-modal="true" role="dialog">
+    <div class="cyber-terminal-card">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <span class="terminal-dot dot-red" onclick="closeCyberTerminal()" style="cursor:pointer"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+        </div>
+        <div class="terminal-title">XMON4U // SYS.TERM [v2.4]</div>
+        <button class="terminal-close-btn" onclick="closeCyberTerminal()" aria-label="Close terminal">&times;</button>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-output" id="terminalOutput">
+          <div class="terminal-line success">XMON4U CYBERPUNK TERMINAL READY.</div>
+          <div class="terminal-line info">Type <span style="color:var(--primary);font-weight:600">help</span> to view available system commands.</div>
+        </div>
+      </div>
+      <div class="terminal-input-row">
+        <span class="terminal-prompt">&gt;</span>
+        <input type="text" class="terminal-input" id="terminalInput" placeholder="type command (e.g. help, theme cyber, glitch)..." autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
