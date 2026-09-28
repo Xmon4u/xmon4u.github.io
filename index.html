@@ -17,9 +17,9 @@ body{min-height:100vh;font-family:Poppins,sans-serif;color:#fff;background:#0305
 .bg{position:fixed;inset:0;z-index:-3;transition:background 1s;background:radial-gradient(60% 45% at 50% 0%,color-mix(in srgb,var(--p) 22%,transparent),transparent),radial-gradient(45% 40% at 10% 90%,color-mix(in srgb,var(--s) 26%,transparent),transparent),radial-gradient(40% 35% at 95% 85%,color-mix(in srgb,var(--p) 14%,transparent),transparent),linear-gradient(180deg,var(--base),#020306)}
 #fx{position:fixed;inset:0;z-index:-2;pointer-events:none}
 #trail{position:fixed;inset:0;z-index:99;pointer-events:none}
-.enter{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:rgba(3,5,10,.94);backdrop-filter:blur(20px);transition:.7s}
-.enter.hide{opacity:0;visibility:hidden;pointer-events:none}
-.enter div{text-align:center;padding:24px}
+.enter{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:rgba(3,5,10,.78);backdrop-filter:blur(6px);transition:.7s}
+.enter.hide{opacity:0;visibility:hidden;pointer-events:none;transform:scale(1.15);filter:blur(8px)}
+.ebox{text-align:center;padding:24px;position:relative;z-index:2}
 .enter h2{font:900 clamp(34px,9vw,54px) Orbitron;letter-spacing:.3em;margin-bottom:10px;text-shadow:0 0 40px var(--glow)}
 .enter p{color:#94a3b8;font-size:13px;letter-spacing:.1em;margin-bottom:28px}
 .btn-enter{font:700 12px Orbitron;letter-spacing:.2em;padding:15px 38px;border-radius:40px;border:1px solid #fff;background:#fff;color:#05070d;cursor:pointer;transition:.25s}
@@ -118,6 +118,9 @@ footer{text-align:center;margin-top:44px;font:500 10.5px Orbitron;letter-spacing
 #cr{width:30px;height:30px;margin:-15px;border-radius:50%;border:1.5px solid var(--p);box-shadow:0 0 12px var(--glow);transition:border-color .25s,background .2s}
 #cr.h{background:rgba(255,255,255,.1);border-color:#fff}
 html{color-scheme:dark}
+*,*::before,*::after{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important}
+input,textarea{-webkit-user-select:text!important;user-select:text!important}
+::selection{background:transparent}input::selection,textarea::selection{background:var(--glow)}
 .av{animation:bob 4s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-8px)}}
 .av::before,.av::after{clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);position:absolute;z-index:3;color:var(--p);text-shadow:0 0 12px var(--glow);animation:tw 2.4s infinite}
@@ -152,6 +155,46 @@ h3.sec::before{counter-increment:s;content:"0" counter(s) " //";color:var(--p);f
 .cur{margin-left:2px;animation:bk 1s steps(2) infinite}
 @keyframes bk{50%{opacity:0}}
 .chips i{color:var(--p);margin-right:4px}
+.prog{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;background:linear-gradient(90deg,var(--p),var(--s));box-shadow:0 0 12px var(--glow)}
+.card,.cr{position:relative}
+.card::before,.big::before,.cr::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--p) 20%,transparent),transparent 65%)}
+.card:hover::before,.big:hover::before,.cr:hover::before{opacity:1}
+.player{transform-style:preserve-3d}
+.rv{opacity:0}.rv.in{animation:up .7s both}
+@keyframes up{from{opacity:0;translate:0 28px}to{opacity:1;translate:0 0}}
+.toast{position:fixed;left:50%;bottom:24px;z-index:70;translate:-50% 30px;opacity:0;display:flex;gap:10px;align-items:center;padding:10px 20px;border-radius:99px;background:rgba(9,11,18,.92);border:1px solid var(--p);box-shadow:0 0 26px var(--glow);font:500 12px 'JetBrains Mono';transition:.4s;pointer-events:none;max-width:90vw;white-space:nowrap}
+.toast.on{translate:-50% 0;opacity:1}.toast i{color:var(--p)}
+.boot{font:500 11.5px/1.7 'JetBrains Mono';color:var(--p);text-align:left;margin:0 auto 26px;width:max-content;max-width:100%;min-height:80px;white-space:pre;text-shadow:0 0 10px var(--glow)}
+.btn-enter{opacity:0;transform:translateY(10px)}
+.enter.rdy .btn-enter{opacity:1;transform:none}
+.enter.rdy .btn-enter:hover{transform:scale(1.05)}
+.soc{transition:.25s all,translate .12s}
+.hud{position:absolute;inset:0;margin:auto;width:min(560px,90vw);height:min(560px,90vw);color:var(--p);opacity:.35;animation:spin 30s linear infinite}
+.scan{position:absolute;left:0;right:0;height:120px;background:linear-gradient(transparent,color-mix(in srgb,var(--p) 14%,transparent),transparent);animation:sw 4s linear infinite;pointer-events:none}
+@keyframes sw{from{top:-120px}to{top:100%}}
+.enter h2{position:relative}
+.enter h2::before,.enter h2::after{content:attr(data-c);position:absolute;inset:0;opacity:0;animation:gx 3s infinite}
+.enter h2::before{color:var(--p);clip-path:inset(0 0 60% 0)}
+.enter h2::after{color:var(--s);clip-path:inset(60% 0 0 0);animation-direction:reverse}
+@keyframes gx{0%,90%,100%{transform:none;opacity:0}92%{transform:translateX(-6px);opacity:.9}95%{transform:translateX(6px);opacity:.9}}
+.ldr{width:min(280px,70vw);height:3px;margin:0 auto 6px;background:#1a2030;border-radius:9px;overflow:hidden}
+.ldr u{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--p),var(--s));box-shadow:0 0 12px var(--glow)}
+.pct{font:500 10px 'JetBrains Mono';color:#7d8aa3;display:inline-block;margin-bottom:22px}
+.hint{display:block;margin-top:16px;font:500 9.5px 'JetBrains Mono';letter-spacing:.25em;color:#5b667c;animation:bk 1.4s steps(2) infinite}
+.dock{position:fixed;left:14px;top:50%;translate:0 -50%;z-index:45;display:flex;flex-direction:column;gap:10px;padding:12px 8px;border-radius:99px;background:rgba(9,11,18,.7);border:1px solid var(--line);backdrop-filter:blur(10px)}
+.dock button{width:16px;height:16px;border-radius:50%;border:0;cursor:pointer;transition:.25s;box-shadow:0 0 0 2px transparent}
+.dock button:hover{transform:scale(1.5)}
+.dock button.on{box-shadow:0 0 0 2px #fff,0 0 12px currentColor}
+@media(max-width:1000px){.dock{display:none}}
+.clock{position:fixed;top:max(14px,env(safe-area-inset-top));left:14px;z-index:40;padding:6px 14px;border-radius:20px;background:rgba(9,11,18,.85);border:1px solid var(--line);font:600 11px 'JetBrains Mono';color:#cbd5e1}
+.clock i{color:var(--p);margin-right:8px}
+.crt{position:fixed;inset:0;z-index:998;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.13) 0 1px,transparent 1px 3px);box-shadow:inset 0 0 150px rgba(0,0,0,.55)}
+.mq{overflow:hidden;margin:36px -6vw 0;-webkit-mask:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent);mask:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent)}
+.mq div{display:flex;gap:40px;width:max-content;animation:mq 24s linear infinite}
+.mq span{font:900 32px Orbitron;letter-spacing:.14em;color:transparent;-webkit-text-stroke:1px color-mix(in srgb,var(--p) 55%,transparent);white-space:nowrap}
+.mq span:nth-child(even){-webkit-text-stroke-color:color-mix(in srgb,var(--s) 65%,transparent)}
+@keyframes mq{to{transform:translateX(-50%)}}
+@media(max-width:580px){.clock{display:none}}
 ::-webkit-scrollbar{width:8px;height:8px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:linear-gradient(var(--p),var(--s));border-radius:8px;border:2px solid transparent;background-clip:padding-box}
@@ -167,7 +210,10 @@ h3.sec::before{counter-increment:s;content:"0" counter(s) " //";color:var(--p);f
 <body>
 <div class="bg"></div><canvas id="fx"></canvas><canvas id="trail"></canvas><div id="cd"></div><div id="cr"></div>
 
-<div class="enter" id="enter"><div><h2>XMON4U</h2><p>Welcome to my official profile</p><button class="btn-enter" onclick="enter()"><i class="fa-solid fa-bolt"></i> ENTER PROFILE</button></div></div>
+<div class="enter" id="enter"><svg class="hud" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" stroke-dasharray="2 8"/><circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="60 30 10 30"/></svg><div class="scan"></div>
+<div class="ebox"><h2 data-c="XMON4U">XMON4U</h2><p>Welcome to my official profile</p><pre class="boot" id="boot"></pre><div class="ldr"><u id="ldr"></u></div><span class="pct" id="pct">0%</span><br>
+<button class="btn-enter" onclick="enter()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:8px"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>ENTER PROFILE</button><small class="hint">PRESS ENTER OR CLICK</small></div></div>
+<div class="prog" id="prog"></div><div class="toast" id="toast"></div><div class="dock" id="dock"></div><div class="clock"><i class="fa-regular fa-clock"></i><span id="ck"></span></div><div class="crt"></div>
 <div class="views"><i class="fa-solid fa-eye"></i><span>1,284 Views</span></div>
 
 <main>
@@ -176,7 +222,7 @@ h3.sec::before{counter-increment:s;content:"0" counter(s) " //";color:var(--p);f
     <img id="avImg" src="avatar.jpg" alt="XMON4U" onerror="this.onerror=null;this.src='covers/cover_storm.jpg'"></div>
   <h1 class="name" id="name" aria-label="XMON4U"></h1>
   <div class="chips"><span><i class="fa-solid fa-code"></i> Developer</span><span><i class="fa-solid fa-wand-magic-sparkles"></i> Creator</span><span><i class="fa-solid fa-gamepad"></i> Gamer</span></div>
-  <p class="bio">Welcome to my personal space</p>
+  <p class="bio">Welcome to my personal space<br><span style="color:#64748b">~ </span><b id="role" style="color:var(--p)"></b><b class="cur">|</b></p>
   <div class="live">status: online<b class="cur">_</b></div>
 </section>
 <nav class="socials" id="socials"></nav>
@@ -196,6 +242,7 @@ h3.sec::before{counter-increment:s;content:"0" counter(s) " //";color:var(--p);f
   <div class="drawer" id="drawer"><div class="list" id="list"></div></div>
 </section>
 
+<div class="mq"><div id="mq"></div></div>
 <h3 class="sec">SOCIALS &amp; PLATFORMS</h3><div class="grid" id="bigs"></div>
 <h3 class="sec">DONATION &amp; SUPPORT</h3><div class="grid" id="cryptos"></div>
 <h3 class="sec">CONTACT ME</h3>
@@ -275,7 +322,7 @@ function load(i,play){
   $('art').onerror=function(){this.onerror=null;this.src='covers/cover_storm.jpg'};$('art').src=t.cover;
   $('fill').style.width='0';$('cur').textContent='0:00';
   audio.src=t.file;renderList();
-  if(play){setupAudio();audio.play().then(()=>state(true)).catch(()=>state(false))}else state(false);
+  if(play){toast("Now playing — "+t.title);setupAudio();audio.play().then(()=>state(true)).catch(()=>state(false))}else state(false);
 }
 function state(on){
   $('cover').classList.toggle('playing',on);
@@ -306,7 +353,7 @@ $('vol').oninput=e=>setVol(+e.target.value);
 let lastV=.8;$('mute').onclick=()=>{if(audio.volume>0){lastV=audio.volume;setVol(0)}else setVol(lastV||.8)};
 addEventListener('keydown',e=>{
   if(/INPUT|TEXTAREA/.test(e.target.tagName)&&e.target.type!=='range')return;
-  const k={Space:toggle,ArrowRight:()=>audio.currentTime+=5,ArrowLeft:()=>audio.currentTime-=5,KeyN:next,KeyP:prev,KeyM:()=>$('mute').click(),KeyL:()=>$('pltog').click(),ArrowUp:()=>setVol(Math.min(1,audio.volume+.05)),ArrowDown:()=>setVol(Math.max(0,audio.volume-.05))}[e.code];
+  const k={Space:toggle,ArrowRight:()=>audio.currentTime+=5,ArrowLeft:()=>audio.currentTime-=5,KeyT:()=>{const ks=Object.keys(T);applyTheme(ks[(ks.indexOf(theme)+1)%ks.length]);toast("Theme — "+T[theme][0])},KeyN:next,KeyP:prev,KeyM:()=>$('mute').click(),KeyL:()=>$('pltog').click(),ArrowUp:()=>setVol(Math.min(1,audio.volume+.05)),ArrowDown:()=>setVol(Math.max(0,audio.volume-.05))}[e.code];
   if(k){e.preventDefault();k()}});
 
 /* ---------- Themes & particles ---------- */
@@ -315,7 +362,7 @@ function applyTheme(k){
   theme=k;const t=T[k]||T.storm,r=document.documentElement.style;
   r.setProperty('--p',t[2]);r.setProperty('--s',t[3]);r.setProperty('--base',t[4]);
   $('badge').innerHTML=`<i class="${t[1]}"></i> ${t[0]}`;
-  document.body.dataset.theme=k;spawn();
+  document.body.dataset.theme=k;document.querySelectorAll('#dock button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));spawn();
 }
 const small=innerWidth<820;
 function spawn(){
@@ -400,12 +447,15 @@ function frame(ts){
     if(hit&&bass>.65&&ts-lastGl>3200)glitch();
   }
 
+  // Bottom spectrum
+  if(playing){const N=small?32:64,bw=W/N;g.fillStyle=t[2];for(let i=0;i<N;i++){const val=data?data[Math.floor(i*data.length*.45/N)]/255:v,h=val*H*.14*(.6+beat*.6);g.globalAlpha=.16+val*.3;g.fillRect(i*bw+1,H-h,bw-2,h)}g.globalAlpha=1}
   // Name, cover, card, EQ
   $('name').style.transform=`scale(${1+bass*.08*I+beat*.05})`;
   const on=playing&&v>.05;
   chars.forEach((c,i)=>{c.style.setProperty('--so',on?Math.min(1,.25+bass*.6+beat*.4):0);c.style.setProperty('--sx',(-(2+bass*3+beat*2)*(i%2?-1:1))+'px');c.style.transform=on?`translate(${Math.sin(ts/40+i*2)*bass*3}px,${Math.cos(ts/50+i)*bass*1.5}px)`:''});
   cover.style.transform=`scale(${1+bass*.08*I+beat*.05})`;
-  player.style.transform=`scale(${1+bass*.015*I+beat*.008})`;
+  cX+=(tX-cX)*.12;cY+=(tY-cY)*.12;
+  player.style.transform=`perspective(900px) rotateX(${cX.toFixed(2)}deg) rotateY(${cY.toFixed(2)}deg) scale(${1+bass*.015*I+beat*.008})`;
   const hs=playing?[4+bass*22,5+Math.max(bass,beat)*23,4+mid*20,4+hi*18]:[4,4,4,4];
   eqs.forEach((e,i)=>e.style.height=Math.round(hs[i])+'px');
 }
@@ -419,6 +469,7 @@ if(matchMedia('(pointer:fine)').matches){
     if(e.timeStamp-last>30){last=e.timeStamp;const c=T[theme];tp.push({x:mx,y:my,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2,a:.8,c:Math.random()>.5?c[2]:c[3]});if(tp.length>24)tp.shift()}},{passive:true});
   document.addEventListener('pointerover',e=>cr.classList.toggle('h',!!e.target.closest('a,button,input,textarea,.cover,.pl,.soc,.cr,.bar')));
   document.addEventListener('mouseleave',()=>{act=false;cd.style.opacity=cr.style.opacity=0});
+  addEventListener('pointerdown',e=>{const c=T[theme];for(let i=0;i<16;i++){const a=i/16*6.283,sp=2+Math.random()*3;tp.push({x:e.clientX,y:e.clientY,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,a:1,c:i%2?c[2]:c[3]})}});
   (function loop(){
     if(act){rx+=(mx-rx)*.35;ry+=(my-ry)*.35;cr.style.transform=`translate(${rx}px,${ry}px) scale(${(1+bass*.22).toFixed(3)})`}
     tg.clearRect(0,0,tc.width,tc.height);
@@ -437,11 +488,42 @@ $('form').onsubmit=e=>{
 setVol(.8);load(0,false);
 fetch('music/playlist.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(j=>{
   if(Array.isArray(j)&&j.length){const was=audio.paused&&!audio.currentTime;playlist=j;if(idx>=j.length)idx=0;if(was)load(idx,false);else renderList()}}).catch(()=>{});
+let tX=0,tY=0,cX=0,cY=0,tt;
+function toast(m){const e=$('toast');e.innerHTML='<i class="fa-solid fa-music"></i> '+m;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),2600)}
+player.addEventListener('pointermove',e=>{const r=player.getBoundingClientRect();tY=((e.clientX-r.left)/r.width-.5)*7;tX=-((e.clientY-r.top)/r.height-.5)*7});
+player.addEventListener('pointerleave',()=>{tX=tY=0});
+document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.card,.big,.cr');if(c){const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')}},{passive:true});
+document.querySelectorAll('.soc').forEach(s=>{s.onpointermove=e=>{const r=s.getBoundingClientRect();s.style.translate=`${(e.clientX-r.left-r.width/2)*.3}px ${(e.clientY-r.top-r.height/2)*.3}px`};s.onpointerleave=()=>s.style.translate=''});
+addEventListener('scroll',()=>{$('prog').style.width=scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight)*100+'%'},{passive:true});
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});
+document.querySelectorAll('.big,.cr,.contact,h3.sec').forEach(e=>{e.classList.add('rv');io.observe(e)});
+const roles=['Developer','Creator','Gamer','Music lover'];let ri=0,ci=0,del=false;
+(function tw(){const w=roles[ri];$('role').textContent=w.slice(0,ci);
+  if(!del&&ci===w.length){del=true;return setTimeout(tw,1400)}
+  if(del&&ci===0){del=false;ri=(ri+1)%roles.length}
+  ci+=del?-1:1;setTimeout(tw,del?45:90)})();
+(function(){const L=['> booting xmon4u.os','> loading themes ...... 12','> audio engine ......... ok','> access granted'],el=$('boot'),en=$('enter');let l=0,c=0;
+  setTimeout(()=>en.classList.add('rdy'),4500);
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent=L.join('\n');en.classList.add('rdy');return}
+  (function step(){if(l>=L.length){en.classList.add('rdy');return}
+    el.textContent=L.slice(0,l).join('\n')+(l?'\n':'')+L[l].slice(0,++c);
+    if(c>=L[l].length){l++;c=0;setTimeout(step,140)}else setTimeout(step,22)})()})();
+$('dock').innerHTML=Object.entries(T).map(([k,t])=>`<button data-k="${k}" title="${t[0]}" style="background:linear-gradient(135deg,${t[2]},${t[3]});color:${t[2]}"></button>`).join('');
+$('dock').onclick=e=>{const k=e.target.dataset.k;if(k){applyTheme(k);toast('Theme — '+T[k][0])}};
+document.querySelector('#dock [data-k="'+theme+'"]').classList.add('on');
+const mw=['XMON4U','DEVELOPER','CREATOR','GAMER'];$('mq').innerHTML=[...mw,...mw,...mw,...mw].map(x=>`<span>${x}</span>`).join('');
+(function ck(){$('ck').textContent=new Date().toLocaleTimeString([],{hour12:false});setTimeout(ck,1000)})();
+let scr=0;$('name').onmouseenter=()=>{if(scr)return;scr=1;let n=0;const iv=setInterval(()=>{chars.forEach((c,i)=>{const ch=n>8+i*2?'XMON4U'[i]:'01ABCDEFXMU#%&'[Math.random()*14|0];c.textContent=ch;c.dataset.c=ch});if(++n>26){clearInterval(iv);scr=0}},40)};
+(function(){let p=0;const iv=setInterval(()=>{p=Math.min(100,p+2+Math.random()*3);$('ldr').style.width=p+'%';$('pct').textContent=Math.floor(p)+'%';if(p>=100)clearInterval(iv)},60)})();
+addEventListener('keydown',e=>{if(e.key==='Enter'&&!$('enter').classList.contains('hide'))enter()});
 requestAnimationFrame(frame);
 </script>
 <script>
 addEventListener('contextmenu',e=>e.preventDefault(),true);
 addEventListener('dragstart',e=>e.preventDefault(),true);
+const ok=e=>e.target&&/^(INPUT|TEXTAREA)$/.test(e.target.tagName);
+['selectstart','copy','cut'].forEach(t=>addEventListener(t,e=>{if(!ok(e))e.preventDefault()},true));
+addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&[65,67,88].includes(e.keyCode)&&!ok(e))e.preventDefault()},true);
 addEventListener('keydown',e=>{
   const k=e.keyCode,c=e.ctrlKey||e.metaKey;
   if(k===123||(c&&e.shiftKey&&[73,74,67].includes(k))||(c&&[85,83,80].includes(k)))e.preventDefault();
