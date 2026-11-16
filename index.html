@@ -666,6 +666,7 @@
   .dt-plea { font: 600 17px/1.5 system-ui, sans-serif; color: #ffd700; }
   .dt-list { margin: 4px 0 0; padding: 10px 12px; list-style: none; text-align: left; font: 12.5px/1.7 var(--mono); color: var(--muted); background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 8px; }
   .dt-list b { color: var(--cyan); font-weight: 600; }
+  .dt-ip { color: #ff6b7a; font-weight: 800; background: rgba(255, 77, 94, .12); padding: 1px 6px; border-radius: 5px; word-break: break-all; }
   .dt-btns { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
   .dt-btns button { flex: 1 1 160px; font: 600 13px var(--mono); padding: 11px 12px; border-radius: 9px; cursor: pointer; border: 1px solid var(--line-2); background: transparent; color: var(--text); }
   .dt-btns button.pri { background: var(--red); border-color: var(--red); color: #fff; }
@@ -2557,18 +2558,40 @@ note        : if you're reading this, you're curious. I like curious people.
   };
   let dtL = store.get('dtLang') === 'bn' ? 'bn' : 'en', dtPick = [], dtTimers = [];
   let dtOpen = false, dtShownFor = false;
+  // the visitor's real IP: looked up only when this popup opens, shown only to them, never saved or sent anywhere
+  let ipInfo = null; // null = still looking · 'fail' = use the 127.0.0.1 joke · { ip, place, org }
+  async function lookupIP() {
+    if (ipInfo) return;
+    const get = async url => { const r = await fetch(url, { cache: 'no-store' }); if (!r.ok) throw new Error(r.status); return r.json(); };
+    const sources = [ // tried in order; all allow browser requests and need no key
+      async () => { const d = await get('https://get.geojs.io/v1/ip/geo.json'); return { ip: d.ip, place: [d.city, d.country].filter(Boolean).join(', '), org: (d.organization_name || '').replace(/^AS\d+\s*/, '') }; },
+      async () => { const d = await get('https://ipwho.is/'); if (d.success === false) throw new Error('ipwho'); return { ip: d.ip, place: [d.city, d.country].filter(Boolean).join(', '), org: (d.connection && d.connection.isp) || '' }; },
+      async () => { const d = await get('https://api.ipify.org?format=json'); return { ip: d.ip, place: '', org: '' }; }
+    ];
+    for (const s of sources) {
+      try { const r = await s(); if (r.ip) { ipInfo = r; break; } } catch {}
+    }
+    if (!ipInfo) ipInfo = 'fail';
+    if (!dt.hidden) dtText();
+  }
+  const IP_TXT = {
+    en: { scan: 'scanning… 🛰️', real: i => `<span class="dt-ip">${esc(i.ip)}</span>${i.place ? ' · ' + esc(i.place) : ''}${i.org ? ' · ' + esc(i.org) : ''} — relax, only you can see this 😅` },
+    bn: { scan: 'খোঁজা হচ্ছে… 🛰️', real: i => `<span class="dt-ip">${esc(i.ip)}</span>${i.place ? ' · ' + esc(i.place) : ''}${i.org ? ' · ' + esc(i.org) : ''} — ভয় নেই, এটা শুধু আপনিই দেখছেন 😅` }
+  };
   function dtText() {
     const L = DT[dtL];
     $('#dtHead').textContent = L.head; $('#dtLang').textContent = L.lang;
     $('#dtTitle').textContent = L.title; $('#dtPlea').textContent = L.plea;
     $('#dtNice').textContent = L.nice; $('#dtHacker').textContent = L.hacker;
-    $('#dtList').innerHTML = dtPick.map(i => `<li>▸ <b>${L.lines[i][0]}:</b> ${L.lines[i][1]}</li>`).join('');
+    const ipVal = !ipInfo ? IP_TXT[dtL].scan : ipInfo === 'fail' ? L.lines[0][1] : IP_TXT[dtL].real(ipInfo);
+    $('#dtList').innerHTML = `<li>▸ <b>${L.lines[0][0]}:</b> ${ipVal}</li>` + dtPick.map(i => `<li>▸ <b>${L.lines[i][0]}:</b> ${L.lines[i][1]}</li>`).join('');
     const pr = $('.dt-prog'); $('#dtProgT').textContent = pr.classList.contains('done') ? L.progDone : L.prog;
     dt.lang = dtL === 'bn' ? 'bn' : 'en';
   }
   function showDT() {
     dtTimers.forEach(clearTimeout); dtTimers = [];
-    dtPick = [...DT.en.lines.keys()].sort(() => Math.random() - .5).slice(0, 4);
+    dtPick = [...DT.en.lines.keys()].slice(1).sort(() => Math.random() - .5).slice(0, 3); // line 0 (IP) is always first
+    lookupIP();
     const pr = $('.dt-prog'), bar = $('#dtProgI'); pr.classList.remove('done'); bar.style.width = '0';
     dtText();
     dt.hidden = false; unlock('caught');
