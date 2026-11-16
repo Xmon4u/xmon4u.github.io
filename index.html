@@ -2108,9 +2108,12 @@ note        : if you're reading this, you're curious. I like curious people.
     if (secret === '/dev/console') return print(stage() >= 2 ? '<span class="t-muted">[console]</span> stage 2 key → <span class="t-ok">shadow</span>' : 'nothing here yet.');
   };
   // stage-2 key lives in the browser console (F12)
-  console.log('%c XMON4U ', 'background:#4c8dff;color:#04101f;font:700 22px monospace;padding:4px 10px;border-radius:4px');
-  console.log('%chey, curious one 👀  you opened the console — that\'s the spirit.', 'color:#5ee1ff;font:14px monospace');
-  console.log('%cstage 2 key → shadow   (use it in root mode: unlock shadow)', 'color:#4ee59a;font:13px monospace');
+  function consoleHints() {
+    console.log('%c XMON4U ', 'background:#4c8dff;color:#04101f;font:700 22px monospace;padding:4px 10px;border-radius:4px');
+    console.log('%chey, curious one 👀  you opened the console — that\'s the spirit.', 'color:#5ee1ff;font:14px monospace');
+    console.log('%cstage 2 key → shadow   (use it in root mode: unlock shadow)', 'color:#4ee59a;font:13px monospace');
+  }
+  consoleHints();
   const origHelp = cmds.help;
   cmds.help = () => { origHelp(); if (inRoot) print(`<span class="t-red">root commands:</span>
   <span class="t-blue">mission</span> · <span class="t-blue">hint</span> · <span class="t-blue">unlock</span> &lt;key&gt; · <span class="t-blue">submit</span> &lt;flag&gt; · <span class="t-blue">hof</span> &lt;handle&gt;
@@ -2607,19 +2610,24 @@ note        : if you're reading this, you're curious. I like curious people.
     if (open && !dtShownFor) { dtShownFor = true; showDT(); } // once per opening, not a nag loop
     if (!open) dtShownFor = false;
   }
-  // (no pointer check: Chrome's phone emulation inside DevTools reports a touch pointer, which used to skip detection)
-  if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || outerWidth - innerWidth > 160) {
-    // 1) docked devtools (right / left / bottom) steal window space
-    const sizeCheck = () => (outerWidth - innerWidth > 160) || (outerHeight - innerHeight > 240);
-    // 2) undocked devtools: the inspector reads this getter when it serializes the logged error
-    let hit = false;
-    const bait = new Error();
-    Object.defineProperty(bait, 'stack', { get() { hit = true; return ''; } });
-    setInterval(() => {
-      hit = false; console.debug(bait);
-      setTimeout(() => onDevtools(hit || sizeCheck()), 60);
-    }, 1200);
+  // How DevTools is detected — works docked, in a separate window, and in Chrome's phone mode
+  // (phone mode fakes the window size, so a size check alone misses it):
+  //   logging a big table is almost free while DevTools is closed, but slow while it's open,
+  //   because the console has to serialize it. Compare it against a plain log of the same data.
+  const big = Array.from({ length: 50 }, () => { const o = {}; for (let i = 0; i < 500; i++) o['k' + i] = i; return o; });
+  const sizeCheck = () => !/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) && ((outerWidth - innerWidth > 160) || (outerHeight - innerHeight > 240));
+  function timingCheck() {
+    let t = performance.now(); console.table(big); const tableT = performance.now() - t;
+    t = performance.now(); console.log(big); const logT = performance.now() - t;
+    console.clear(); consoleHints(); // keep the console clean (and keep the CTF hint in it)
+    return tableT > 5 && tableT > logT * 4;
   }
+  const dtWatch = setInterval(() => {
+    if (timingCheck() || sizeCheck()) {
+      clearInterval(dtWatch); // once per visit: the console then stays usable for the CTF
+      onDevtools(true);
+    }
+  }, 1500);
 
   /* ================= right-click / inspect shortcuts blocked ================= */
   // note: this only deters casual visitors — the browser menu, view-source: and the public repo still work.
